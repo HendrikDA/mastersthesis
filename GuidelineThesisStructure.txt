@@ -1,0 +1,66 @@
+Deckblatt:
+----------
+
+Bachelorarbeit / Masterarbeit
+
+Titel der Arbeit
+
+Name und Matrikelnummer des Verfassers
+
+Frankfurt University of Applied Sciences
+Fachbereich 2 - Informatik und Ingenieurwissenschaften
+Logo FRA-UAS
+1. Referent: 
+2. Referent
+
+bei externer Arbeit: 
+- Name Unternehmen
+- Unternehmensinterner Betreuer
+- Logo Unternehmen
+
+Zweite Seite: Eidesstattliche Erklaerung
+
+"Hiermit erkläre ich an Eides statt, dass ich die vorliegende Arbeit selbständig und nur unter
+Zuhilfenahme der ausgewiesenen Hilfsmittel angefertigt habe.
+
+Sämtliche Stellen der Arbeit, die im Wortlaut oder dem Sinn nach aus anderen Werken oder Texten entnommen sind, habe
+ich durch durch vollständige Verweise und Zitate auf die entsprechenden Urheber der Quellen kenntlich gemacht.
+Wörtliche Zitate sind zusätzlich im Text durch Umschliessen der entsprechenden Passagen mit 
+Anführungszeichen kenntlich gemacht.
+
+Ich versichere, dass ich die vorliegende Arbeit noch nie in dieser oder ähnlicher Form einer Prüfungsbehörde
+vorgelegt habe. "
+
+Name
+Ort und Datum
+Unterschrift 
+
+Struktur der Arbeit
+--------------------
+
+Übersicht / Abstract
+- 1/2 Seite
+
+Einführung in Themenfeld
+
+Aufgabenstellung
+- Beschreibung der Aufgabenstellung (Ziel)
+  und der Randbedingungen (existierende Vorarbeiten
+  und Umgebungen)
+
+Existierende Verfahren / State-of-the-Art
+- existierende Methoden (Vorteile, Nachteile, 
+  welche wesentlichen Aspekte wurden noch nicht berücksichtigt -
+  Ansatz der vorliegenden Arbeit und der hierin entwickelten
+  Methoden
+
+Entwickelte Methoden
+- detaillierte Beschreibung 
+
+Ergebnisse 
+- Nachweis der Anwendbarkeit der entwickelten Methoden
+  in konkreten Anwendungen
+
+Zusammenfassung und Ausblick
+- Nachweis des Erreichens des Ziels der Aufgabenstellung
+- offene Punkte fuer zukuenftige sich anschliessende Arbeiten
