@@ -47,7 +47,7 @@ AI chatbot, Retrieval-Augmented Generation (RAG), Enterprise Architecture Manage
 \section{Problem Statement and Research Questions}
 Within the realm of Enterprise Architecture Management (EAM), updating and maintaining the architecture landscape and documentation when new projects or applications arise can be a tedious task. It requires that the Enterprise Architect (EA) understands the landscape of existing projects and applications and the changes required to reflect these new incoming initiatives in a way that preserves consistency, avoids redundancies in the landscape, and supports the organization's strategic goals. Because the landscape of a company can be highly complex, containing hundreds of applications and projects, seeing the big picture can be a difficult task for an individual or even for an entire team. \textbf{todo Quelle}
 
-This is a laborious task which can potentially be supplemented with the help of generative AI \textbf{todo Quelle}. AI can read in application and project descriptions written in natural language and map this information against the existing data. However, as it stands, there is a lack of GenAI solutions for this specific problem. All publicly existing solutions either have outdated models or are only theoretical work.
+This is a laborious task which can potentially be supplemented with the help of generative AI \textbf{todo Quelle}. AI can read in application landscape diagrams and project descriptions written in natural language and embed it into a graph database allowing an EA to retrieve information via chat. However, as it stands, there is a lack of GenAI solutions for this specific problem. All publicly existing solutions either have outdated models or are only theoretical work.
 
 The master's thesis will be tackling the following research question: \say{\textbf{How can generative AI support Enterprise Architects in assessing and documenting the effects of new or changing projects on the application landscape?}} Three supplementary questions will be answered when approaching the main thesis questions:
 \begin{enumerate}
@@ -58,18 +58,23 @@ The master's thesis will be tackling the following research question: \say{\text
 
 
 \section{Literature and State of the Art}
-The following literature research was conducted as a preliminary search in order to understand what gap my thesis can fill. Google Scholar was primarily used and academic sources after 2022 were predominantly used, especially for sources regarding chatbots and AI. ChatGPT's deep research feature was also used as a supplement research method after describing to it what my thesis subject is about. The sources are clustered and briefly described as follows.
+The following literature research was conducted as a preliminary search in order to understand what gap my thesis can fill. Google Scholar was primarily used and academic sources after 2022 were predominantly used, especially for sources regarding chatbots and AI. ChatGPT's deep research feature was also used as a supplement research method after describing to it what my thesis subject is about. This list of literature is not exhaustive and further research will be conducted for the final thesis. The sources are clustered and briefly described as follows.
 
 \subsection{Enterprise Architecture Management}
+The book from 2021 by \cite{jung2021masterclass} goes into detail on how EAM works, what challenges EAs face during their tasks, and gives a foundation to build upon when analyzing how to improve the process of documenting changes. Especially chapter 5 will give a scientific basis for everything regarding EAM and EAs.
 
 \subsection{Human-Chatbot-Interaction}
 The 2025 paper from \cite{ramachandran2025transforming} focuses on how software architects can leverage chatbots such as ChatGPT to aid in creating software diagrams such as UML diagrams. The paper notes limitations when creating actual diagrams. They were often inconsistent and less robust than the human-created version. Some chatbots were also very sensitive to the input prompts. This is relevant for my thesis as the EAM chatbot will also be generating some sort of output and knowing what to be cautious of beforehand will aid in improving the output.
 
 \subsection{Graph Databases and Graph Embeddings}
+The 2023 paper from \cite{besta2023demystifying} gives a solid foundation on how graph databases work. It covers how they organize data, how they are designed, and what types of queries a graph database can support. This paper will deem useful to understand and describe the basic functionality of graph databases.
+
+Taking complex data such as the landscape diagrams and project descriptions and embedding it in a graph database in a way that represents the data correctly will be one of the main challenges during the implementation phase. The 2020 paper from \cite{grohe2020word2vec} describes that the quality of the vector representations is decisive is for usefulness of the data. This paper gives an overview of different embedding methods such as word2vec and methods to understand the embeddings.
+
 \subsection{Large Language Models and Retrieval-Augmented Generation}
+The 2024 paper by \cite{zhao2024retrieval} describes how RAG works and how it supplements LLMs in order to allow domain-specific answers. It also describes the challenges of retrieving the augmented data, accurately interpreting the user's intent, and fully harnessing the capabilities of the LLM. This paper will serve as a solid foundation on which my thesis can build.
 
-
-What stands out is that there is no practical implementation of an RAG-based AI chatbot which helps EAs with their workload when documenting a changing landscape.
+What stands out is that there is no practical implementation of an RAG-based AI chatbot which helps EAs with their workload when documenting a changing landscape. This is the literary gap that my thesis will attempt to fill.
 
 \section{Methodology and Approach}
 Conducting this research will require a prototype-driven approach. An AI chatbot will be developed with which an EA can interact. The chatbot will be trained with real-world data and will be able to augment generated responses by accessing this data in a graph database. The EA will be able to use natural language within a chat prompt, similar to the UI of existing chatbots such as ChatGPT. It will be able to hold a conversation with the EA about the planned changes and effects.
