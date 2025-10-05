@@ -1,6 +1,8 @@
 \chapter{Current State of the Art}
 \label{ch:SOTA}
-Briefly explain why a literature analysis is important. Define the scope (what fields you looked at, which databases, what keywords).
+Briefly explain why a literature analysis is important. Define the scope (what fields you looked at, which databases, what keywords). Define the research method and how you narrowed it down from x sources to y sources.i
+
+%PRISMA-lite anwenden: search strings definieren (zB "EAM", "LLM"), durchsuchte datenbanken aufzählen (zB Google Scholar), wie viele Treffer ich gefunden habe und wie viele ich davon rausgefiltert habe. Prisma-flowchart zeigen? zB von 150 hits -> 30 nach dem ersten screening -> 15 am Ende übrig geblieben
 
 % You don’t need to retell everything — the goal is to extract what is relevant to your thesis. A good mini-summary (2–5 sentences) should cover:
 %Context: What problem or domain does it deal with?
@@ -16,23 +18,31 @@ Briefly explain why a literature analysis is important. Define the scope (what f
 \section{Enterprise Architecture Management}
 \label{sec:intro:eam}
 theories, digital twin efforts, EA tool landscapeStandards or frameworks (e.g., TOGAF, ArchiMate, IATA ONE Record, LeanIX).
-Theoretical foundations
+Theoretical foundations (auch auf prozessmanagment eingehen, wie der aktuelle Prozess aussieht, wenn die Landschaft geändert werden soll)
 Current tools and methods
 Research prototypes in EA
 
-Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay a foundation for xyz.
+Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay foundational work from which many EAM concepts can be derived.
 
 
 %
-% State of the Art Methods and Technologies
+% LLMs, Conversational Agents, and RAG
 %
-\section{Large Language Models and Retrieval Augmented Generation}
+\section{Large Language Models, Conversational Agents, and Retrieval-Augemented Generation}
 \label{sec:intro:llmandrag}
 strengths, hallucination issues, graph-RAG enhancements
 Theoretical foundations
 Current tools and methods
 
+This paper covers how ai tools are more scalable than manual expertise analysis of things. The source is highly relevant. Look at the summary in notebookLM. 05.10.25 \cite{gu2024survey}
 
+This 2025 paper has ideas on how changing knowledge-graphs (e.g. through updates) can be handled \cite{temporalGraphRag}. It looks at temporal data and how to handle it. This might be relevant since addressing how a changing application landscape can be handled will probably be a challenge.
+
+This paper gives an overview on how to control the dialog sequence and also notes 4 types of dialog options for chatbots in the related works section: \cite{li2025chatsopsopguidedmctsplanning}.
+
+This paper \cite{Zhai_2025} covers how a chatbot can support in task-planning and output generation. Might be helpful in understanding how my chatbot can tell the EA how to conduct changes in the application landscape.
+
+This paper \cite{deng2023promptingevaluatinglargelanguage} states how proactive dialogue systems work and can be improved. It goes into detail on 3 types of dialogue systems: clarification, target-guided, and non-collaborative dialogues. All 3 of these have a certain relevance for the EAM Chatbot.
 
 %
 % Comparable Projects and Prototypes
@@ -43,6 +53,7 @@ Proof-of-concepts, research prototypes, industry whitepapers, GitHub projects.
 
 Tools like ChatEA, LeanIX AI features, or Microsoft Copilot integrations in architecture/governance.
 
+A prototypical graph-based RAG approach for text-summarization has been created by Microsoft: y\cite{MsGraphRAGPrototype}. The accompanying paper is here: \cite{MsGraphRAGPaper}
 
 %
 % Evaluations and Limitations
@@ -52,3 +63,14 @@ Tools like ChatEA, LeanIX AI features, or Microsoft Copilot integrations in arch
 Studies analyzing strengths/weaknesses of RAG, embedding quality, hallucination mitigation.
 
 Papers about user interaction with EA tools, chatbot evaluation frameworks, usability challenges
+
+This paper \cite{evaluationFrameworkLLMs} gives a standardized method and framework for evaluating coversational AI agents.
+
+
+
+
+
+
+
+
+

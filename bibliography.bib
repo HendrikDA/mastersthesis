@@ -1,7 +1,106 @@
+
+--------- EAM ---------
+
 @book{jung2021masterclass,
   title={Masterclass Enterprise Architecture Management},
   author={Jung, J{\"u}rgen and Fraunholz, Bardo},
   year={2021},
   publisher={Springer}
 }
+
+
+--------- LLMs and Conversational Agents ---------
+
+
+@article{gu2024survey,
+  title={A survey on llm-as-a-judge},
+  author={Gu, Jiawei and Jiang, Xuhui and Shi, Zhichao and Tan, Hexiang and Zhai, Xuehao and Xu, Chengjin and Li, Wei and Shen, Yinghan and Ma, Shengjie and Liu, Honghao and others},
+  journal={arXiv preprint arXiv:2411.15594},
+  year={2024}
+}
+
+@misc{li2025chatsopsopguidedmctsplanning,
+      title={ChatSOP: An SOP-Guided MCTS Planning Framework for Controllable LLM Dialogue Agents}, 
+      author={Zhigen Li and Jianxiang Peng and Yanmeng Wang and Yong Cao and Tianhao Shen and Minghui Zhang and Linxi Su and Shang Wu and Yihang Wu and Yuqian Wang and Ye Wang and Wei Hu and Jianfeng Li and Shaojun Wang and Jing Xiao and Deyi Xiong},
+      year={2025},
+      eprint={2407.03884},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2407.03884}, 
+}
+
+@ARTICLE{Zhai_2025,
+	title={A Survey of Task Planning with Large Language Models},
+	year={2025},
+	author={Wenshuo Zhai and Jinzhi Liao and Ziyang Chen and Bolun Su and Xiang Zhao},
+	doi={10.34133/icomputing.0124},
+	pmid={null},
+	pmcid={null},
+	mag_id={null},
+	journal={Intelligent Computing},
+	abstract={null}
+}
+
+@misc{deng2023promptingevaluatinglargelanguage,
+      title={Prompting and Evaluating Large Language Models for Proactive Dialogues: Clarification, Target-guided, and Non-collaboration}, 
+      author={Yang Deng and Lizi Liao and Liang Chen and Hongru Wang and Wenqiang Lei and Tat-Seng Chua},
+      year={2023},
+      eprint={2305.13626},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2305.13626}, 
+}
+
+
+--------- Augmentation ---------
+
+
+@misc{temporalGraphRag,
+      title={T-GRAG: A Dynamic GraphRAG Framework for Resolving Temporal Conflicts and Redundancy in Knowledge Retrieval}, 
+      author={Dong Li and Yichen Niu and Ying Ai and Xiang Zou and Biqing Qi and Jianxing Liu},
+      year={2025},
+      eprint={2508.01680},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2508.01680}, 
+}
+
+
+
+--------- Prototypes ---------
+
+
+@unpublished{MsGraphRAGPrototype,
+author = {Edge, Darren and Trinh, Ha and Cheng, Newman and Bradley, Joshua and Chao, Alex and Mody, Apurva and Truitt, Steven and Metropolitansky, Dasha and Ness, Robert Osazuwa and Larson, Jonathan},
+title = {From Local to Global: A Graph RAG Approach to Query-Focused Summarization},
+year = {2024},
+month = {April},
+abstract = {The use of retrieval-augmented generation (RAG) to retrieve relevant information from an external knowledge source enables large language models (LLMs) to answer questions over private and/or previously unseen document collections. However, RAG fails on global questions directed at an entire text corpus, such as "What are the main themes in the dataset?", since this is inherently a query-focused summarization (QFS) task, rather than an explicit retrieval task. Prior QFS methods, meanwhile, do not scale to the quantities of text indexed by typical RAG systems. To combine the strengths of these contrasting methods, we propose GraphRAG, a graph-based approach to question answering over private text corpora that scales with both the generality of user questions and the quantity of source text. Our approach uses an LLM to build a graph index in two stages: first, to derive an entity knowledge graph from the source documents, then to pregenerate community summaries for all groups of closely related entities. Given a question, each community summary is used to generate a partial response, before all partial responses are again summarized in a final response to the user. For a class of global sensemaking questions over datasets in the 1 million token range, we show that GraphRAG leads to substantial improvements over a conventional RAG baseline for both the comprehensiveness and diversity of generated answers.},
+url = {https://www.microsoft.com/en-us/research/publication/from-local-to-global-a-graph-rag-approach-to-query-focused-summarization/},
+}
+
+@misc{MsGraphRAGPaper,
+      title={From Local to Global: A Graph RAG Approach to Query-Focused Summarization}, 
+      author={Darren Edge and Ha Trinh and Newman Cheng and Joshua Bradley and Alex Chao and Apurva Mody and Steven Truitt and Dasha Metropolitansky and Robert Osazuwa Ness and Jonathan Larson},
+      year={2025},
+      eprint={2404.16130},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2404.16130}, 
+}
+
+
+
+--------- Evaluation ---------
+
+
+
+@inproceedings{evaluationFrameworkLLMs,
+author = {Wolters, Anna and Arz von Straussenburg, Arnold and Riehle, Dennis M.},
+year = {2024},
+month = {07},
+pages = {},
+title = {Evaluation Framework for Large Language Model-based Conversational Agents}
+}
+
 
