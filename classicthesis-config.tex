@@ -81,6 +81,11 @@
 %\PassOptionsToPackage{spanish,es-lcroman}{babel}
 \usepackage{babel}
 
+
+% Better tables - added 26.12.2025
+\usepackage{tabularx}
+\usepackage{array}
+
 \usepackage{csquotes}
 
 \PassOptionsToPackage{%
@@ -298,3 +303,41 @@
 % ********************************************************************
 %\linespread{1.05} % a bit more for Palatino
 % ****************************************************************************************************
+
+
+
+
+
+
+%*************
+% Custom Code snippet styling (added 26.12.25)
+
+\documentclass{article}
+\usepackage{listings}
+\usepackage{xcolor}
+% Converted with this website (notice the decimal places instead of a percent value): https://www.rapidtables.com/convert/color/hex-to-rgb.html?hex=e6f0ff
+\definecolor{codegreen}{rgb}{0.902, 0.9412, 0.1}
+\definecolor{codegray}{rgb}{0.3922,0.3922,0.3922}
+\definecolor{codepurple}{rgb}{0.7059,0.1569,0.9412}
+\definecolor{backcolour}{rgb}{0.9961,0.9804,0.8784}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}

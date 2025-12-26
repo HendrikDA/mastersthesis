@@ -37,7 +37,12 @@ Erwähnen, dass eine Herausforderung des EAs es ist, dass die vorzunehmenden Än
 \subsubsection{Capability Support Matrix}
 \label{subsub:background:cap-support-matrix}
 
+\subsubsection{EAM Modeling Tool - Archi}
+\label{subsub:background:archi}
 
+
+\section{Technology}
+\label{sec:background:technology}
 
 
 \subsection{Large Language Models}
@@ -54,9 +59,26 @@ LLMs are capable of supporting in language-related tasks where text needs to be 
 \subsection{Retrieval Augmented Generation}
 \label{sub:background:rag}
 
-\subsection{neo4j}
+
+\subsection{neo4j and the Cypher Query Language}
 \label{sub:background:neo4j}
+
 
 \subsection{Model Context Protocol}
 \label{sub:background:mcp}
 Also explain (maybe in the SOTA) how it is able to understand the schema of the graphdatabase (by calling get-schema	when initializing the MCP it knows how my graph database is setup). 
+
+
+\subsection{XML and Transpilers}
+\label{sec:background:transpilers}
+% Important: only describe what XML and a transpiler is here. The methodology subsection will describe what and why the implementation was later.
+As will be shown later in section xyz, the working prototype uses a domain-specific, source-to-source transpiler to turn the archimate-exported XML data into Cypher queries to insert the EA data into the graph database.
+
+This source has a bit of good information on why XML is good as a structure language\cite{ruhlemann2017conversation} "Simply speaking, eXtensible Markup Language (XML) is a data architecture connecting meta-data and data. The architecture's defining feature is the hierar-chical network of nodes. Every node in the XML structure is connected somehow to any other node; also, being a hierarchy, every node is either subordinate or su-perordinate to another node, as shown in the tree structure in Figure 1. Further, XML "provides a standard syntax for the mark-up of data and documents" (Watt 2002:1). The syntax along with the hierarchical network structure make XML doc-uments exhaustively searchable and therefore useful for linguistic research."
+
+More detailed information on the transpiler is described in section xyz.
+
+
+\subsection{APOC and XPATH}
+\label{sec:background:apoc}
+Describe how apoc + xpath work and what this has to do with the neo4j cyphers. this might be better in the methodology section as a quick paragraph, but it has to be described somewhere.
