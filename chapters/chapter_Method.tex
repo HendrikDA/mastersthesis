@@ -1,6 +1,6 @@
 \chapter{Methodology}
 \label{ch:method}
-This chapter describes how the chatbot "Masutā" (Japanese for "Master") was developed. It gives more insight into the applied research method and how the prototype came to be.
+This chapter describes how the chatbot “\prototype{}” (a phonetic adaptation of the English term "master" into Japanese katakana) was developed. It provides further insight into the applied research method and the process through which the prototype was created.
 
 Sequenzdiagramm, projekt plan (timeline), herangehensweise, etc.
 
@@ -11,7 +11,7 @@ Action Research (AR)  is a research method which is highly applicable when devel
 
 Cyclical phases are central to the concept of Action Research. Baskerville \cite{baskerville1999investigating} describes Action Research as an iterative process consisting of five steps within a single cycle. Other sources, such as Cornish et al. \cite{cornish2023participatory}, propose variations with fewer phases within a cycle; however these models also boil down to the same concepts. Across the literature, Action Research cycles follow the same structure: planning what should be done in the new cycle, taking action, and evaluating the outcome of the completed cycle before moving on to the next one \cite{baskerville1999investigating, cornish2023participatory}.
 
-The paper at hand applied a cycle using the following steps according to Baskerville \cite{baskerville1999investigating}: diagnosing, action planning, action taking, evaluating, and specifying learning. This cycle including the preliminary and subsequent steps are summarized in figure \textbf{to do create a drawing of the cycles}. Each cycle lasted between three and four weeks. The sources used do not mention how long a single cycle should last. However, a cycle of two to three weeks were deemed as reasonable for the development of Masutā.
+The paper at hand applied a cycle using the following steps according to Baskerville \cite{baskerville1999investigating}: diagnosing, action planning, action taking, evaluating, and specifying learning. This cycle including the preliminary and subsequent steps are summarized in figure \textbf{to do create a drawing of the cycles}. Each cycle lasted between three and four weeks. The sources used do not mention how long a single cycle should last. However, a cycle of two to three weeks were deemed as reasonable for the development of \prototype{}.
 
 Abgrenzen zu Participatory Action Research (was wir auch betreiben)
 Participatory Action Research (PAR) goes a step further in creating a more collaborative environment between the researcher and client participants. Instead of leaving the theorizing up to the researcher, new information and ideas are thought up together with the client participants, giving both parties an active role. This is beneficial because the client participants often have both theoretical and practical knowledge of the subject matter being worked on. \cite{baskerville1999investigating}
@@ -45,6 +45,10 @@ Participatory Action Research (PAR) goes a step further in creating a more colla
 \label{sec:finishedPrototype}
 Explain here, what the finished prototype is (including architecture diagram, sequence diagram, etc.). or should this be an entirely separate chapter? describing this somewhere here makes sense though before moving on to the experiments done with the prototype.
 
+Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this.
+
+Also mention that we agreed to test my system using exported XML files from Archimate. So other tools like 
+
 \subsection{Finished Architecture}
 \label{sub:architecture}
 Explain in detail here what each component of the finished architecture is and how it all fits together.
@@ -52,3 +56,5 @@ Explain in detail here what each component of the finished architecture is and h
 \subsubsection{XML Transpiler}
 \label{sub:xmltranspiler}
 Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
+
+Show how fine-tuning the system prompt can have an effect on the results. E.g. if in the context it says to answer within 1-2 sentences or to answer in 4-6 sentences. show examples of how small things in the prompt can have a large impact.
