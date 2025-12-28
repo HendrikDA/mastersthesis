@@ -92,6 +92,10 @@
 \pagenumbering{arabic}
 % Alwas use \cleardoublepage before \part{...}.
 \cleardoublepage
+
+\automark[chapter]{chapter}   % ignore \sectionmark in the header
+\renewcommand*\chaptermarkformat{}
+
 \part{Thesis}\label{pt:thesis}
 \include{chapters/chapter_Intro}
 \include{chapters/chapter_Background}
