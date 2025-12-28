@@ -3,27 +3,139 @@
 %*******************************************************
 % % If problems with the headers: get headings in appendix etc. right
 \markboth{\spacedlowsmallcaps{Appendix}}{\spacedlowsmallcaps{Appendix}}
-\chapter{Instruction Manual for \prototype{}}
- Lorem ipsum at nusquam appellantur his, ut eos erant homero
+\chapter{Instruction Manual for \prototype}
+\prototype{} is the name of the prototype enterprise architecture chatbot. Follow these instructions to download \prototype{}, set it up, and learn how to use it.
+
+When executing the commands from the terminal, always execute them from the root folder of the project. The best results are achieved by executing each command individually (i.e. copy-paste the commands individually line-for-line instead of the entire block).
 
 \section{Downloading \prototype{}}
 \label{appendix:instructions:downloading}
-Instructions on how to download the application and prerequisites (e.g. Docker)
+In order to get \prototype{} up and running, a few prerequisites will have to be fulfilled.
 
+The first is to download the application code for \prototype{} from GitHub: \href{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}
+
+The second prerequisite is to download Docker and Docker Compose. You can find instructions on how to set this up on your machine under this link: \href{https://docs.docker.com/compose/install/}{https://docs.docker.com/compose/install/}.
+
+An optional prerequisite is to download neo4j Desktop. This allows the user to inspect the graph database within an interactive desktop application. Neo4j Desktop can be found here: \href{https://neo4j.com/download/}{https://neo4j.com/download/}. However, this is not mandatory and the databases may also be inspected via neo4j's web-application.
+
+% First time setup
 \section{First Time Setup}
 \label{appendix:instructions:first}
-Instructions for the user's first time setting up and running Masuta.
+If \prototype{} is being run for the first time, then two containers need to be setup so that they are populated with the default data. From within the root folder of the project, execute the following commands
 
+% Setting up the docker containers when running them for the first time
+\begin{lstlisting}[language=Docker, label={lst:first_time_setup}]
+docker compose --profile speedparcel-restore run --rm speedparcel-restore
+docker compose --profile textbook-restore  run --rm textbook-restore
+\end{lstlisting}
+
+Once these commands have run through successfully, both databases are populated with the default data and are ready to be used.
+
+% Hard Resetting all containers
+\subsection{Hard-Resetting Everything}
+\label{appendix:instructions:hardreset}
+If at any time you would like to hard-reset the entire application, you may run the following commands:
+% Resetting the docker containers
+\begin{lstlisting}[language=Docker, label={lst:reset_docker}]
+docker compose down
+rm -rf $HOME/neo4j/data
+rm -rf $HOME/neo4j_empty/data
+\end{lstlisting}
+
+After resetting the application, you will have to restart with the first time setup.
+
+% Running the application
 \section{Running the Application}
 \label{appendix:instructions:running}
-How to start Masuta after the setup and how to use it. A tour of the application and its features.
+Running \prototype{} is as simple as running the following command:
+% Run Masuta
+\begin{lstlisting}[language=Docker, label={lst:start_masuta}]
+docker compose up
+\end{lstlisting}
 
+With this command, four containers are started.
+\begin{itemize}
+	\item The SpeedParcel neo4j database filled with example data and the textbook
+	\item The playground neo4j database filled with only the textbook
+	\item The MCP-Backend which is the backend node.js which by default runs under http://localhost:4000
+	\item The frontend which by default runs under http://localhost:3000/
+\end{itemize}
+
+If Docker does not automatically open the frontend in your browser, navigate to it under \href{http://localhost:3000/}{http://localhost:3000/}. You are now ready to start using \prototype.
+
+
+% Feature Overview
+\section{Feature Overview}
+\label{appendix:instructions:features}
+This section details the features within \prototype{}.
+
+% Input and Chat History
+\subsection{Input Field and Chat History}
+\label{appendix:instructions:input_and_chat}
+At the bottom of the application is an input field where the user may prompt \prototype. Pressing enter sends the prompt. The user's input prompt then appears as a chat bubble bound to the right of the chat-area. The system then starts working on answering the prompt and displays a chat bubble bound to the left of the chat-area displaying "Thinking...". As soon as the application is done thinking, the response is displayed in the same chat bubble.
+
+\prototype's response has a button appended to it which allows the user to copy the cypher which was used to generate the answer. The user may take this copied cypher and paste it into neo4j desktop to inspect the raw response that was used to generate the answer.
+
+% Toggling the database
+\subsection{Toggling the Database}
+\label{appendix:instructions:toggle}
+At the top right of the application is a toggle switch. This allows the user to toggle between the SpeedParcel database and the playground database.
+
+% Resetting the Database
+\subsection{Resetting the Playground Database}
+\label{appendix:instructions:reset_playground}
+Under the menu at the top left, the user is presented with the option to reset the database. This option is only available if the playground database is selected via the toggle switch. After confirming the reset in the dialog that pops up, the playground is reset to its default state with only the textbook information. The SpeedParcel database cannot be reset via the UI.
+
+% Importing Data
+\subsection{Importing Custom Data}
+\label{appendix:instructions:import}
+Under the menu at the top left, the user is presented with the option to import their own data. This option is only available if the playground database is selected via the toggle switch. Within the dialog that pops up, the user can add up to 10 files either by selecting them via the file system or by dragging-and-dropping them into the dialog. Only .xml files are accepted.
+
+After clicking the import button, the files are uploaded. If the upload was successful, an alert is shown notifying the user of this. The uploaded data remains within the realms of the Docker containers and is not uploaded to any third-party sources. The data can then be queried via the playground database.
+
+% Inspect Graph Database
+\subsection{Inspect Database}
+\label{appendix:instructions:inspect_database}
+Under the menu at the top left, the user is presented with the option to view the graph data in neo4j browser their own data. This option is available for both the SpeedParcel and playground database. Clicking this opens another tab under \href{https://console-preview.neo4j.io/tools/query}{https://console-preview.neo4j.io/tools/query}. Here, the user can connect to the selected database. The connection string is displayed in a dialog within \prototype. Here, the user can inspect the graph structure and paste the cyphers used for the generated responses.
+
+% Chat Context
+\subsection{Chat Context and Building on Previous Answers}
+\label{appendix:instructions:context}
+\prototype{} saves the chat history so that the user is able to build upon previous prompts. The chat history is set so that the single previous user prompt and corresponding response is saved. This means that a further question can be asked about the previous prompt or its response. The chat history's context only goes back one prompt and response.
+
+% Example Questions
 \section{Example Questions}
 \label{appendix:instructions:questions}
-A list of example questions from each 3 of the categories.
-Also a list of questions that can be asked to the SpeedParcel database.
+Questions can be broken down into three categories:
+\begin{enumerate}
+	\item Category 1: Textbook questions about enterprise architecture management
+	\item Category 2: Basic information about the enterprise architecture data
+	\item Category 3: Questions that span both category 1 and 2 and are more complex than questions in category 2. These require more in-depth information about the data as well as how to deal with it as an enterprise architect.
+\end{enumerate}
 
+The following list of questions serve as examples that \prototype{} can handle. These simply serve as ideas to test the system - the user may input their own thought up questions.
+ 
+\begin{enumerate}
+   \item Questions in Category 1
+   \begin{itemize}
+     \item What are the schools of enterprise architecture management?
+     \item How does enterprise architecture relate to town planning?
+   \end{itemize}
+    \item Questions in Category 2
+   \begin{itemize}
+     \item How many capabilities are supported?
+     \item How many applications are in use?
+     \item Which application supports the most capabilities?
+     \item If I remove application x, which capabilities will be affected?
+   \end{itemize}
+    \item Questions in Category 3
+   \begin{itemize}
+     \item We plan on removing application x. What do we have to look out for when doing so?
+     \item We wish to implement a new application x which covers the capabilities x, y, and z. Which existing applications may become redundant?
+     \item Which capabilities currently rely on single-point-of-failure applications? How should we deal with this?
+     \item Which capabilities are over-supported by multiple applications?
+   \end{itemize}
+\end{enumerate}
 
-\section{Inspecting the Graph Databases}
-\label{appendix:instructions:inspecting}
-How to view the graph databases that are running in the background.
+This concludes the instruction manual for \prototype{}. Beyond the example questions, users are encouraged to prompt \prototype{} to explore the example data provided in SpeedParcel or to analyze their own proprietary data after importing it, in order to gain insights into their enterprise architecture.
+
