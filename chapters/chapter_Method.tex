@@ -35,6 +35,9 @@ Participatory Action Research (PAR) goes a step further in creating a more colla
 
 \subsubsection{Cycle 4}
 \label{sub:cycle4}
+The main challenge of this cycle was refactoring the cyphers that get called agains the database. the reason being that the previous method for generating text-to-cypher was easy because it was only calling the speedparcel database and the schema of this was entirely known. however, during this sprint we got new data exported from architecture diagrams in archi. this data is well structured but the schema is unknown. this means that the text-to-cypher has to be able to query the graph database agnostic of any schema in it. meaning, the text-to-cypher has to be completely refactored in order to be able to reliable query the dataset with unknown contents.
+
+The source from Wan i \ref{sub:agnostic_cypher}  \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
 
 % Data
 \section{Data Used}
@@ -58,3 +61,16 @@ Explain in detail here what each component of the finished architecture is and h
 Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
 
 Show how fine-tuning the system prompt can have an effect on the results. E.g. if in the context it says to answer within 1-2 sentences or to answer in 4-6 sentences. show examples of how small things in the prompt can have a large impact.
+
+% Querying the database agnostically 
+\subsection{Generating Text-to-Cypher Independent of the Database Schema}
+\label{sub:agnostic_cypher}
+Highlight this as the main challenge of the thesis! 
+
+This source describes how and why agnostic cyphers can and should be generated. \cite{wan2025prompting} also, check their sources and use those as well. It also mentions that a challenge when giving the LLM the necessary context is that it gets overloaded with information and that the context length may get exceeded (page 5).
+
+This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural language text can be used to \textbf{create} the knowledge graph. Def use this when explaining how i created my speedparcel imports.
+
+The whole system prompting this is called "in-context learning (ICL)". search for sources that support this.
+
+
