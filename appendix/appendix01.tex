@@ -18,11 +18,37 @@ lowercase, small caps \spacedlowsmallcaps{A} if the option
 \label{appendix:action:cycle1}
 Start: October 17th, 2025. End: October 31st, 2025
 
+\textbf{Diagnosis}: The initial problem statement lacked concrete technical formulation and the feasibility of the natural language interaction with enterprise architecture data was unclear. The co-advisor described in detail what his daily work looks like and what tools are used at his company to document and interact with enterprise architecture data. He also showcased the existing solution Dragon1 (described in more detail in section todo).
+
+The co-advisor had the idea of creating an AI, acting as a black-box system, that ingests the specific enterprise architecture data and creates its own internal knowledge graph. All as a black-box. The feasibility as well as academic applicability of this was questioned intensely because of the difficulty of testing such a black-box system when nothing is known about the innern mechanisms.
+
+The academic supervisor recommended an approach using a knowledge graph and supplementing a language model with the domain specific information. He also recommended tools such as Microsoft's Copilot Studio. The academic supervisor also allowed the use of his textbook "Masterclass Enterprise Architecture Management" \cite{jung2021masterclass} to feed the knowledge graph with information specific to the role of an enterprise architect.
+
+The difference between the black-box and white-box (knowledge graph) versions is that the black-box system would build its inner mechanisms itself in order to generate domain specific answers. In the white-box version the technical architecture would have to be built manually.
+
+These steps were required in order to scope the potential solution and to think about what possible data sources could be.
+
+First rough ideas were a chatbot with which an enterprise architect could make changes to the application landscape. This included being able to complete unfinished or incomplete application landscapes. For example, being able to interact with the chatbot to identify inconsistencies and weak spots in the landscape.
+
+\textbf{Action Planning}: The goal of the first phase was clear: create a proof of concept. This meant setting up a basic LLM, feeding it with general enterprise architecture data and context so that it is trained to see the interaction through the eyes of an enterprise architect. On top of this a small UI to be able to interact with the proof of concept chatbot. The end-goal of this proof of concept chatbot was to be able to make recommendations on how to edit an application landscape while still covering all business capabilities. The goal until the next cycle would be to be able to ask a chatbot general questions about enterprise architecture management and receive answers based off of the textbook information fed into a knowledge graph.
+
+It was agreed upon, that a single-agent architecture will be used, as multi-agent architectures come with more complexity and are not ideal for this use case.
+
+At this stage, it was not clear that action research will be applied during development. At this stage it was assumed that the finished prototype will be passed through an expert interview.
+
+\textbf{Action Taken}: Setup a neo4j database, created a graph representation of the first chapter of "Masterclass EAM". Created a React.js frontend which was directly connected to the graph database. Setup the first prompt context to query the database. Confirmed that the supplemented answers used the knowledge graph by comparing the textbook to the generated answers. Improved embeddings into the graph database (better nodes and relationships). Transforming the textbook into graph representations was done using a python parser which was created with the help of ChatGPT. Improvements on parsing the textbook into a graph representation. Read in the rest of the chapters from the textbook. Created a capability support matrix in excel and parsed it into the database and adapted the queries for this.
+
+\textbf{Evaluation}: Both advisors were ecstatic to see the progress so far after giving a demo of the current state. The co-advisor agreed that building a knowledge-graph is the correct path forward after having seen the proof of concept in action.
+
+\textbf{Learning}:
+
 
 % Cycle 2
 \section{Cycle 2}
 \label{appendix:action:cycle2}
 Start: October 31st, 2025. End: November 28th, 2025
+\textbf{Diagnosis}: a next idea would be to feed in more textbooks. idea would be to compare my results to an existing copilot such as the Microsoft Copilot Studio. An idea came up that it might make sense to have 1 database for the textbook information and 1 database for the enterprise architecture data. we agreed to use one database in hopes of achieving better results as nodes between the textbook and the enterprise data may be connected together in the single database, achieving better results. This is also the phase, where we started discussing potential data sets. the problem here being that the co-advisor is not allowed to simply export his company data and give it to me. we also started discussing how to evaluate my system. we discussed potential experiments and evaluation methods - including testing the knowledge graph directly. we agreed that i would use the data from the assignment of our uni's course "Enterprise Architecture Management" which i completed in the previous semester. this dataset contains an application landscape and a business capability map for a fictitious company named "SpeedParcel". 
+
 
 % Cycle 3
 \section{Cycle 3}
