@@ -1,0 +1,43 @@
+\chapter{Implementation}
+\label{ch:implementation}
+
+The methodology chapter describes how and why we did things.
+This chapter describes what we built, including architecture, data processing, sequence diagrams, retrieval, UI and interaction flow.
+
+Do not evaluate here. Only describe what is done.
+
+% Data
+\section{Data Used}
+\label{sec:dataUsed}
+
+% Finished Prototype
+\section{Finished Prototype}
+\label{sec:finishedPrototype}
+Explain here, what the finished prototype is (including architecture diagram, sequence diagram, etc.). or should this be an entirely separate chapter? describing this somewhere here makes sense though before moving on to the experiments done with the prototype.
+
+Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this.
+
+Also mention that we agreed to test my system using exported XML files from Archimate. So other tools like 
+
+\subsection{Finished Architecture}
+\label{sub:architecture}
+Explain in detail here what each component of the finished architecture is and how it all fits together.
+
+\subsubsection{XML Transpiler}
+\label{sub:xmltranspiler}
+Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
+
+Show how fine-tuning the system prompt can have an effect on the results. E.g. if in the context it says to answer within 1-2 sentences or to answer in 4-6 sentences. show examples of how small things in the prompt can have a large impact.
+
+% Querying the database agnostically 
+\subsection{Generating Text-to-Cypher Independent of the Database Schema}
+\label{sub:agnostic_cypher}
+Highlight this as the main challenge of the thesis! 
+
+This source describes how and why agnostic cyphers can and should be generated. \cite{wan2025prompting} also, check their sources and use those as well. It also mentions that a challenge when giving the LLM the necessary context is that it gets overloaded with information and that the context length may get exceeded (page 5).
+
+This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural language text can be used to \textbf{create} the knowledge graph. Def use this when explaining how i created my speedparcel imports.
+
+The whole system prompting this is called "in-context learning (ICL)". search for sources that support this.
+
+
