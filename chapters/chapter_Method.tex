@@ -7,7 +7,7 @@ This chapter describes how the chatbot “\prototype{}” (pronounced “mah-soo
 %%%%
 \section{Action Research Design}
 \label{sec:action_research_design}
-Action Research (AR)  is a research method which is highly applicable when developing an information system such as the one presented in this paper. The advantage of AR is that a large focus can be laid on the development of a system while still achieving an academic benefit.
+Action Research (AR)  is a research method which is highly applicable when developing an information system such as the one presented in this paper. The advantage of AR is that a large focus can be laid on the development of a system while still achieving an academic benefit. This allows for a very explorative approach to developing an information system.
 
 % Why action research applies well to software development (case studies)
 
@@ -52,28 +52,106 @@ However, in the early stages of the project, not only were the technical details
 %%%%
 \section{Action Research Cylces}
 \label{sec:action_research_cycles}
-The above mentioned vague details of the implementation became clear during the development cycles, leading to a final architecture with a clear structure. 
-
-Objective of the cycle Planned activities Expected outcomes Do not describe: daily work exact prompts logs meeting transcripts
+The above mentioned vague details of the implementation became clear during the development cycles, leading to a final architecture with a clear structure. Table \ref{tab:action-research-cycles} summarizes these cycles.
 
 % Development Cycles
-\subsection{Development Cycles}
-\label{sub:devCycle}
-
-\subsubsection{Cycle 1}
+% Cycle 1
+\subsection{Cycle 1}
 \label{sub:cycle1}
+\textbf{Diagnosis:} The initial problem statement lacked concrete technical formulation and the feasibility of the natural language interaction with enterprise architecture data was unclear. The co-advisor described in detail what his daily work looks like and what tools are used at his company to document and interact with enterprise architecture data. He also showcased the existing solution Dragon1 (described in more detail in section todo).
 
-\subsubsection{Cycle 2}
+The co-advisor had the idea of creating an AI, acting as a black-box system, that ingests the specific enterprise architecture data and creates its own internal knowledge graph. All as a black-box. The feasibility as well as academic applicability of this was questioned intensely because of the difficulty of testing such a black-box system when nothing is known about the innern mechanisms.
+
+The academic supervisor recommended an approach using a knowledge graph and supplementing a language model with the domain specific information. He also recommended tools such as Microsoft's Copilot Studio. The academic supervisor also allowed the use of his textbook "Masterclass Enterprise Architecture Management" \cite{jung2021masterclass} to feed the knowledge graph with information specific to the role of an enterprise architect.
+
+The difference between the black-box and white-box (knowledge graph) versions is that the black-box system would build its inner mechanisms itself in order to generate domain specific answers. In the white-box version the technical architecture would have to be built manually.
+
+These steps were required in order to scope the potential solution and to think about what possible data sources could be.
+
+First rough ideas were a chatbot with which an enterprise architect could make changes to the application landscape. This included being able to complete unfinished or incomplete application landscapes. For example, being able to interact with the chatbot to identify inconsistencies and weak spots in the landscape.
+
+\textbf{Action Planning}: The goal of the first phase was clear: create a proof of concept. This meant setting up a basic LLM, feeding it with general enterprise architecture data and context so that it is trained to see the interaction through the eyes of an enterprise architect. On top of this a small UI to be able to interact with the proof of concept chatbot. The end-goal of this proof of concept chatbot was to be able to make recommendations on how to edit an application landscape while still covering all business capabilities. The goal until the next cycle would be to be able to ask a chatbot general questions about enterprise architecture management and receive answers based off of the textbook information fed into a knowledge graph.
+
+It was agreed upon, that a single-agent architecture will be used, as multi-agent architectures come with more complexity and are not ideal for this use case.
+
+At this stage, it was not clear that action research will be applied during development. At this stage it was assumed that the finished prototype will be passed through an expert interview.
+
+\textbf{Action Taken}: Setup a neo4j database, created a graph representation of the first chapter of "Masterclass EAM". Created a React.js frontend which was directly connected to the graph database. Setup the first prompt context to query the database. Confirmed that the supplemented answers used the knowledge graph by comparing the textbook to the generated answers. Improved embeddings into the graph database (better nodes and relationships). Transforming the textbook into graph representations was done using a python parser which was created with the help of ChatGPT. Improvements on parsing the textbook into a graph representation. Read in the rest of the chapters from the textbook. Created a capability support matrix in excel and parsed it into the database and adapted the queries for this.
+
+\textbf{Evaluation}: Both advisors were ecstatic to see the progress so far after giving a demo of the current state.
+
+\textbf{Learning}:
+
+% Cycle 2
+\subsection{Cycle 2}
 \label{sub:cycle2}
+\textbf{Diagnosis}: a next idea would be to feed in more textbooks. idea would be to compare my results to an existing copilot such as the Microsoft Copilot Studio. An idea came up that it might make sense to have 1 database for the textbook information and 1 database for the enterprise architecture data. we agreed to use one database in hopes of achieving better results as nodes between the textbook and the enterprise data may be connected together in the single database, achieving better results. This is also the phase, where we started discussing potential data sets. the problem here being that the co-advisor is not allowed to simply export his company data and give it to me. we also started discussing how to evaluate my system. we discussed potential experiments and evaluation methods - including testing the knowledge graph directly. we agreed that i would use the data from the assignment of our uni's course "Enterprise Architecture Management" which i completed in the previous semester. this dataset contains an application landscape and a business capability map for a fictitious company named "SpeedParcel". 
 
-\subsubsection{Cycle 3}
+\textbf{Action Planning}:
+
+\textbf{Action Taken}:
+
+\textbf{Evaluation}:
+
+\textbf{Learning}:
+
+% Cycle 3
+\subsection{Cycle 3}
 \label{sub:cycle3}
+\textbf{Diagnosis}:
 
-\subsubsection{Cycle 4}
+\textbf{Action Planning}:
+
+\textbf{Action Taken}:
+
+\textbf{Evaluation}:
+
+\textbf{Learning}:
+
+% Cycle 4
+\subsection{Cycle 4}
 \label{sub:cycle4}
+\textbf{Diagnosis}:
+
+\textbf{Action Planning}:
+
+\textbf{Action Taken}:
+
+\textbf{Evaluation}:
+
+\textbf{Learning}:
+
+
 The main challenge of this cycle was refactoring the cyphers that get called agains the database. the reason being that the previous method for generating text-to-cypher was easy because it was only calling the speedparcel database and the schema of this was entirely known. however, during this sprint we got new data exported from architecture diagrams in archi. this data is well structured but the schema is unknown. this means that the text-to-cypher has to be able to query the graph database agnostic of any schema in it. meaning, the text-to-cypher has to be completely refactored in order to be able to reliable query the dataset with unknown contents.
 
 The source from Wan i \ref{sub:agnostic_cypher}  \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
+
+
+% Table summarizing the action research cycles
+\begin{table}[htbp]
+\centering
+\caption{Overview of Action Research Cycles}
+\label{tab:action-research-cycles}
+
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{p{2.0cm} p{3.2cm} p{3.2cm} p{3.2cm} p{3.2cm} p{3.2cm}}
+\toprule
+\textbf{Cycle} &
+\textbf{Diagnosis} &
+\textbf{Action Planning} &
+\textbf{Action Taken} &
+\textbf{Evaluation} &
+\textbf{Learning / Outcome} \\
+\midrule
+Cycle 1 & Todo & Todo & Todo & Todo & Todo  \\
+Cycle 2 & Todo & Todo & Todo & Todo & Todo  \\
+Cycle 3 & Todo & Todo & Todo & Todo & Todo  \\
+Cycle 4 & Todo & Todo & Todo & Todo & Todo  \\
+\bottomrule
+\end{tabular}
+}
+
+\end{table}
 
 
 
@@ -89,7 +167,7 @@ Purpose of the meeting, who participated, what was validated, what kind of feedb
 
 
 % Conclusion Paragraph
-As described in this chapter, it becomes clear why action research was an invaluable methodology. From unclear beginnings containing only a vague vision for a final prototype, each development cycle contributed to the final architecture being clear and goal oriented. Each phase helped to examine what was possible from a technical standpoint as well as how to move forward.
+As described in this chapter, it becomes clear why action research was an invaluable methodology. From unclear beginnings containing only a vague vision for a final prototype, each development cycle contributed to the final architecture being clear and goal oriented. Each phase helped to examine what was possible from a technical standpoint as well as how to move forward. This supported the explorative nature of the project.
 
 
 
