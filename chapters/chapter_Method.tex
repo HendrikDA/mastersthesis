@@ -37,7 +37,7 @@ The domain of EAM was focused on within this research. In particular, the study 
 Due to their structural complexity with heterogenous data sources and multiple stakeholders involved, these artifacts are often large and difficult to interpret. Maintaining an overview can be especially challenging for junior level enterprise architects. This challenge motivates the exploration of AI-supported solutions that enable conversational interaction with the architecture, rather than manually navigating the complex diagrams.
 
 % Stakeholders
-The research was conducted in close collaboration with the academic supervisor and a co-advisor. The academic supervisor gave academic guidance and supported the structuring of the research process to ensure academic relevance. The co-advisor acted as the domain expert and the critical partner, contributing practical insights to ground the research in real-world relevance. The author of this thesis assumed the role of the researcher, implementing the action research cycles, validating findings, and planning subsequent steps in coordination with the other stakeholders.
+The research was conducted in close collaboration with the academic supervisor and a co-advisor. The academic supervisor gave academic guidance and supported the structuring of the research process to ensure academic relevance. The co-advisor acted as the domain expert and practitioner, contributing practical insights to ground the research in real-world relevance. The author of this thesis assumed the role of the researcher, implementing the action research cycles, validating findings, and planning subsequent steps in coordination with the other stakeholders.
 
 % Initial Problem Statement
 At the outset of the research, the general problem space was clear, but the potential solution was only vaguely defined. The co-advisor initialized the research with a vague vision of a centralized system containing all enterprise architecture information, which can be interacted with via natural language. The motivation for this was to reduce the effort required to interpret the enterprise architecture artifacts.
@@ -52,9 +52,10 @@ However, in the early stages of the project, not only were the technical details
 %%%%
 \section{Action Research Cylces}
 \label{sec:action_research_cycles}
-The above mentioned vague details of the implementation became clear during the development cycles, leading to a final architecture with a clear structure. Each cycle began with a meeting between all three stakeholders. The end of one cycle was the beginning of the next one and was concluded in the same meeting. Table \ref{tab:action-research-cycles} summarizes these cycles.
+The above mentioned vague details of the implementation became clear during the development cycles, leading to a final architecture with a clear structure. Each cycle began with a meeting between all three stakeholders. The end of one cycle was the incubator for the next cycle and was conducted in the same meeting. Table \ref{tab:action-research-cycles} summarizes these cycles.
 
 % Development Cycles
+Todo: note in the cycles where i attemtped implementation x, which didn't work out because of reason y. any path taken should be noted.
 % Cycle 1
 \subsection{Cycle 1}
 \label{sub:cycle1}
@@ -79,35 +80,49 @@ At this stage, the research methodology had not yet been explicitly defined as a
 % Cycle 2
 \subsection{Cycle 2}
 \label{sub:cycle2}
-\textbf{Diagnosis}: a next idea would be to feed in more textbooks. idea would be to compare my results to an existing copilot such as the Microsoft Copilot Studio. An idea came up that it might make sense to have 1 database for the textbook information and 1 database for the enterprise architecture data. we agreed to use one database in hopes of achieving better results as nodes between the textbook and the enterprise data may be connected together in the single database, achieving better results. This is also the phase, where we started discussing potential data sets. the problem here being that the co-advisor is not allowed to simply export his company data and give it to me. we also started discussing how to evaluate my system. we discussed potential experiments and evaluation methods - including testing the knowledge graph directly. we agreed that i would use the data from the assignment of our uni's course "Enterprise Architecture Management" which i completed in the previous semester. this dataset contains an application landscape and a business capability map for a fictitious company named "SpeedParcel". 
+\textbf{Diagnosis}: Following the initial feasibility assessment, the next challenge identified concerned extending the knowledge-graph with more information and positioning the prototype as a useful tool within the realm of enterprise architecture management. One design consideration involved separating textbook-based domain knowledge from enterprise architecture data into two distinct databases. After discussion, a single integrated database was chosen to enable direct relationships between conceptual textbook knowledge and architectural data, with the expectation of improved contextual reasoning.
 
-\textbf{Action Planning}:
+The challenge of lack of real-world data to test the system was also identified. Potential datasets for further development and evaluation were explored before real-world data would be ready. The real-world data would require more time to be prepared because the co-advisor's company policy constraints that meant the data cannot be used directly and has to be sanitzed first. Instead, it was agreed upon to use data from a completed university assignment, consisting of an application landscape, business capability map, business capability support matrix, business object model, and cross-application data-flow diagram for a fictitious company named SpeedParcel.
 
-\textbf{Action Taken}:
+\textbf{Action Planning}: The objective of the second cycle was to extend the knowledge-graph with additional SpeedParcel datasets. This included integrating the business capability support matrix. A second goal of this cycle was to improve the database querying method as soon as more data is available to test with.
 
-\textbf{Evaluation}:
+\textbf{Action Taken}: The capability support matrix of the SpeedParcel dataset was integrated into the knowledge graph, requiring adjustments to existing query mechanisms. The idea of a Model Context Protocol (MCP) server came up during development and was implemented in order to achieve a more frictionless interaction between the frontend and the graph database. This allowed the the cyphers being used to query the database to no longer be hard-coded in the frontend, but allowed them to be generated dynamically based on the user input.
 
-\textbf{Learning}:
+\textbf{Evaluation}: The extended prototype was again evaluated qualitatively through a demonstration by the researcher and discussions between all three stakeholders. Both advisors expressed strong interest in the approach and proposed potential directions for further development. It was confirmed by the co-advisor that the chatbot is being development in the correct direction in order to allow enterprise architects to interact with the knowledge-graph via natural language.
+
+\textbf{Learning}:As the prototype is starting to mature, more learnings are being pulled from each phase. Particularly, the hard-coded query method that was previously implemented was proving to be insufficient for flexible interaction with the evolving graph structure. The MCP implementation allows the entire system to be more dynamic, independent of the data in the knowledge-graph.
+
+Furthermore, three key categories of user questions were identified. The first category being conceptual questions related to enterprise architecture principles, concepts, and best practices found in textbooks. The second category being descriptive questions targeting concrete architectural elements and relationships. The third category being integrative questions combining conceptual knowledge with specific architectural contexts.
+
+Beyond the scope of this thesis, a broader vision by the advisors emerged in which the prototype could support project planning by assessing impacts on application interfaces, systems, and stakeholders.
 
 % Cycle 3
 \subsection{Cycle 3}
 \label{sub:cycle3}
-\textbf{Diagnosis}:
+\textbf{Diagnosis}: During this phase it became apparent that action research will be the most appropriate methodological framework for the project. The development process had evolved into an exploratory and iterative approach. This has been characterized by continuous development, reflection between all three stakeholders, and decision-making regarding in which direction to take the prototype. Consequently, the previously considered expert interview was no longer the methodology of choice for this thesis.
 
-\textbf{Action Planning}:
+In parallel, the co-advisor began modelling real-world enterprise architecture data using the Archi tool. It was agreed upon that the real-world data would later be exported from Archi and imported into the knowledge-graph in XML format. This will enable the integration of more realistic data into the finished prototype.
 
-\textbf{Action Taken}:
+Additionally, it was decided that a final meeting will be conducted at the end of the fourth cycle. This meeting would require that the prototype be finished and be executable in a local environment. This meeting will mark the end of the development phase of the prototype.
 
-\textbf{Evaluation}:
+\textbf{Action Planning}: The objective of the third cycle was to further expand the information saved in the knowledge-graph by creating additional datasets from the SpeedParcel dataset. The datasets had to be replicated in Archi. This allowed them to be exported into XML format and imported into the knowledge-graph. This step aimed to prepare the system for handling more complex and structured architectural models later.
 
-\textbf{Learning}:
+\textbf{Action Taken}: Both the business object model and the cross-application data-flow diagram were recreated in Archi, in order to test how exported XML files will behave when parsing them into the knowledge-graph. The parsing at this step was still being conducted via LLM.
+
+During this phase, limitations of the LLM-parsing method became apparent. While the custom parser that have been used so far worked well for individual files or specific data formats, the approach reached its practical limits as data complexity increased. The parsing process became constrained by the limitations of the LLM's capabilities.
+
+\textbf{Evaluation}: The progress of the third cycle was reviewed with both advisors. The current state of the prototype and the extended data integration were assessed positively, and the overall research trajectory was confirmed as appropriate. The end goal is in sight and is being worked towards in an appropriate manner.
+
+\textbf{Learning}: The third cycle revealed scaling issues. While the individual per-file parsers have worked well so far, this cycle showed that its limits have been reached. Parsing the more complex files of this cycle showed that LLMs are no longer the appropriate method moving forward. This approach would also not allow for parsing without manual implementation of a parser specific for the file at hand; a problem that has to be solved before the final meeting where files will have to be parsed on site.
+
+Another scalability issue revealed was a discussion about the real-world data. While SpeedParcel's data contained hundreds of nodes and edges, the real-world data will potentially have thousands of nodes and edges. This gap revealed that a better parsing solution and a better querying solution will be necessary before the prototype is ready for the final on site meeting.
 
 % Cycle 4
 \subsection{Cycle 4}
 \label{sub:cycle4}
 \textbf{Diagnosis}:
 
-\textbf{Action Planning}:
+\textbf{Action Planning}: the development of a local version via docker is important for this cycle. on top of this, a universal importer needs to be created in order to import any archi-exported .xml data. also, the querying method needs to be improved to be able to universally query any data in the knowledge-graph. in total, i have to prepare everything in the prototype in such a way that our final meeting will work well.
 
 \textbf{Action Taken}:
 
