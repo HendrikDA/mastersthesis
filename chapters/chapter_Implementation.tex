@@ -41,3 +41,7 @@ This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural la
 The whole system prompting this is called "in-context learning (ICL)". search for sources that support this.
 
 
+The source from Wan i \ref{sub:agnostic_cypher}  \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
+
+
+Does the APOC XML parser create noise in the database? you know how the XML files have view-data in it on how to display it in archi? we're not leaving that out. does that get saved into the database?
