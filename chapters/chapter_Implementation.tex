@@ -1,37 +1,61 @@
 \chapter{Implementation}
 \label{ch:implementation}
+The methodology chapter describes how things were done and why. This chapter describes what was built, including the architecture, data processing mechanisms, sequence diagrams of the system, how the data flows, and how users interact with the application.
 
-The methodology chapter describes how and why we did things.
-This chapter describes what we built, including architecture, data processing, sequence diagrams, retrieval, UI and interaction flow.
+Todo: Do not evaluate here. Only describe what is done.
 
-Do not evaluate here. Only describe what is done.
-
-% Data
+%%%%
+% Data Used
+%%%%
 \section{Data Used}
 \label{sec:dataUsed}
 
-% Finished Prototype
-\section{Finished Prototype}
-\label{sec:finishedPrototype}
-Explain here, what the finished prototype is (including architecture diagram, sequence diagram, etc.). or should this be an entirely separate chapter? describing this somewhere here makes sense though before moving on to the experiments done with the prototype.
 
-Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this.
 
-Also mention that we agreed to test my system using exported XML files from Archimate. So other tools like 
-
-\subsection{Finished Architecture}
-\label{sub:architecture}
+%%%%
+% Finished Architecture
+%%%%
+\section{Finished Architecture}
+\label{sec:architecture}
 Explain in detail here what each component of the finished architecture is and how it all fits together.
 
-\subsubsection{XML Transpiler}
-\label{sub:xmltranspiler}
+
+
+\begin{figure}[h]
+\centering
+\label{fig:sequence_diagram}
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1\textwidth]{./images/sequence_diagram.png}
+}
+\caption{Todo).}
+\end{figure}
+
+%%%%
+% Finished Prototype
+%%%%
+\section{Finished Prototype}
+\label{sec:finishedPrototype}
+Explain here, what the finished prototype is. and how it works conceptually.
+Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this. Maybe a test run of the system? Like asking it a question, following it through the entire backend and how the answer is generated? This will have to be done after the sequence diagram.
+
+
+
+
+
+%%%%
+% XML Transpiler
+%%%%
+\subsection{XML Transpiler}
+\label{sec:xmltranspiler}
 Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
 
 Show how fine-tuning the system prompt can have an effect on the results. E.g. if in the context it says to answer within 1-2 sentences or to answer in 4-6 sentences. show examples of how small things in the prompt can have a large impact.
 
-% Querying the database agnostically 
-\subsection{Generating Text-to-Cypher Independent of the Database Schema}
-\label{sub:agnostic_cypher}
+%%%%
+% Querying the database agnostically
+%%%%
+\section{Generating Text-to-Cypher Independent of the Database Schema}
+\label{sec:agnostic_cypher}
 Highlight this as the main challenge of the thesis! 
 
 This source describes how and why agnostic cyphers can and should be generated. \cite{wan2025prompting} also, check their sources and use those as well. It also mentions that a challenge when giving the LLM the necessary context is that it gets overloaded with information and that the context length may get exceeded (page 5).

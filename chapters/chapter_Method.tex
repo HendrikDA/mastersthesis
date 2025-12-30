@@ -156,8 +156,9 @@ With the conclusion of this cycle, \prototype{} was a finished prototype and rea
 \caption{Overview of Action Research Cycles}
 \label{tab:action-research-cycles}
 
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{p{2.0cm} p{3.2cm} p{3.2cm} p{3.2cm} p{3.2cm} p{3.2cm}}
+\makebox[\textwidth][c]{
+\resizebox{1.25\textwidth}{!}{
+\begin{tabular}{p{1.3cm} p{3.5cm} p{3cm} p{3.5cm} p{4cm} p{4cm}}
 \toprule
 \textbf{Cycle} &
 \textbf{Diagnosis} &
@@ -166,14 +167,38 @@ With the conclusion of this cycle, \prototype{} was a finished prototype and rea
 \textbf{Evaluation} &
 \textbf{Learning / Outcome} \\
 \midrule
-Cycle 1 & Todo & Todo & Todo & Todo & Todo  \\
-Cycle 2 & Todo & Todo & Todo & Todo & Todo  \\
-Cycle 3 & Todo & Todo & Todo & Todo & Todo  \\
-Cycle 4 & Todo & Todo & Todo & Todo & Todo  \\
+Cycle 1 & Technical feasibility. & Develop a proof of concept. & Built initial knowledge-graph with textbook data. Hard-coded cyphers. & Advisors confirmed feasibility and viability of a knowledge-graph approach. & White-box approach validated. Challenges identified in data import and querying.  \\
+Cycle 2 & Need to extend data and improve queries. & Integrate SpeedParcel dataset and improve querying. & Added SpeedParcel data. Replace hard-coded cyphers with MCP-based text-to-cypher. & Advisors confirmed correct direction of development. & Dynamic querying identified as essential. Three categories of questions defined.  \\
+Cycle 3 & Action Research identified as appropriate methodology. Scalability and data format issues emerged. & Expand datasets via Archi models to prepare for XML imports & Recreated SpeedParcel models in Archi. Parsed XML. & Progress and trajectory assessed positively. Schema-related answer quality issues observed. & Scalability limits of LLM-based parsing identified. Need for generalized parsing recognized.  \\
+Cycle 4 & Over-reliance on LLMs for parsing and schema handling diagnosed as critical limiatation. & Replace LLM parsing with generalized XML parser. Refactor schema handling. Prepare executable prototype. & Implemented APOC-based XML parsing and schema retrieval. Containerized local setup. UI enhancements added. & todo & Deterministic parsing and dynamic schema handling achieved. System able to answer all three question categorizes. Prototype completed.  \\
 \bottomrule
 \end{tabular}
-}
+}}
+\end{table}
 
+
+% Table summarizing the Action Research cycles - todo: muss noch gemacht werden ⚠️
+\begin{table}[htbp]
+\centering
+\caption{Overview of Action Research Cycles condensed into three parts per cycle}
+\label{tab:action-research-cycles-condensed}
+
+\makebox[\textwidth][c]{
+\resizebox{1.25\textwidth}{!}{
+\begin{tabular}{p{4cm} p{5cm} p{5cm} p{5cm}}
+\toprule
+\textbf{Cycle} &
+\textbf{Diagnosis} &
+\textbf{Action Taken} &
+\textbf{Learning / Outcome} \\
+\midrule
+Cycle 1 & Technical feasibility. & Develop a proof of concept. & Built initial knowledge-graph with textbook data. Hard-coded cyphers.\\
+Cycle 2 & Need to extend data and improve queries. & Integrate SpeedParcel dataset and improve querying. & Added SpeedParcel data. Replace hard-coded cyphers with MCP-based text-to-cypher.  \\
+Cycle 3 & Action Research identified as appropriate methodology. Scalability and data format issues emerged. & Expand datasets via Archi models to prepare for XML imports & Recreated SpeedParcel models in Archi. Parsed XML. \\
+Cycle 4 & Over-reliance on LLMs for parsing and schema handling diagnosed as critical limiatation. & Replace LLM parsing with generalized XML parser. Refactor schema handling. Prepare executable prototype. & Implemented APOC-based XML parsing and schema retrieval. Containerized local setup. UI enhancements added. \\
+\bottomrule
+\end{tabular}
+}}
 \end{table}
 
 
