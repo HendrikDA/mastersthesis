@@ -1,8 +1,8 @@
 \chapter{Implementation}
 \label{ch:implementation}
-The methodology chapter describes how things were done and why. This chapter describes what was built, including the architecture, data processing mechanisms, sequence diagrams of the system, how the data flows, and how users interact with the application.
+The methodology chapter answers the question of what was built and why. This chapter contains all information on what the finished \prototype{} prototype is, including its architecture and a sequence diagram, data processing mechanisms, and features.
 
-Todo: Do not evaluate here. Only describe what was done.
+%%%%%%%%% Do NOT evaluate in this chaper. Only describe what was done.
 
 %%%%
 % Data Used
@@ -14,62 +14,55 @@ Describe the SpeedParcel dataset here and how you used it to prepare for the rea
 
 
 %%%%
-% Finished Architecture
+% Finished Architecture and Prototype
 %%%%
-\section{Finished Architecture}
+\section{Finished Architecture and Prototype}
 \label{sec:architecture}
-Explain in detail here what each component of the finished architecture is and how it all fits together.
+Figure \ref{fig:architecture_diagram} provides a holistic overview of the system architecture underlying the developed prototype. The user (1) starts the interaction by inputting their prompt through a web-based frontend implemented in React (2). The frontend serves as the primary interface for the user to interact with the application and its underlying data. Interaction is done by prompting via natural text. This makes up the presentation layer of the architecture.
 
-Figure \ref{fig:architecture_diagram} shows the holistic architecture and which of the components within it interact with one another. The Docker icon in the top left of the components indicates whether or not the component is part of the containerization. The numbers on the left side of each component are simply indications to support the textual description of the components and do not serve a technical function.
+Incoming requests are forwarded to the Node.js backend (3) which orechestrates the interaction between the frontend the LLM (4), and the MCP Server (5). The LLM is used to turn the prompt into cyphers and vice versa to turn the cypher's result back into natural language. This is the only external service of the entire architecture. To enable standardized access to the neo4j datbases (6 and 7), the MCP server sits as an intermediary between the application logic and the databases. These components constitute the orchestration layer of the architecture.
 
-Only mention the individual components, as they are described in the next section.
+The MCP server is connected to both neo4j databases. The first being the playground database (6) which contains textbook data and the user's custom data that they upload (8). The second database is the SpeedParcel database (7) which contains the textbook data and the SpeedParcel example data (9). The separation of the two databases allows the user to toggle between their own playground instance, containing their own data, and the SpeedParcel instance, containing example data that is ready to be prompted. The databases make up the data access layer of the architecture.
+
+Each application component, with the exception of the external service from OpenAI, has a Docker icon at the top left. This indicates that this application component is part of the containerization. Each component runs in its own container.
 
 \begin{figure}[h]
 \centering
 \makebox[\textwidth][c]{%
-  \includegraphics[width=1\textwidth]{./images/architectur.png}
+  \includegraphics[width=1\textwidth]{images/architectur_diagram}
 }
 \caption{An architecture diagram showing each component and which components interact with one another. The Docker icon also indicates if the component is containerized.}
 \label{fig:architecture_diagram}
 \end{figure}
 
 %%%%
+% Component Details
+%%%%
+\section{Component Details}
+\label{sec:component_details}
+
+%% Todo: describe the backend in more detail. e.g. how it is prompoted, etc.
+
+%%% Todo:
+Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this. Maybe a test run of the system? Like asking it a question, following it through the entire backend and how the answer is generated? This will have to be done after the sequence diagram. Also more depth on each system component. maybe make a subchapter per architecture layer and describe things in more detail there.
+
+%%%%
 % Finished Prototype
 %%%%
-\section{Finished Prototype}
+\section{Data Flow}
 \label{sec:finishedPrototype}
-The prototype was finished within the four cycles described in section \ref{sec:action_research_cycles}. \prototype{} is able to take a user's input prompt, query the knowledge-graph based on the user's prompt, and return the information. The user's input must be written in english and should formulated in natural language. The response is also returned in natural language. A sequence diagram of this main application flow is depicted in figure \ref{fig:sequence_diagram}.
+TThe sequence of interactions and how data flows between each component is visualized in the sequence diagram in figure \ref{fig:sequence_diagram}. After the user enters their prompt into the frontend, the prompt is forwarded to the backend. The backend then begins preprocessing the request by retrieving the current schema information. This information is vital for the LLM in order for it to know how the knowledge-graph is structured and how to create the cyphers for it. Once the backend receives the schema information, the LLM converts the user's prompt into cyphers using all information that it has receives via the context, schema, and prompt. The cyphers are then used to query the selected knowledge-graph stored in the neo4j server. The neo4j server returns raw data to the MCP server, which passes it back to the backend. The backend then converts this raw response back into natural language using the LLM. Once converted, the backend saves the user's prompt and the system's response into the chat history before returning the response to the frontend where it is displayed.
 
+
+%%%% Todo: Maybe number the individual requests / responses?
 \begin{figure}[h]
 \centering
 \makebox[\textwidth][c]{%
-  \includegraphics[width=1\textwidth]{./images/sequence_diagram.png}
+  \includegraphics[width=1\textwidth]{images/sequence_diagram.png}
 }
 \caption{A UML sequence diagram showing the main flow of data when a user prompts the system.}
 \label{fig:sequence_diagram}
 \end{figure}
-
-% Describe Frontend
-\prototype{} starts by presenting a React.js frontend to the user.
-
-% Describe Backend
-Todo describe backend
-
-% Describe MCP Server
-Todo describe MCP Server
-
-% Describe neo4j datbases (both)
-Todo describe both databases
-
-% Describe Docker setup
-Todo describe how Docker works in this setup.
-
-
-Explain here, what the finished prototype is. and how it works conceptually.
-Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this. Maybe a test run of the system? Like asking it a question, following it through the entire backend and how the answer is generated? This will have to be done after the sequence diagram.
-
-
-
 
 
 %%%%
