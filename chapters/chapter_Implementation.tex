@@ -2,13 +2,14 @@
 \label{ch:implementation}
 The methodology chapter describes how things were done and why. This chapter describes what was built, including the architecture, data processing mechanisms, sequence diagrams of the system, how the data flows, and how users interact with the application.
 
-Todo: Do not evaluate here. Only describe what is done.
+Todo: Do not evaluate here. Only describe what was done.
 
 %%%%
 % Data Used
 %%%%
 \section{Data Used}
 \label{sec:dataUsed}
+Describe the SpeedParcel dataset here and how you used it to prepare for the real-world dataset that will be coming in.
 
 
 
@@ -19,15 +20,17 @@ Todo: Do not evaluate here. Only describe what is done.
 \label{sec:architecture}
 Explain in detail here what each component of the finished architecture is and how it all fits together.
 
+Figure \ref{fig:architecture_diagram} shows the holistic architecture and which of the components within it interact with one another. The Docker icon in the top left of the components indicates whether or not the component is part of the containerization. The numbers on the left side of each component are simply indications to support the textual description of the components and do not serve a technical function.
 
+Only mention the individual components, as they are described in the next section.
 
 \begin{figure}[h]
 \centering
-\label{fig:sequence_diagram}
 \makebox[\textwidth][c]{%
-  \includegraphics[width=1\textwidth]{./images/sequence_diagram.png}
+  \includegraphics[width=1\textwidth]{./images/architectur.png}
 }
-\caption{Todo).}
+\caption{An architecture diagram showing each component and which components interact with one another. The Docker icon also indicates if the component is containerized.}
+\label{fig:architecture_diagram}
 \end{figure}
 
 %%%%
@@ -35,6 +38,33 @@ Explain in detail here what each component of the finished architecture is and h
 %%%%
 \section{Finished Prototype}
 \label{sec:finishedPrototype}
+The prototype was finished within the four cycles described in section \ref{sec:action_research_cycles}. \prototype{} is able to take a user's input prompt, query the knowledge-graph based on the user's prompt, and return the information. The user's input must be written in english and should formulated in natural language. The response is also returned in natural language. A sequence diagram of this main application flow is depicted in figure \ref{fig:sequence_diagram}.
+
+\begin{figure}[h]
+\centering
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1\textwidth]{./images/sequence_diagram.png}
+}
+\caption{A UML sequence diagram showing the main flow of data when a user prompts the system.}
+\label{fig:sequence_diagram}
+\end{figure}
+
+% Describe Frontend
+\prototype{} starts by presenting a React.js frontend to the user.
+
+% Describe Backend
+Todo describe backend
+
+% Describe MCP Server
+Todo describe MCP Server
+
+% Describe neo4j datbases (both)
+Todo describe both databases
+
+% Describe Docker setup
+Todo describe how Docker works in this setup.
+
+
 Explain here, what the finished prototype is. and how it works conceptually.
 Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this. Maybe a test run of the system? Like asking it a question, following it through the entire backend and how the answer is generated? This will have to be done after the sequence diagram.
 
@@ -45,7 +75,7 @@ Mention that this is a "ephemeral conversation memory" and why that is. We will 
 %%%%
 % XML Transpiler
 %%%%
-\subsection{XML Transpiler}
+\section{XML Transpiler}
 \label{sec:xmltranspiler}
 Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
 
