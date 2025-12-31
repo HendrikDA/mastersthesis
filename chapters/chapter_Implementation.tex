@@ -24,7 +24,7 @@ Incoming requests are forwarded to the Node.js backend (3) which orechestrates t
 
 The MCP server is connected to both neo4j databases. The first being the playground database (6) which contains textbook data and the user's custom data that they upload (8). The second database is the SpeedParcel database (7) which contains the textbook data and the SpeedParcel example data (9). The separation of the two databases allows the user to toggle between their own playground instance, containing their own data, and the SpeedParcel instance, containing example data that is ready to be prompted. The databases make up the data access layer of the architecture.
 
-Each application component, with the exception of the external service from OpenAI, has a Docker icon at the top left. This indicates that this application component is part of the containerization. Each component runs in its own container.
+Each of these application components are explained in more detail in section \ref{sec:component_details}. With the exception of the external service from OpenAI, each component has a Docker icon at the top left. This indicates that the application component is part of the containerization. Each component runs in its own container.
 
 \begin{figure}[h]
 \centering
@@ -42,6 +42,30 @@ Each application component, with the exception of the external service from Open
 \label{sec:component_details}
 
 %% Todo: describe the backend in more detail. e.g. how it is prompoted, etc.
+
+% Frontend
+\subsection{Frontend}
+\label{sub:frontend}
+
+% Backend
+\subsection{Backend}
+\label{sub:backend}
+
+% Open AI
+\subsection{Open AI}
+\label{sub:openai}
+
+% MCP
+\subsection{MCP Server}
+\label{sub:mcp}
+
+% Databases
+\subsection{Neo4j Databases}
+\label{sub:datbases}
+
+% Docker
+\subsection{Docker}
+\label{sub:docker}
 
 %%% Todo:
 Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this. Maybe a test run of the system? Like asking it a question, following it through the entire backend and how the answer is generated? This will have to be done after the sequence diagram. Also more depth on each system component. maybe make a subchapter per architecture layer and describe things in more detail there.
