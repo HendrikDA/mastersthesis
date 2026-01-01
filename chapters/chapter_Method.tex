@@ -137,7 +137,9 @@ A second critical part of the system that was diagnosed to be insufficient was t
 
 \textbf{Action Taken}: The LLM-based data parser was replaced by an out of the box solution from Awesome Procedures On Cypher (APOC), which contains functions to parse file types and also how to better query a knowledge-graph. Here, APOC takes the input XML files and parses them directly into cyphers. This allows any type of Archi-exported XML file to be saved into the knowledge-graph.
 
-The schema-handling strategy was also improved via APOC. Rather than a hard-coded schema in the frontend, the schema is now retrieved before by calling a preexisting APOC function and the result is passed to the cypher-generating LLM. This ensures that the LLM understands how the knowledge-graph is structured and how it may query it for the information requested by the user's prompt. 
+The schema-handling strategy was updated from the hard-coded variant. Before passing the user-prompt and system context to the LLM, a call to the knowledge-graph was made via neo4j's built-in call \texttt{db.schema.visualization() \textbf{todo source}} in order to get the graph's schema information. While this did improve the generated results, it still proved to be insufficient, as the LLM was not able to handle this schema information well enough to generate reliable responses.
+
+This was also solved via APOC. Rather than using neo4j's built-in schema call, the schema retrieval was changed to a predefined APOC function \texttt{apoc.meta.schema()} \textbf{todo source}. This ensures that the LLM understands how the knowledge-graph is structured and how it may query it for the information requested by the user's prompt.
 
 The local environment is set up via Docker containers and can be run on any machine. It comes equipped with a frontend, backend, and two databases. The first database contains all data pertaining to SpeedParcel. The second database is a playground database and is only pre-filled with textbook information. This ensures that the on site meeting will allow the application to work.
 
@@ -201,7 +203,7 @@ Cycle 4 & Over-reliance on LLMs for parsing and schema handling diagnosed as cri
 }}
 \end{table}
 
-
+It is important to note that during each cycle, continuous system tests were being run in order to ensure that the system's requirements were being met. For example, when adding new data to the knowledge-graph, the system was prompted to test if it is able to retrieve this new data. In most cases, it was not able to do so right after adding new data. These tests led to the system's prompt having to be continuously be fine tuned in order to be able to handle the data in the knowledge-graph. This was a routine step conducted regularly during each iteration of development.
 
 %%%%
 % Final Meeting
