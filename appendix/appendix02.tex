@@ -40,7 +40,7 @@ Once these environment variables are set, the databases may be set up.
 If \prototype{} is being run for the first time, then two containers need to be executed once so that they populate both databases with the default data. From within the root folder of the project, execute the following commands
 
 % Setting up the docker containers when running them for the first time
-\begin{lstlisting}[language=Docker, label={lst:first_time_setup}]
+\begin{lstlisting}[style=dockerstyle, label={lst:first_time_setup}]
 docker compose --profile speedparcel-restore run --rm speedparcel-restore
 docker compose --profile textbook-restore  run --rm textbook-restore
 \end{lstlisting}
@@ -52,7 +52,7 @@ Once these commands have run through successfully, both databases are populated 
 \label{appendix:instructions:hardreset}
 If at any time you would like to hard-reset the entire application, you may run the following commands:
 % Resetting the docker containers
-\begin{lstlisting}[language=Docker, label={lst:reset_docker}]
+\begin{lstlisting}[style=dockerstyle, label={lst:reset_docker}]
 docker compose down
 rm -rf $HOME/neo4j/data
 rm -rf $HOME/neo4j_empty/data
@@ -65,7 +65,7 @@ After resetting the application, you will have to restart with the first time se
 \label{appendix:instructions:running}
 Running \prototype{} is as simple as running the following command:
 % Run Masuta
-\begin{lstlisting}[language=Docker, label={lst:start_masuta}]
+\begin{lstlisting}[style=dockerstyle, label={lst:start_masuta}]
 docker compose up
 \end{lstlisting}
 

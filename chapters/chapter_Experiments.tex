@@ -14,8 +14,7 @@ show some test cases here. break down an answer like "i want to remove the appli
 
 
 
-\begin{lstlisting}[language=SQL, caption={Cypher query to retrieve application impact and decommission guidance},
-  label={lst:cypher-statmanplus}]
+\begin{lstlisting}[style=cypherstyle, label={lst:first_time_setup},caption={Cypher query to retrieve application impact and decommission guidance}]
 MATCH (a:Application {name: 'StatManPlus'})
 OPTIONAL MATCH (a)-[:SUPPORTS]->(cap:Capability)
 WITH a, collect(DISTINCT cap) AS caps

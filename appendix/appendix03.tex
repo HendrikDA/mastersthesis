@@ -7,8 +7,50 @@
 This chapter showcases code snippets which are of special interest as they show how key functionalities of \prototype{} work. The code snippets do not showcase the full application and may not complete.
 
 % System Prompt and Results Explainer
-\section{System Prompt and Results Explainer}
+\section{System Prompts}
 \label{appendix:code:prompts}
-The following code snippets showcase what meta-prompts are passed to the LLM in order to generate the cyphers via the natural language text input and how the cypher results are transformed back into natural language.
+The following code snippets showcase what system prompts are passed to the LLM in order to generate the cyphers via the natural language text input and how the cypher results are transformed back into natural language.
 
-Todo: Add the system prompts here.
+% System Prompt to Generate Cyphers
+\subsection{System Prompt to Generate Cyphers from Natural Language Prompt}
+\label{appendix:code:cyphers}
+
+\begin{lstlisting}[style=javascriptstyle, label={lst:system_prompt_1}]
+async function nlToCypher(nlPrompt: string, schema: string) {
+	const systemPrompt = "
+		You are working with a Neo4j graph whose structure is described in the schema summary.
+
+		Important rules:
+		- Do not assume fixed labels like :Application or :Chunk unless they appear in the schema.
+		- Infer meaning from label names (e.g. ApplicationComponent ≈ application).
+		- If no text-centric nodes exist, answer using structural relationships.
+
+		Index usage based on the schema information passed to you:
+		- If the schema summary lists a VECTOR index relevant to the task, start with:
+	  	CALL db.index.vector.queryNodes(<indexName>, $embedding, <k>) YIELD node, score
+		- If the schema summary lists a FULLTEXT index relevant to the task, start with:
+		  CALL db.index.fulltext.queryNodes(<indexName>, $query, {limit: <k>}) YIELD node, score
+		  (Do NOT pass a bare integer as the 3rd argument.)
+		- After any CALL ... YIELD, you MUST finish with a RETURN clause.
+		  Example: CALL ... YIELD node, score RETURN node, score
+		- Otherwise use MATCH with WHERE + indexed properties.
+
+		Your task:
+		- Write a SINGLE valid Cypher query.
+		- Output ONLY Cypher. No explanations.
+
+		Cypher syntax rules (important):
+		- Do NOT use exists(node.property).
+		- Neo4j 5+ requires property existence checks to use:
+		    node.property IS NOT NULL
+		- Always use IS NOT NULL instead of exists(...)
+		- NEVER use EXPLAIN or PROFILE. Always output an executable query that ends with RETURN.
+		- You MAY start with CALL db.index.fulltext.queryNodes(...) or CALL db.index.vector.queryNodes(...).
+	"
+ };
+\end{lstlisting}
+
+% System Prompt to Generate Natural Language Response
+\subsection{System Prompt to Natural Language Response from Cypher Results}
+\label{appendix:code:cyphers}
+todo

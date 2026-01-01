@@ -325,27 +325,111 @@
 \definecolor{codepurple}{rgb}{0.7059,0.1569,0.9412}
 \definecolor{backcolour}{rgb}{0.9961,0.9804,0.8784}
 
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=false,
-    columns=fixed,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2,
-    xleftmargin=10pt,
-    xrightmargin=10pt,
-    framexleftmargin=10pt
+% Docker Code Snippet
+\lstdefinelanguage{Docker}{
+  sensitive=false,
+  keywords={docker,compose,run,build,up,down,exec,--profile, rm},
+  keywordstyle=\color[HTML]{3b87e3},
+  comment=[l]{\#},
+  commentstyle=\color{codegreen}\ttfamily,
+  stringstyle=\color{codepurple}\ttfamily,
 }
 
-\lstset{style=mystyle}
+\lstdefinestyle{dockerstyle}{
+  language=Docker,
+  backgroundcolor=\color{backcolour},
+  basicstyle=\ttfamily\footnotesize,
+  numbers=left,
+  numberstyle=\tiny\color{codegray},
+  numbersep=6pt,
+  columns=fixed,
+  keepspaces=true,
+  breaklines=true,
+  showstringspaces=false,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  backgroundcolor=\color{backcolour},
+  frame=single,
+  rulecolor=\color{backcolour},
+}
+
+
+% JavaScript Code Snippet
+\lstdefinelanguage{JavaScript}{
+  morekeywords=[1]{
+	const, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, async
+   },
+  morekeywords=[2]{nlToCypher},
+  morekeywords=[3]{nlPrompt, schema},
+  keywordstyle=\color{codepurple}\ttfamily,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{codegray}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{backcolour},
+   keywordstyle=[1]\color{magenta},
+   keywordstyle=[2]\color{codegreen},
+   keywordstyle=[3]\color{codepurple},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+% Neo4j Cypher Snippet
+\lstdefinelanguage{Neo4jCypher}{
+  sensitive=true,
+  morekeywords=[1]{
+    MATCH,OPTIONAL,WHERE,WITH,RETURN,CREATE,MERGE,DELETE,DETACH,REMOVE,SET,
+    UNWIND,CALL,YIELD,UNION,AS,ORDER,BY,SKIP,LIMIT,DISTINCT,
+    AND,OR,NOT,IN,IS,NULL,CASE,WHEN,THEN,ELSE,END,
+    EXISTS,STARTS,ENDS,CONTAINS
+  },
+  morekeywords=[2]{
+    collect,coalesce,toLower,toUpper,size,labels,type,id,properties,keys,
+    count,sum,avg,min,max,head,last,reduce,substring,replace,split,
+    trim,ltrim,rtrim,date,datetime,duration
+  },
+  morestring=[b]',
+  morestring=[b]",
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/}
+}
+
+\lstdefinestyle{cypherstyle}{
+  language=Neo4jCypher,
+  backgroundcolor=\color{backcolour},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=[1]\color{magenta},
+  keywordstyle=[2]\color{codepurple},
+  commentstyle=\color{codegreen}\ttfamily,
+  stringstyle=\color{codepurple}\ttfamily,
+  numbers=left,
+  numberstyle=\tiny\color{codegray},
+  numbersep=6pt,
+  columns=fixed,
+  keepspaces=true,
+  breaklines=true,
+  showstringspaces=false,
+  xleftmargin=10pt,
+  xrightmargin=10pt,
+  frame=single,
+  rulecolor=\color{backcolour},
+}

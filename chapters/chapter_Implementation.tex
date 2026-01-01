@@ -40,8 +40,7 @@ Each of these application components are explained in more detail in section \re
 %%%%
 \section{Component Details}
 \label{sec:component_details}
-
-%% Todo: describe the backend in more detail. e.g. how it is prompoted, etc.
+This section describes each component in more detail.
 
 % Frontend
 \subsection{Frontend}
@@ -50,6 +49,10 @@ Each of these application components are explained in more detail in section \re
 % Backend
 \subsection{Backend}
 \label{sub:backend}
+
+The system prompt is one of the most crucial parts of the entire application. This is where the LLM is given its context in order to understand how to transform the natural language inputs into the cyphers and how to turn the raw cypher response back into natural language for the response to the user. The actual system prompts can be found in the chapter \ref{appendix:code:prompts} of the Appendix.
+
+Tuning these system prompts greatly alters the quality of results of the entire system. 
 
 % Open AI
 \subsection{Open AI}
@@ -112,7 +115,7 @@ This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural la
 The whole system prompting this is called "in-context learning (ICL)". search for sources that support this.
 
 
-The source from Wan i \ref{sub:agnostic_cypher}  \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
+The source from Wan \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
 
 
 Does the APOC XML parser create noise in the database? you know how the XML files have view-data in it on how to display it in archi? we're not leaving that out. does that get saved into the database?
