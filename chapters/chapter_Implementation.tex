@@ -75,7 +75,7 @@ Mention that this is a "ephemeral conversation memory" and why that is. We will 
 %%%%
 \section{Data Flow}
 \label{sec:finishedPrototype}
-TThe sequence of interactions and how data flows between each component is visualized in the sequence diagram in figure \ref{fig:sequence_diagram}. After the user enters their prompt into the frontend, the prompt is forwarded to the backend. The backend then begins preprocessing the request by retrieving the current schema information. This information is vital for the LLM in order for it to know how the knowledge-graph is structured and how to create the cyphers for it. Once the backend receives the schema information, the LLM converts the user's prompt into cyphers using all information that it has receives via the context, schema, and prompt. The cyphers are then used to query the selected knowledge-graph stored in the neo4j server. The neo4j server returns raw data to the MCP server, which passes it back to the backend. The backend then converts this raw response back into natural language using the LLM. Once converted, the backend saves the user's prompt and the system's response into the chat history before returning the response to the frontend where it is displayed.
+The sequence of interactions and how data flows between each component is visualized in the sequence diagram in figure \ref{fig:sequence_diagram}. After the user enters their prompt into the frontend, the prompt is forwarded to the backend. The backend then begins preprocessing the request by retrieving the current schema information. This information is vital for the LLM in order for it to know how the knowledge-graph is structured and how to create the cyphers for it. Once the backend receives the schema information, the LLM converts the user's prompt into cyphers using all information that it has receives via the context, schema, and prompt. The cyphers are then used to query the selected knowledge-graph stored in the neo4j server. The neo4j server returns raw data to the MCP server, which passes it back to the backend. The backend then converts this raw response back into natural language using the LLM. Once converted, the backend saves the user's prompt and the system's response into the chat history before returning the response to the frontend where it is displayed.
 
 
 %%%% Todo: Maybe number the individual requests / responses?
@@ -91,7 +91,7 @@ TThe sequence of interactions and how data flows between each component is visua
 
 %%%%
 % XML Transpiler
-%%%%
+%%%%f
 \section{XML Transpiler}
 \label{sec:xmltranspiler}
 Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.

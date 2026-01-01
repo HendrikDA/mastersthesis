@@ -21,7 +21,23 @@ An optional prerequisite is to download neo4j Desktop. This allows the user to i
 % First time setup
 \section{First Time Setup}
 \label{appendix:instructions:first}
-If \prototype{} is being run for the first time, then two containers need to be setup so that they are populated with the default data. From within the root folder of the project, execute the following commands
+
+% Environment Variables
+\subsection{Setting Environment Variables}
+\label{appendix:env_vars}
+Before being able to run any containers, a few environment variables must be set. This requires creating and editing .env files throughout the project. It may be required to use a code editor to execute this step. All .env files are prepared via the adjacent .env.example file of the individual folder. The following steps explain how to create the required .env files per sub-folder:
+\begin{itemize}
+	\item \textbf{Project Root Folder}: Within the root folder of the project, simply duplicate the \textit{.env.example} file and rename the duplicated file to \textit{.env}. Ensure it is in the root folder of the project. No values in the .env file need to be changed for the prototype to work.
+	\item \textbf{Frontend}: Within the frontend folder, simply duplicate the \textit{.env.example} file and rename the duplicated file to \textit{.env}. Ensure it is in the root folder of the ./frontend/ folder. No values in the .env file need to be changed for the prototype to work.
+	\item \textbf{MCP Backend}: Within the mcp-backend folder of the project, simply duplicate the \textit{.env.example} file and rename the duplicated file to \textit{.env}. Ensure it is in the root folder of the ./mcp-backend/ folder. Within the .env file, you will have to  set the value of the key named \textbf{OPENAI\_API\_KEY}. You may have to generate a key within OpenAI's API platform. All other values may remain as they are for the prototype.
+\end{itemize}
+
+Once these environment variables are set, the databases may be set up.
+
+% Running Containers
+\subsection{Setting Up the Databases}
+\label{appendix:database_setup}
+If \prototype{} is being run for the first time, then two containers need to be executed once so that they populate both databases with the default data. From within the root folder of the project, execute the following commands
 
 % Setting up the docker containers when running them for the first time
 \begin{lstlisting}[language=Docker, label={lst:first_time_setup}]
