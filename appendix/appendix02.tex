@@ -12,9 +12,9 @@ When executing the commands from the terminal, always execute them from the root
 \label{appendix:instructions:downloading}
 In order to get \prototype{} up and running, a few prerequisites will have to be fulfilled.
 
-The first is to download the application code for \prototype{} from GitHub: \href{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}
+The first is to download the application code for \prototype{} from GitHub: \href{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}. Download the entire folder as a .zip file (under Code\textrightarrow Download ZIP) and unpack it locally.
 
-The second prerequisite is to download Docker and Docker Compose. You can find instructions on how to set this up on your machine under this link: \href{https://docs.docker.com/compose/install/}{https://docs.docker.com/compose/install/}.
+The second prerequisite is to download Docker and Docker Compose. Instructions on how to set this up on various machines can be found under this link: \href{https://docs.docker.com/compose/install/}{https://docs.docker.com/compose/install/}.
 
 An optional prerequisite is to download neo4j Desktop. This allows the user to inspect the graph database within an interactive desktop application. Neo4j Desktop can be found here: \href{https://neo4j.com/download/}{https://neo4j.com/download/}. However, this is not mandatory and the databases may also be inspected via neo4j's web-application.
 
@@ -29,7 +29,7 @@ Before being able to run any containers, a few environment variables must be set
 \begin{itemize}
 	\item \textbf{Project Root Folder}: Within the root folder of the project, simply duplicate the \texttt{.env.example} file and rename the duplicated file to \texttt{.env}. Ensure it is in the root folder of the project. No values in the \texttt{.env} file need to be changed for the prototype to work.
 	\item \textbf{Frontend}: Within the frontend folder, simply duplicate the \texttt{.env.example} file and rename the duplicated file to \texttt{.env}. Ensure it is in the root folder of the ./frontend/ folder. No values in the \texttt{.env} file need to be changed for the prototype to work.
-	\item \textbf{MCP Backend}: Within the mcp-backend folder of the project, simply duplicate the \texttt{.env.example} file and rename the duplicated file to \texttt{.env}. Ensure it is in the root folder of the ./mcp-backend/ folder. Within the \texttt{.env} file, you will have to  set the value of the key named \textbf{OPENAI\_API\_KEY}. You may have to generate a key within OpenAI's API platform. All other values may remain as they are for the prototype.
+	\item \textbf{MCP Backend}: Within the mcp-backend folder of the project, simply duplicate the \texttt{.env.example} file and rename the duplicated file to \texttt{.env}. Ensure it is in the root folder of the ./mcp-backend/ folder. Within the \texttt{.env} file, the value  for \textbf{OPENAI\_API\_KEY} must be set. It may require that an API key is generated within OpenAI's API platform. All other values may remain as they are for the prototype.
 \end{itemize}
 
 Once these environment variables are set, the databases may be set up.
@@ -44,7 +44,7 @@ Before being able to set up the databases with the example data, the backup file
   \item SpeedParcel Data: \href{https://bscw.frankfurt-university.de/EduRes/bscw/bscw.cgi/d21814333/neo4j-2025-12-10T21-44-58-fde218db.backup}{neo4j-2025-12-10T21-44-58-fde218db.backup}
 \end{itemize}
 
-If you do not have access to the above files, please reach out to the author or advisors of this thesis.
+If the above files are not accessible, please reach out to the author or advisors of this thesis.
 
 Once both files are downloaded they are ready to be placed within the project's folders. The Textbok Data backup file must be placed within the folder \texttt{./textbook-data/}. The SpeedParcel Data backup file must be placed under \texttt{./speedparcel-data/}. This ensures that the backup files are present and in the correct folders when running the Docker commands to set up the databases in the next step.
 
@@ -59,7 +59,7 @@ docker compose --profile speedparcel-restore run --rm speedparcel-restore
 docker compose --profile textbook-restore  run --rm textbook-restore
 \end{lstlisting}
 
-\textbf{Windows}: If you are on Windows, this step may require you to use WSL (Windows Subsystem for Linux) and to set the HOME variable via \texttt{SET HOME=\textbackslash{}C:\textbackslash{}Users\textbackslash{}<username>}. It may be required to execute these commands from a normal terminal instead of the Windows PowerShell.
+\textbf{Windows}: If the executing system runs on Windows, this step may require the use of WSL (Windows Subsystem for Linux) and to set the HOME variable via \texttt{SET HOME=\textbackslash{}C:\textbackslash{}Users\textbackslash{}<username>}. It may be required to execute these commands from a normal terminal instead of the Windows PowerShell.
 
 
 
@@ -68,7 +68,7 @@ Once these commands have run through successfully, both databases are populated 
 % Hard Resetting all containers
 \subsection{Hard-Resetting Everything}
 \label{appendix:instructions:hardreset}
-If at any time you would like to hard-reset the entire application, you may run the following commands:
+If at any time a hard-reset for the entire application is required, run the following commands:
 % Resetting the docker containers
 \begin{lstlisting}[style=dockerstyle, label={lst:reset_docker}]
 docker compose down
@@ -76,7 +76,7 @@ rm -rf $HOME/neo4j/data
 rm -rf $HOME/neo4j_empty/data
 \end{lstlisting}
 
-After resetting the application, you will have to restart with the first time setup.
+After resetting the application, restart with the first time setup.
 
 % Running the application
 \section{Running the Application}
@@ -97,7 +97,7 @@ With this command, four containers are started.
 	\item The frontend which by default runs under http://localhost:3000/
 \end{itemize}
 
-If Docker does not automatically open the frontend in your browser, navigate to it under \href{http://localhost:3000/}{http://localhost:3000/}. You are now ready to start using \prototype.
+If Docker does not automatically open the frontend in the browser, navigate to it under \href{http://localhost:3000/}{http://localhost:3000/}. Everything is now ready and \prototype{} may be used.
 
 
 % Feature Overview
@@ -127,7 +127,7 @@ Under the menu at the top left, the user is presented with the option to reset t
 \label{appendix:instructions:import}
 Under the menu at the top left, the user is presented with the option to import their own data. This option is only available if the playground database is selected via the toggle switch. Within the dialog that pops up, the user can add up to 10 files either by selecting them via the file system or by dragging-and-dropping them into the dialog. Only .xml files are accepted.
 
-After clicking the import button, the files are uploaded. If the upload was successful, an alert is shown notifying the user of this. The uploaded data remains within the realms of the Docker containers and is not uploaded to any third-party sources. The data can then be queried via the playground database.
+After clicking the import button, the files are uploaded. If the upload was successful, an alert is shown notifying the user of this. The uploaded data remains within the realms of the Docker containers and is not uploaded to any third-party sources. The data can then be queried if the database toggle is set to the playground database.
 
 % Inspect Graph Database
 \subsection{Inspect Database}
