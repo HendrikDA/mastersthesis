@@ -34,6 +34,20 @@ Before being able to run any containers, a few environment variables must be set
 
 Once these environment variables are set, the databases may be set up.
 
+% Preparing Database Backups
+\subsection{Preparing the Databases}
+\label{appendix:db_backups}
+Before being able to set up the databases with the example data, the backup files need to be downloaded and placed into the correct folders. They can be found under the following links:
+
+\begin{itemize}
+  \item Textbook Data: \href{https://bscw.frankfurt-university.de/EduRes/bscw/bscw.cgi/d21657796/neo4j-2025-11-16T12-53-54-fde218db.backup}{neo4j-2025-11-16T12-53-54-fde218db.backup}
+  \item SpeedParcel Data: \href{https://bscw.frankfurt-university.de/EduRes/bscw/bscw.cgi/d21814333/neo4j-2025-12-10T21-44-58-fde218db.backup}{neo4j-2025-12-10T21-44-58-fde218db.backup}
+\end{itemize}
+
+If you do not have access to the above files, please reach out to the author or advisors of this thesis.
+
+Once both files are downloaded they are ready to be placed within the project's folders. The Textbok Data backup file must be placed within the folder \texttt{./textbook-data/}. The SpeedParcel Data backup file must be placed under \texttt{./speedparcel-data/}. This ensures that the backup files are present and in the correct folders when running the Docker commands to set up the databases in the next step.
+
 % Running Containers
 \subsection{Setting Up the Databases}
 \label{appendix:database_setup}
@@ -44,6 +58,10 @@ If \prototype{} is being run for the first time, then two containers need to be 
 docker compose --profile speedparcel-restore run --rm speedparcel-restore
 docker compose --profile textbook-restore  run --rm textbook-restore
 \end{lstlisting}
+
+\textbf{Windows}: If you are on Windows, this step may require you to use WSL (Windows Subsystem for Linux) and to set the HOME variable via \texttt{SET HOME=\textbackslash{}C:\textbackslash{}Users\textbackslash{}<username>}. It may be required to execute these commands from a normal terminal instead of the Windows PowerShell.
+
+
 
 Once these commands have run through successfully, both databases are populated with the default data and are ready to be used.
 
@@ -68,6 +86,8 @@ Running \prototype{} is as simple as running the following command:
 \begin{lstlisting}[style=dockerstyle, label={lst:start_masuta}]
 docker compose up
 \end{lstlisting}
+
+When running this command for the first time, it may take a while as it will have to download dependencies.
 
 With this command, four containers are started.
 \begin{itemize}
@@ -113,6 +133,8 @@ After clicking the import button, the files are uploaded. If the upload was succ
 \subsection{Inspect Database}
 \label{appendix:instructions:inspect_database}
 Under the menu at the top left, the user is presented with the option to view the graph data in neo4j browser their own data. This option is available for both the SpeedParcel and playground database. Clicking this opens another tab under \href{https://console-preview.neo4j.io/tools/query}{https://console-preview.neo4j.io/tools/query}. Here, the user can connect to the selected database. The connection string is displayed in a dialog within \prototype. Here, the user can inspect the graph structure and paste the cyphers used for the generated responses.
+
+In order to access the neo4j console, it may be required that the user has a neo4j account.
 
 % Chat Context
 \subsection{Chat Context and Building on Previous Answers}

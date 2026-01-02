@@ -5,6 +5,6 @@ This chapter is meant to evaluate the implementation. what went well. what didn'
 
 possible improvements:
 \begin{itemize}
-	\item The schema call before every prompt is costly for large schemas (i assume as of 02.01.26).
+	\item The schema call before every prompt is costly for large schemas (i assume as of 02.01.26). This source from wan \cite{wan2025prompting} confirms this - giving the complete schema information can overload the context.
 	\item Does the APOC XML parser create noise in the database? you know how the XML files have view-data in it on how to display it in archi? we're not leaving that out. does that get saved into the database?
 \end{itemize}
