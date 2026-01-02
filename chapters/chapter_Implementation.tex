@@ -41,7 +41,7 @@ Each of these application components are explained in more detail in section \re
 \label{sec:component_details}
 This section describes each component in more detail with the goal of clarifying why the individual components are implemented the way that they are.
 
-% Frontend
+%%% Frontend
 \subsection{Frontend}
 \label{sub:frontend}
 The frontend of the prototype is implemented as a single-page application using React with TypeScript. React was chosen due to its component-based architecture, which promotes modularity, reusability, and maintainability. TypeScript adds static typing to the JavaScript codebase, reducing runtime errors and improving development reliability in a growing application. For the user interface, the Chakra UI component library is implemented. Chakra UI provides a set of accessible, pre-styled components that significantly reduce the need for custom CSS while ensuring visual consistency across the application. This choice enabled rapid prototyping and allowed the development effort to focus on functionality rather than low-level UI styling concerns.
@@ -50,20 +50,26 @@ The frontend is containerized and exposed via \texttt{http://localhost:3000/}. I
 
 Further details on the available frontend features and user interactions are provided in Appendix \ref{appendix:instructions:features}.
 
-% Backend
+%%% Backend
 \subsection{Backend}
 \label{sub:backend}
-The backend contains the entire application logic and is the most crucial part of the prototype. Here, requests are received from the frontend and processed before querying the data from the knowledge-graph and subsequently returning it to the frontend.
+The backend contains the entire application logic and is the most crucial part of the prototype. Here, requests are received from the frontend and processed before querying the data from the knowledge-graph and subsequently returning it to the frontend. It also handles further logic, such as transpiling the user's uploaded XML files and inserting them into the knowledge-graph and handles further features such resetting the playground database.
 
 % Schema Information
-\subsection{Schema Information}
+\subsubsection{Schema Information}
 \label{sub:schema}
+
+Todo: This source describes how and why agnostic cyphers can and should be generated. \cite{wan2025prompting} also, check their sources and use those as well. It also mentions that a challenge when giving the LLM the necessary context is that it gets overloaded with information and that the context length may get exceeded (page 5).
+Todo: This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural language text can be used to \textbf{create} the knowledge graph. Def use this when explaining how i created my speedparcel imports.
+Todo: The whole system prompting this is called "in-context learning (ICL)". search for sources that support this.
+Todo: The source from Wan \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
+
 Before the LLM is able to generate any meaningful cypher, it is necessary to get the knowledge-graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()}. Directly after getting the schema, the backend also queries the indexes present in the knowledge-graph. This enables the database to lookup nodes and relationships based on specific labels and properties. % Todo, add this source for apoc.meta.schema: https://neo4j.com/labs/apoc/4.1/overview/apoc.meta/apoc.meta.schema/ and this source forx indexes: https://neo4j.com/docs/cypher-manual/current/indexes/
 
 This information is vital for the system prompt in order to be able to build a reliable cypher and return sufficient results.
 
 % System Prompt
-\subsection{System Prompt}
+\subsubsection{System Prompt}
 \label{sub:prompt}
 The system prompt is one of the most crucial parts of the entire application. This is where the LLM is given its context in order to understand how to transform the natural language inputs into the cyphers and how to turn the raw cypher response back into natural language for the response to the user. The actual system prompts can be found in the chapter \ref{appendix:code:prompts} of the Appendix.
 
@@ -77,35 +83,41 @@ This second system prompt, along with the original user prompt and the cypher's 
 
 Tuning these system prompts greatly alters the quality of results of the entire system. While the second system prompt was rather straightforward, the system prompt for incoming user prompts is the result of fine tuning it during development in all four action research cycles, as described in section \ref{sec:action_research_cycles}. Any less information in this system prompt and the generated cypher's ability to retrieve the required information worsens.
 
+
 % Ephemeral Conversation Memory
-\subsection{Ephemeral Conversation Memory}
+\subsubsection{Ephemeral Conversation Memory}
 \label{sub:prompt}
 \prototype{} has an ephemeral conversation memory, meaning that once the session concludes, the content is discarded \cite{zeppieri2025mmag}. This is where the session ID, which is generated and sent from the frontend comes into play. The backend logic holds an array of past user prompts and system answers. These are tied to the session ID. An incoming request's session ID from the frontend is compared to the current session ID stored in the backend. If the session IDs match, then the previous user prompt and system answer are used as further context for the new user prompt. This enables the user to build upon their previous prompt or the system's previous answer, which may be necessary during complex, multi-step interactions \cite{zeppieri2025mmag}.
 
 As the prototype stands, it saves only the most previous user prompt and corresponding system response. However, this can be scaled to contain more of the previous prompts and responses. It was kept to a minimum for this prototype as this can bloat the prompt passed to the LLM and quickly exceed Open AI's character limit as well as increase the amount of time required for it to generate a response.
 
-% Open AI
+% XML Transpiler
+\subsubsection{XML Transpiler}
+\label{sub:xml_transpiler}
+Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
+
+Show how fine-tuning the system prompt can have an effect on the results. E.g. if in the context it says to answer within 1-2 sentences or to answer in 4-6 sentences. show examples of how small things in the prompt can have a large impact.
+
+
+%%% Open AI
 \subsection{Open AI}
 \label{sub:openai}
 
 
-% MCP
+%%% MCP
 \subsection{MCP Server}
 \label{sub:mcp}
 
-% Databases
+%%% Databases
 \subsection{Neo4j Databases}
 \label{sub:datbases}
 
-% Docker
+%%% Docker
 \subsection{Local Environment via Docker}
 \label{sub:docker}
 
-%%% Todo:
-Mention that this is a "ephemeral conversation memory" and why that is. We will probably need some kind of source on this. Maybe a test run of the system? Like asking it a question, following it through the entire backend and how the answer is generated? This will have to be done after the sequence diagram. Also more depth on each system component. maybe make a subchapter per architecture layer and describe things in more detail there.
-
 %%%%
-% Finished Prototype
+% Data Flow
 %%%%
 \section{Data Flow}
 \label{sec:finishedPrototype}
@@ -123,30 +135,6 @@ The sequence of interactions and how data flows between each component is visual
 \end{figure}
 
 
-%%%%
-% XML Transpiler
-%%%%f
-\section{XML Transpiler}
-\label{sec:xmltranspiler}
-Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
-
-Show how fine-tuning the system prompt can have an effect on the results. E.g. if in the context it says to answer within 1-2 sentences or to answer in 4-6 sentences. show examples of how small things in the prompt can have a large impact.
-
-%%%%
-% Querying the database agnostically
-%%%%
-\section{Generating Text-to-Cypher Independent of the Database Schema}
-\label{sec:agnostic_cypher}
-Highlight this as the main challenge of the thesis! 
-
-This source describes how and why agnostic cyphers can and should be generated. \cite{wan2025prompting} also, check their sources and use those as well. It also mentions that a challenge when giving the LLM the necessary context is that it gets overloaded with information and that the context length may get exceeded (page 5).
-
-This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural language text can be used to \textbf{create} the knowledge graph. Def use this when explaining how i created my speedparcel imports.
-
-The whole system prompting this is called "in-context learning (ICL)". search for sources that support this.
 
 
-The source from Wan \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
 
-
-Does the APOC XML parser create noise in the database? you know how the XML files have view-data in it on how to display it in archi? we're not leaving that out. does that get saved into the database?
