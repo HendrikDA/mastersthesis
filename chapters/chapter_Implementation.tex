@@ -59,14 +59,15 @@ The backend contains the entire application logic and is the most crucial part o
 \subsubsection{Schema Information}
 \label{sub:schema}
 
-Todo: This source describes how and why agnostic cyphers can and should be generated. \cite{wan2025prompting} also, check their sources and use those as well. It also mentions that a challenge when giving the LLM the necessary context is that it gets overloaded with information and that the context length may get exceeded (page 5).
+The ability for an LLM to perform a new task without explicitly retraining it is called in-context learning \cite{xie2021explanation}. This is done via a meta-prompt that is supplied to the LLM where only a set of rules, inputs, or outputs are defined. The LLM then does the necessary reasoning based on this context in order to complete the new task. This is injected into the LLM at runtime \cite{xie2021explanation}. In this case, when the LLM is tasked with generating a cypher for an unknown knowledge-graph, the models uses the supplied context to infer the correct approach. In-context learning allows the LLM to learn how to generate the necessary cyphers on the fly. \cite{xie2021explanation, wan2025prompting}
+
 Todo: This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural language text can be used to \textbf{create} the knowledge graph. Def use this when explaining how i created my speedparcel imports.
 Todo: The whole system prompting this is called "in-context learning (ICL)". search for sources that support this.
 Todo: The source from Wan \cite{wan2025prompting} explains how he created a 3-step-preprocessing in order to query the database agnostically. what i did is not 1-to-1 the same thing, but i borrowed the ideas. the main change being changing the CALL db.schema.visualization() from before to the APOC call apoc.meta.schema() which apparently returns more sensible information. that combined with the SHOW INDEXES call give a better result (i assume - i'm writing this before testing just to get my ideas out of my head lol have fun rewriting this. i wrote this in Bremen on 28.12 xoxo)
 
-Before the LLM is able to generate any meaningful cypher, it is necessary to get the knowledge-graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()}. Directly after getting the schema, the backend also queries the indexes present in the knowledge-graph. This enables the database to lookup nodes and relationships based on specific labels and properties. % Todo, add this source for apoc.meta.schema: https://neo4j.com/labs/apoc/4.1/overview/apoc.meta/apoc.meta.schema/ and this source forx indexes: https://neo4j.com/docs/cypher-manual/current/indexes/
+Before the LLM is able to generate any meaningful cypher, it is necessary to get the knowledge-graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()} \cite{neo4j_apoc_meta_schema}. Directly after getting the schema, the backend also queries the indexes present in the knowledge-graph. This enables the database to lookup nodes and relationships based on specific labels and properties \cite{neo4j_cypher_indexes}.
 
-This information is vital for the system prompt in order to be able to build a reliable cypher and return sufficient results.
+This information is necessary for the LLM's ability to perform in-context learning specific to the knowledge-graph's schema.
 
 % System Prompt
 \subsubsection{System Prompt}
@@ -89,7 +90,7 @@ Tuning these system prompts greatly alters the quality of results of the entire 
 \label{sub:prompt}
 \prototype{} has an ephemeral conversation memory, meaning that once the session concludes, the content is discarded \cite{zeppieri2025mmag}. This is where the session ID, which is generated and sent from the frontend comes into play. The backend logic holds an array of past user prompts and system answers. These are tied to the session ID. An incoming request's session ID from the frontend is compared to the current session ID stored in the backend. If the session IDs match, then the previous user prompt and system answer are used as further context for the new user prompt. This enables the user to build upon their previous prompt or the system's previous answer, which may be necessary during complex, multi-step interactions \cite{zeppieri2025mmag}.
 
-As the prototype stands, it saves only the most previous user prompt and corresponding system response. However, this can be scaled to contain more of the previous prompts and responses. It was kept to a minimum for this prototype as this can bloat the prompt passed to the LLM and quickly exceed Open AI's character limit as well as increase the amount of time required for it to generate a response.
+As the prototype stands, it saves only the most previous user prompt and corresponding system response. However, this can be scaled to contain more of the previous prompts and responses. It was kept to a minimum for this prototype as this can bloat the prompt passed to the LLM and quickly exceed Open AI's character limit, increase the amount of time required for it to generate a response, and cause confusion and irrelevant outputs \cite{wan2025prompting}.
 
 % XML Transpiler
 \subsubsection{XML Transpiler}
