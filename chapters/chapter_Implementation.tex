@@ -1,9 +1,6 @@
 \chapter{Implementation}
 \label{ch:implementation}
-The methodology chapter answers the question of what was built and why. This chapter contains all information on what the finished \prototype{} prototype is, including its architecture and a sequence diagram, data processing mechanisms, and features.
-
-%%%%%%%%% Do NOT evaluate in this chaper. Only describe what was done.
-
+The methodology chapter answers the question of what was built and why. This chapter contains all information on what the finished \prototype{} prototype is, including its architecture, individual components, data processing mechanisms, features, and a sequence diagram of how data flows through the application.
 
 
 %%%%
@@ -33,7 +30,7 @@ Each of these application components are explained in more detail in section \re
 %%%%
 \section{Component Details}
 \label{sec:component_details}
-This section describes each component in more detail with the goal of clarifying why the individual components are implemented the way that they are.
+This section describes each component in more detail with the goal of clarifying how and why the individual components are implemented the way that they are.
 
 %%% Frontend
 \subsection{Frontend}
@@ -83,13 +80,6 @@ The prototype has an ephemeral conversation memory, meaning that once the sessio
 
 As the prototype stands, it saves only the most previous user prompt and corresponding system response. However, this can be scaled to contain more of the previous prompts and responses. It was kept to a minimum for this prototype as this can bloat the prompt passed to the LLM and quickly exceed Open AI's character limit, increase the amount of time required for it to generate a response, and cause confusion and irrelevant outputs \cite{wan2025prompting}.
 
-% XML Transpiler
-\subsubsection{XML Transpiler}
-\label{sub:xml_transpiler}
-Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
-%Todo: Explain XPATH. https://en.wikipedia.org/wiki/XPath
-%Todo: Explain APOC Load XML: https://neo4j.com/labs/apoc/4.2/import/xml/
-
 % Resetting the Database
 \subsubsection{Resetting the Database}
 \label{sub:db_reset}
@@ -118,7 +108,7 @@ The need for two databases arose during development, as described in the Action 
 
 Both databases contain textbook information from the 2021 book "Masterclass Enterprise Architecture Management" by Jung and Bardo \cite{jung2021masterclass}. The knowledge graph consisting of the textbook contains 13.724 nodes and 13.525 edges. The advantage of having a knowledge graph of the textbook information adjacent to the enterprise data is that user prompts of category 1 or 3 can directly query the textbook information as well in order to supplement the generated response with information specific to the role of an enterprise architect.
 
-The SpeedParcel database contains further example data and serves as a starting point for the user to explore the prototype and its capabilities. SpeedParcel's knowledge graph consists of 566 nodes and 788 edges. Within this knowledge graph are SpeedParcel's application landscape, business capability map, business capability support matrix, business object model, and cross-application data-flow diagram. This data was read-in via the method described in section \ref{sub:dataUsed}. The SpeedParcel database is entirely read-only.
+The SpeedParcel database contains further example data and serves as a starting point for the user to explore the prototype and its capabilities. SpeedParcel's knowledge graph consists of 566 nodes and 788 edges. Within this knowledge graph are SpeedParcel's application landscape, business capability map, business capability support matrix, business object model, and cross-application data-flow diagram. This data was read-in via the method described in section \ref{sub:data_used}. The SpeedParcel database is entirely read-only.
 
 Out of the box, the playground database only contains the knowledge graph of the textbook information. It is up to the user to fill the database with their own enterprise data. This database can also be reset by the user from the UI, allowing them to start over.
 
@@ -136,17 +126,54 @@ The neo4j databases use deployed using predefined Neo4j image for the respective
 
 As a result, the complete prototype can be started via a single \texttt{docker compose up} command.  This containerization approach ensures a consistent environment across different host systems, thereby improving reproducibility and reducing environment-specific errors during evaluation. Furthermore, each component is encapsulated within a clearly defined architectural boundary, enabling independent scaling. For example, allocating more memory for a database can be adjusted independently without impacting the other application components.
 
-%%% Data Used
-\subsection{Creating the SpeedParcel and the Textbook Knowledge Graphs}
-\label{sub:dataUsed}
-As described in subsection \ref{sub:datbases}, the databases are pre-filled with nodes and edges. Their initial knowledge graphs were originally developed during cycles 1, 2, and 3 of the Action Research, as described in section \ref{sec:action_research_cycles}.
 
-% Todo describe the single-file manual parsing mechanism
+%%%%
+% Filling the Databases
+%%%%
+\section{Filling the Databases}
+\label{sec:filling_the_databases}
+Filling the databases with knowledge graphs is a central part of this research. Establishing this method is the result of all four cycles of the applied Action Research. How the approaches were iteratively refined is described in section \ref{sec:action_research_cycles}. This section describes both approaches to filling each database.
+
+%%% SpeedParcel Data
+\subsection{Creating the SpeedParcel and the Textbook Knowledge Graphs}
+\label{sub:data_used}
+At the beginning of the development phase, it was not clear what the end data will look like. One thing that was certain was that the textbook and SpeedParcel data would only have to be parsed once during development, therefore fully preparing the data before the user interacts with the application. This as opposed to being parsed while the user is using the application. The difference means that the textbook and example data may be parsed with custom implementations and the real world data later having to be parsed with a generic, universal parser. The textbook and SpeedParcel are one time endeavours.
+
+The first version of the parser specifically started with the textbook data in a PDF format. This in itself was a challenge that would only be faced once, as neither the SpeedParcel data nor the real world data is found in PDF format. In contrast to XML, which inherently provides structure, PDF simply contains text and information on how to represent that text \cite{llamaindex_llamaparse_2025}. Breaking this structure down into nodes and edges while attempting to retain the textbook's structure is thus a challenge.
+
+The custom parsers for the textbook and SpeedParcel datasets were implemented in Python using Jupyter Notebooks. The development for these were supported by an AI-based coding assistant ChatGPT from OpenAI. It was used as a supportive tool for tasks such as code drafting, refactoring suggestions, and troubleshooting, while the overall design, implementation decisions, and validation of the parsers remained the responsibility of the author.
+
+To support with parsing the PDF files, an open source repository by Yu (2025) which combines OpenAI's API and LlamaParse was forked and modified \cite{yu_graph_rag_2025}. The changes made to the original codebase include specifying how to structure the textbook to keep the inherent structure intact via section and concept nodes and relationships between these.
+
+Reading in the EAM textbook required reading in the PDF file and parsing it into its structural components, such as sections, paragraphs, or other elements such as tables. These components are enriched with metadata, such as labels, and textual content. The textual content is also converted into vector embeddings via an LLM. This vector embedding allows a similarity search within the knowledge graph. Finally, all nodes and edges are persisted into the database. Nodes represent document fragments, chunks, sections, concepts, and embeddings. With this method, the entire textbook is able to be broken down into nodes and edges and can be queried via cypher. The result is a knowledge graph where nodes that belong to the same section of the textbook are connected within their own sub-graph.  A visualization of this can be seen in figure \ref{fig:textbook_kg}.
+
+
+\begin{figure}[h]
+\centering
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1\textwidth]{images/textbook_as_a_kg}
+}
+\caption{A screenshot of a subsection of the textbook's knowledge graph. It shows how different node types (e.g. documents and sections) are connected within their own sub-graphs. On the right hand side is the meta-data for the selected node. Notice the "text" label within the meta-data where it is clear to see the actual contents of the textbook that derived this node.}
+\label{fig:textbook_kg}
+\end{figure}
+
+
+% Todo: describe how the rest of the speedparcel files were then parsed.
+Building on top of this, the individual parsers for the business object model, business capability support matrix, and cross-application data-flow diagrams were built. Each of these are an adaptation of the original textbook parser and work in a similar manner.
+
 
 This implementation method quickly reached its limits as the imported datasets became more and more complex. 
 
 
 Todo: This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural language text can be used to \textbf{create} the knowledge graph. Def use this when explaining how i created my speedparcel imports.
+
+%%% XML Transpiler
+\subsubsection{Creating the XML Transpiler}
+\label{sub:xml_transpiler}
+Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
+%Todo: Explain XPATH. https://en.wikipedia.org/wiki/XPath
+%Todo: Explain APOC Load XML: https://neo4j.com/labs/apoc/4.2/import/xml/
+
 
 %%%%
 % Data Flow

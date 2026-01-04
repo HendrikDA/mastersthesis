@@ -76,9 +76,11 @@ At this stage, the research methodology had not yet been explicitly defined as A
 
 The querying method was implemented via hard-coded cyphers in the frontend. The user's input prompt was then run through an LLM which attempted to fit the input into the predefined cyphers.
 
+The LLM of choice during this stage was Qwen2.5-7B-Instruct \cite{qwen2.5} as it was free to use and readily available via the Hugging Pace platform.
+
 \textbf{Evaluation}: The state of the proof of concept after the first cycle was demonstrated to both advisors and evaluated qualitatively through open discussions. Both advisors positively assessed the feasibility of the approach, and the co-advisor confirmed that an explicit knowledge graph-based solution will be a viable direction for further development.
 
-\textbf{Learning}: Compared to the beginning of the cycle, in which the feasibility of a centralized knowledge graph was uncertain, the first cycle demonstrated that an explicit, white-box approach represents a practical path forward. The cycle also revealed key challenges in two critical layers of the application. These layers relate to importing heterogeneous data and transforming it into graph structures and also the effective querying of such representations. A challenge was parsing data via an LLM because this meant giving full control to the LLM and thus being dependent on the capabilities of the language model.
+\textbf{Learning}: Compared to the beginning of the cycle, in which the feasibility of a centralized knowledge graph was uncertain, the first cycle demonstrated that an explicit, white-box approach represents a practical path forward. The cycle also revealed key challenges in three critical layers of the application. These layers relate to importing heterogeneous data and transforming it into graph structures, the effective querying of such representations, and the slow response generation by the LLM. On top of this, the risk of relying too heavily on an LLM arose by giving full control of critical points of the application to the LLM and thus being dependent on the capabilities of the language model.
 
 Finally, it became evident that further iterations would be required to systematically address these challenges with an exploratory development process.
 
