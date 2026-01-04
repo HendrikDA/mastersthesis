@@ -47,26 +47,26 @@ Further details on the available frontend features and user interactions are pro
 %%% Backend
 \subsection{Backend}
 \label{sub:backend}
-The backend contains the entire application logic and is the most crucial part of the prototype. Here, requests are received from the frontend and processed before querying the data from the knowledge-graph and subsequently returning it to the frontend. It also handles further logic, such as transpiling the user's uploaded XML files and inserting them into the knowledge-graph and handles further features such resetting the playground database.
+The backend contains the entire application logic and is the most crucial part of the prototype. Here, requests are received from the frontend and processed before querying the data from the knowledge graph and subsequently returning it to the frontend. It also handles further logic, such as transpiling the user's uploaded XML files and inserting them into the knowledge graph and handles further features such resetting the playground database.
 
 % Schema Information
 \subsubsection{Schema Information}
 \label{sub:schema}
 
-The ability for an LLM to perform a new task without explicitly retraining it is called in-context learning \cite{xie2021explanation}. This is done via a meta-prompt that is supplied to the LLM where only a set of rules, inputs, or outputs are defined. The LLM then does the necessary reasoning based on this context in order to complete the new task. This is injected into the LLM at runtime \cite{xie2021explanation}. In this case, when the LLM is tasked with generating a cypher for an unknown knowledge-graph, the models uses the supplied context to infer the correct approach. In-context learning allows the LLM to learn how to generate the necessary cyphers on the fly. \cite{xie2021explanation, wan2025prompting}
+The ability for an LLM to perform a new task without explicitly retraining it is called in-context learning \cite{xie2021explanation}. This is done via a meta-prompt that is supplied to the LLM where only a set of rules, inputs, or outputs are defined. The LLM then does the necessary reasoning based on this context in order to complete the new task. This is injected into the LLM at runtime \cite{xie2021explanation}. In this case, when the LLM is tasked with generating a cypher for an unknown knowledge graph, the models uses the supplied context to infer the correct approach. In-context learning allows the LLM to learn how to generate the necessary cyphers on the fly. \cite{xie2021explanation, wan2025prompting}
 
-Before the LLM is able to generate any meaningful cypher, it is necessary to get the knowledge-graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()} \cite{neo4j_apoc_meta_schema}. Directly after getting the schema, the backend also queries the indexes present in the knowledge-graph. This enables the database to lookup nodes and relationships based on specific labels and properties \cite{neo4j_cypher_indexes}.
+Before the LLM is able to generate any meaningful cypher, it is necessary to get the knowledge graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()} \cite{neo4j_apoc_meta_schema}. Directly after getting the schema, the backend also queries the indexes present in the knowledge graph. This enables the database to lookup nodes and relationships based on specific labels and properties \cite{neo4j_cypher_indexes}.
 
-With this information, the LLM will later understand how the knowledge-graph is structured and how cyphers can be generated to query it.
+With this information, the LLM will later understand how the knowledge graph is structured and how cyphers can be generated to query it.
 
 % System Prompt
 \subsubsection{System Prompt}
 \label{sub:prompt}
 The system prompt is one of the most crucial parts of the entire application. This is where the LLM is given its information for in-context learning in order to understand how to transform the natural language inputs into the cyphers and how to turn the raw cypher response back into natural language for the response to the user. The actual system prompts can be found in the chapter \ref{appendix:code:prompts} of the Appendix.
 
-The incoming user prompt requires a finely tuned, well thought out system prompt. The goal of the first system prompt is to provide the LLM with all of the context that it needs in order to generate the specific cypher required to fulfil the user's prompt. It contains 4 sections, categorized to help generate the cypher. The first category in the system prompt is a set of rules on how it may generate the cypher, e.g. to infer meaning from the user's prompt to identify which labels in the knowledge-graph to query. The second category is generic schema information and what type of cyphers it may use to fulfil different types of user requests. The third category in the system prompt is the task that the LLM is given, i.e. to generate exactly one cypher, only cypher, and no further text or explanations. The fourth and last category is a set of cypher syntax rules. These were added iteratively during development as the cyphers generated regularly had errors and required assistance to avoid.
+The incoming user prompt requires a finely tuned, well thought out system prompt. The goal of the first system prompt is to provide the LLM with all of the context that it needs in order to generate the specific cypher required to fulfil the user's prompt. It contains 4 sections, categorized to help generate the cypher. The first category in the system prompt is a set of rules on how it may generate the cypher, e.g. to infer meaning from the user's prompt to identify which labels in the knowledge graph to query. The second category is generic schema information and what type of cyphers it may use to fulfil different types of user requests. The third category in the system prompt is the task that the LLM is given, i.e. to generate exactly one cypher, only cypher, and no further text or explanations. The fourth and last category is a set of cypher syntax rules. These were added iteratively during development as the cyphers generated regularly had errors and required assistance to avoid.
 
-This system prompt, along with the schema information, the user's current prompt, and the previous prompt and corresponding system answer are then passed to Open AI's gpt-5 LLM. The returned result is a single cypher which can be directly used to query the knowledge-graph in order to fulfil the user's prompt.
+This system prompt, along with the schema information, the user's current prompt, and the previous prompt and corresponding system answer are then passed to Open AI's gpt-5 LLM. The returned result is a single cypher which can be directly used to query the knowledge graph in order to fulfil the user's prompt.
 
 The second system prompt supports in turning the cypher's response back into natural language. It is more straightforward and only contains two blocks. The first block tells the LLM to act as a senior enterprise architect supporting a junior enterprise architect. The second block gives the LLM more information on how to structure the response, e.g. to generally keep the answer within 1-6 sentences, depending on the complexity of the question.
 
@@ -74,7 +74,7 @@ This second system prompt, along with the original user prompt and the cypher's 
 
 Tuning these system prompts greatly alters the quality of results of the entire system. While the second system prompt was rather straightforward, the first system prompt for incoming user prompts is the result of fine tuning it during development in all four action research cycles, as described in section \ref{sec:action_research_cycles}. Any less information in this system prompt and the generated cypher's ability to retrieve the required information worsens.
 
-This information is necessary for the LLM's ability to perform in-context learning specific to the knowledge-graph's schema. Without this information, the LLM would not be able to generate cyphers based on the user's prompt, nor would it be able to return an answer in an appropriate wording designed for an enterprise architect.
+This information is necessary for the LLM's ability to perform in-context learning specific to the knowledge graph's schema. Without this information, the LLM would not be able to generate cyphers based on the user's prompt, nor would it be able to return an answer in an appropriate wording designed for an enterprise architect.
 
 % Ephemeral Conversation Memory
 \subsubsection{Ephemeral Conversation Memory}
@@ -87,8 +87,8 @@ As the prototype stands, it saves only the most previous user prompt and corresp
 \subsubsection{XML Transpiler}
 \label{sub:xml_transpiler}
 Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
-Explain XPATH. https://en.wikipedia.org/wiki/XPath
-Explain APOC Load XML: https://neo4j.com/labs/apoc/4.2/import/xml/
+%Todo: Explain XPATH. https://en.wikipedia.org/wiki/XPath
+%Todo: Explain APOC Load XML: https://neo4j.com/labs/apoc/4.2/import/xml/
 
 % Resetting the Database
 \subsubsection{Resetting the Database}
@@ -107,14 +107,23 @@ The LLM is an external component and is not hosted, trained, or fine tuned withi
 %%% MCP
 \subsection{MCP Server}
 \label{sub:mcp}
+The Model Context Protocol (MCP) is an open source, standardized communication protocol to allow client applications to communicate with AI applications. The advantage of having an MCP server sitting between the backend and the neo4j database is the standardized interface with external systems. \cite{anthropic_mcp_2025, hou2025model}
+
+The MCP server employed in this prototype is the official neo4j MCP server. It communicates with the Node server via MCP's STDIO and comes with standard functions to read and write data to the neo4j databases. \cite{neo4j_mcp_2025} This allows the prototype's backend to query the databases without requiring proprietary code.
 
 %%% Databases
 \subsection{Neo4j Databases}
 \label{sub:datbases}
+The need for two databases arose during development, as described in the Action Research in section \ref{sec:action_research_cycles}. Before real-world data was made available, the system required data during development and testing. Because the SpeedParcel data was readily available from a university course during a previous semester and already resembled a real-world enterprise architecture, it was used as a starting point for the prototype.
 
-Describe why the textbook data was needed and that this helps the LLM generate responses in a way that is specific to enterprise architecture knowledge.
+Both databases contain textbook information from the 2021 book "Masterclass Enterprise Architecture Management" by Jung and Bardo \cite{jung2021masterclass}. The knowledge graph consisting of the textbook contains 13.724 nodes and 13.525 edges. The advantage of having a knowledge graph of the textbook information adjacent to the enterprise data is that user prompts of category 1 or 3 can directly query the textbook information as well in order to supplement the generated response with information specific to the role of an enterprise architect.
 
-describe why the speedparcel database was necessary, because DHL data was not ready during the development cycles and i needed something to work with.
+The SpeedParcel database contains further example data and serves as a starting point for the user to explore the prototype and its capabilities. SpeedParcel's knowledge graph consists of 566 nodes and 788 edges. Within this knowledge graph are SpeedParcel's application landscape, business capability map, business capability support matrix, business object model, and cross-application data-flow diagram. This data was read-in via the method described in section \ref{sub:dataUsed}. The SpeedParcel database is entirely read-only.
+
+Out of the box, the playground database only contains the knowledge graph of the textbook information. It is up to the user to fill the database with their own enterprise data. This database can also be reset by the user from the UI, allowing them to start over.
+
+Both databases can be interactively viewed either via the application "neo4j Desktop" or via their web application under \href{https://console-preview.neo4j.io/tools/query}. After connecting to the respective database, the knowledge graph can be queried via custom cyphers and the results viewed in a visual and interactive way. Utilizing this tool along with the "copy cypher" feature described in the Appendix's section \ref{appendix:instructions:input_and_chat} enables the user to inspect the raw information that the LLM received from the database before transforming it into a natural language response. This allows the user to fact check and retrace the answers generated.
+
 
 %%% Docker
 \subsection{Local Environment via Docker}
@@ -122,9 +131,9 @@ describe why the speedparcel database was necessary, because DHL data was not re
 
 
 %%% Data Used
-\subsection{Creating the SpeedParcel and the Textbook Knowledge-Graphs}
+\subsection{Creating the SpeedParcel and the Textbook Knowledge Graphs}
 \label{sub:dataUsed}
-As described in subsection \ref{sub:datbases}, the databases are pre-filled with nodes and edges. Their initial knowledge-graphs were originally developed during cycles 1, 2, and 3 of the Action Research, as described in section \ref{sec:action_research_cycles}.
+As described in subsection \ref{sub:datbases}, the databases are pre-filled with nodes and edges. Their initial knowledge graphs were originally developed during cycles 1, 2, and 3 of the Action Research, as described in section \ref{sec:action_research_cycles}.
 
 % Todo describe the single-file manual parsing mechanism
 
@@ -138,7 +147,7 @@ Todo: This source \cite{mihindukulasooriya2023text2kgbench} talks about how natu
 %%%%
 \section{Data Flow}
 \label{sec:finishedPrototype}
-The sequence of interactions and how data flows between each component is visualized in the sequence diagram in figure \ref{fig:sequence_diagram}. After the user enters their prompt into the frontend, the prompt is forwarded to the backend. The backend then begins preprocessing the request by retrieving the current schema information. This information is vital for the LLM in order for it to know how the knowledge-graph is structured and how to create the cyphers for it. Once the backend receives the schema information, the LLM converts the user's prompt into cyphers using all information that it has receives via the context, schema, and prompt. The cyphers are then used to query the selected knowledge-graph stored in the neo4j server. The neo4j server returns raw data to the MCP server, which passes it back to the backend. The backend then converts this raw response back into natural language using the LLM. Once converted, the backend saves the user's prompt and the system's response into the chat history before returning the response to the frontend where it is displayed.
+The sequence of interactions and how data flows between each component is visualized in the sequence diagram in figure \ref{fig:sequence_diagram}. After the user enters their prompt into the frontend, the prompt is forwarded to the backend. The backend then begins preprocessing the request by retrieving the current schema information. This information is vital for the LLM in order for it to know how the knowledge graph is structured and how to create the cyphers for it. Once the backend receives the schema information, the LLM converts the user's prompt into cyphers using all information that it has receives via the context, schema, and prompt. The cyphers are then used to query the selected knowledge graph stored in the neo4j server. The neo4j server returns raw data to the MCP server, which passes it back to the backend. The backend then converts this raw response back into natural language using the LLM. Once converted, the backend saves the user's prompt and the system's response into the chat history before returning the response to the frontend where it is displayed.
 
 
 %%%% Todo: Maybe number the individual requests / responses?
