@@ -122,13 +122,19 @@ The SpeedParcel database contains further example data and serves as a starting 
 
 Out of the box, the playground database only contains the knowledge graph of the textbook information. It is up to the user to fill the database with their own enterprise data. This database can also be reset by the user from the UI, allowing them to start over.
 
-Both databases can be interactively viewed either via the application "neo4j Desktop" or via their web application under \href{https://console-preview.neo4j.io/tools/query}. After connecting to the respective database, the knowledge graph can be queried via custom cyphers and the results viewed in a visual and interactive way. Utilizing this tool along with the "copy cypher" feature described in the Appendix's section \ref{appendix:instructions:input_and_chat} enables the user to inspect the raw information that the LLM received from the database before transforming it into a natural language response. This allows the user to fact check and retrace the answers generated.
+Both databases can be interactively viewed either via the application "Neo4j Desktop" or via their web application under \href{https://console-preview.neo4j.io/tools/query}. After connecting to the respective database, the knowledge graph can be queried via custom cyphers and the results viewed in a visual and interactive way. Utilizing this tool along with the "copy cypher" feature described in the Appendix's section \ref{appendix:instructions:input_and_chat} enables the user to inspect the raw information that the LLM received from the database before transforming it into a natural language response. This allows the user to fact check and retrace the answers generated.
 
 
 %%% Docker
 \subsection{Local Environment via Docker}
 \label{sub:docker}
+During the later stages of development, the need for a fully local execution environment emerged to ensure that the prototype could be run on any machine, particularly in preparation for the final on-site evaluation. This requirement was fulfilled via Docker in combination with Docker Compose. A central \texttt{docker-compose.yml} file located in the project's root folder orchestrates the four containers necessary to run the prototype.
 
+Both the frontend and backend components are built from individual Dockerfiles that define their respective runtime environments and startup commands. The backend defines a mounted volume within it, allowing the user's uploaded XML files to be persisted across container restarts.
+
+The neo4j databases use deployed using predefined Neo4j image for the respective containers. The databases are initialized via two services defined in the Docker Compose which must be executed ahead of starting the application for the first time. This initialization procedure is described in detail in the setup instruction in Appendix~\ref{appendix:ch:instructions}.
+
+As a result, the complete prototype can be started via a single \texttt{docker compose up} command.  This containerization approach ensures a consistent environment across different host systems, thereby improving reproducibility and reducing environment-specific errors during evaluation. Furthermore, each component is encapsulated within a clearly defined architectural boundary, enabling independent scaling. For example, allocating more memory for a database can be adjusted independently without impacting the other application components.
 
 %%% Data Used
 \subsection{Creating the SpeedParcel and the Textbook Knowledge Graphs}
@@ -149,8 +155,6 @@ Todo: This source \cite{mihindukulasooriya2023text2kgbench} talks about how natu
 \label{sec:finishedPrototype}
 The sequence of interactions and how data flows between each component is visualized in the sequence diagram in figure \ref{fig:sequence_diagram}. After the user enters their prompt into the frontend, the prompt is forwarded to the backend. The backend then begins preprocessing the request by retrieving the current schema information. This information is vital for the LLM in order for it to know how the knowledge graph is structured and how to create the cyphers for it. Once the backend receives the schema information, the LLM converts the user's prompt into cyphers using all information that it has receives via the context, schema, and prompt. The cyphers are then used to query the selected knowledge graph stored in the neo4j server. The neo4j server returns raw data to the MCP server, which passes it back to the backend. The backend then converts this raw response back into natural language using the LLM. Once converted, the backend saves the user's prompt and the system's response into the chat history before returning the response to the frontend where it is displayed.
 
-
-%%%% Todo: Maybe number the individual requests / responses?
 \begin{figure}[h]
 \centering
 \makebox[\textwidth][c]{%
