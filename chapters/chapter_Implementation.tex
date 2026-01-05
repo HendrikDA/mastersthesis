@@ -135,17 +135,17 @@ As a result, the complete prototype can be started via a single \texttt{docker c
 Filling the databases with knowledge graphs is a central part of this research. Establishing this method is the result of all four cycles of the applied Action Research. How the approaches were iteratively refined is described in section \ref{sec:action_research_cycles}. This section describes both approaches to filling each database.
 
 %%% SpeedParcel Data
-\subsection{Creating the SpeedParcel and the Textbook Knowledge Graphs}
+\subsection{Creating the Textbook and SpeedParcel  Knowledge Graphs}
 \label{sub:data_used}
-At the beginning of the development phase, it was not clear what the end data will look like. One thing that was certain was that the textbook and SpeedParcel data would only have to be parsed once during development, therefore fully preparing the data before the user interacts with the application. This as opposed to being parsed while the user is using the application. The difference means that the textbook and example data may be parsed with custom implementations and the real world data later having to be parsed with a generic, universal parser. The textbook and SpeedParcel are one time endeavours.
+At the beginning of the development phase, it was not clear what the end data will look like. One thing that was certain was that the textbook and SpeedParcel data would only have to be parsed once during development, therefore allowing full preparation of the data before the user interacts with the application. This as opposed to being parsed while the user is using the application. The difference means that the textbook and example data may be parsed with custom implementations and the real world data later having to be parsed with a generic, universal parser as the textbook and SpeedParcel are one time endeavours.
+
+The custom parsers for the textbook and SpeedParcel datasets were implemented in Python using Jupyter Notebooks. The development for these were supported by the AI-based coding assistant ChatGPT from OpenAI. It was used as a supportive tool for tasks such as code drafting, refactoring suggestions, and troubleshooting, while the overall design, implementation decisions, and validation of the parsers remained the responsibility of the author.
 
 The first version of the parser specifically started with the textbook data in a PDF format. This in itself was a challenge that would only be faced once, as neither the SpeedParcel data nor the real world data is found in PDF format. In contrast to XML, which inherently provides structure, PDF simply contains text and information on how to represent that text \cite{llamaindex_llamaparse_2025}. Breaking this structure down into nodes and edges while attempting to retain the textbook's structure is thus a challenge.
 
-The custom parsers for the textbook and SpeedParcel datasets were implemented in Python using Jupyter Notebooks. The development for these were supported by an AI-based coding assistant ChatGPT from OpenAI. It was used as a supportive tool for tasks such as code drafting, refactoring suggestions, and troubleshooting, while the overall design, implementation decisions, and validation of the parsers remained the responsibility of the author.
-
 To support with parsing the PDF files, an open source repository by Yu (2025) which combines OpenAI's API and LlamaParse was forked and modified \cite{yu_graph_rag_2025}. The changes made to the original codebase include specifying how to structure the textbook to keep the inherent structure intact via section and concept nodes and relationships between these.
 
-Reading in the EAM textbook required reading in the PDF file and parsing it into its structural components, such as sections, paragraphs, or other elements such as tables. These components are enriched with metadata, such as labels, and textual content. The textual content is also converted into vector embeddings via an LLM. This vector embedding allows a similarity search within the knowledge graph. Finally, all nodes and edges are persisted into the database. Nodes represent document fragments, chunks, sections, concepts, and embeddings. With this method, the entire textbook is able to be broken down into nodes and edges and can be queried via cypher. The result is a knowledge graph where nodes that belong to the same section of the textbook are connected within their own sub-graph.  A visualization of this can be seen in figure \ref{fig:textbook_kg}.
+Reading in the EAM textbook required reading in the PDF file and parsing it into its structural components, such as sections, paragraphs, or other elements such as tables. These components are enriched with metadata, such as labels, and textual content. The textual content is also converted into vector embeddings via an LLM. This vector embedding allows a similarity search within the knowledge graph. Finally, all nodes and edges are persisted into the database. Nodes represent document fragments, chunks, sections, concepts, and embeddings. With this method, the entire textbook is able to be queried via cypher. The result is a knowledge graph where nodes that belong to the same section of the textbook are connected within their own sub-graph.  A visualization of this can be seen in figure \ref{fig:textbook_kg}.
 
 
 \begin{figure}[h]
@@ -153,27 +153,29 @@ Reading in the EAM textbook required reading in the PDF file and parsing it into
 \makebox[\textwidth][c]{%
   \includegraphics[width=1\textwidth]{images/textbook_as_a_kg}
 }
-\caption{A screenshot of a subsection of the textbook's knowledge graph. It shows how different node types (e.g. documents and sections) are connected within their own sub-graphs. On the right hand side is the meta-data for the selected node. Notice the "text" label within the meta-data where it is clear to see the actual contents of the textbook that derived this node.}
+\caption{A screenshot of a subsection of the textbook's knowledge graph. It shows how different node types (e.g. documents and sections) are connected within their own sub-graphs. On the right hand side is the meta-data for a selected node. Notice the "text" label within the meta-data where it is clear to see the actual contents of the textbook that derived this node.}
 \label{fig:textbook_kg}
 \end{figure}
 
+The Jupyter Notebook that parsed the textbook was then iteratively refactored for each SpeedParcel file. Each file was adjusted anew in accordance to its structure. The business capability support matrix was read in via an Excel file while the business object model and the cross-application data-flow diagrams were already in XML format which were exported directly from Archi. The approach of each of these custom parsers was the same. 
 
-% Todo: describe how the rest of the speedparcel files were then parsed.
-Building on top of this, the individual parsers for the business object model, business capability support matrix, and cross-application data-flow diagrams were built. Each of these are an adaptation of the original textbook parser and work in a similar manner.
+% SpeedParcel individual parsers
+Building on top of this, the individual parsers for the business object model, business capability support matrix, and cross-application data-flow diagrams were built. Each of these are an adaptation of the original textbook parser and work in a similar manner. Each parser loads the respective local file, parses their content into structures that align with its content (e.g. applications and capabilities), and adds them to the database.
 
-
-This implementation method quickly reached its limits as the imported datasets became more and more complex. 
-
-
-Todo: This source \cite{mihindukulasooriya2023text2kgbench} talks about how natural language text can be used to \textbf{create} the knowledge graph. Def use this when explaining how i created my speedparcel imports.
+This implementation method quickly reached its limits as each custom parser was forked from the previous parser and in parallel the requirements for the final, real world data were also becoming more clear. This required that a generic, universal parser be built that would align better with the new requirements. In the final prototype, only the XML parser remained, as the textbook and SpeedParcel parsers were only necessary for one-time-parsing.
 
 %%% XML Transpiler
-\subsubsection{Creating the XML Transpiler}
-\label{sub:xml_transpiler}
-Explain in detail here how the XML transpiler takes an XML file as the input and transpiles it into Cypher. it is model-to-model and thus touches on the subjects compiler construction, model-driven engineering, graph databases, and enterprise architecture tooling.
-%Todo: Explain XPATH. https://en.wikipedia.org/wiki/XPath
-%Todo: Explain APOC Load XML: https://neo4j.com/labs/apoc/4.2/import/xml/
+\subsection{Creating the XML Parser}
+\label{sub:xml_parser}
+XPath is a query language that operates on the tree structure of an XML document. This allows queries to be written for the XML content's elements, attributes, and text. It preserves the hierarchical structure of the content while doing so. \cite{clark1999xml} XPath is used within APOC's predefined procedure \texttt{apoc.load.xml()} to allow XML to be parsed and exposed for cypher processing \cite{neo4j_apoc_load_xml}.
 
+The Node.js server orchestrates the XML parsing by taking the user's uploaded XML file and calling the Neo4j database with a cypher containing the \texttt{apoc.load.xml()} procedure with XPath expressions inside of it. One cypher for the structural elements and one cypher for the relationships between these elements is called per uploaded XML file. Because a requirement of the prototype is to read in XML files that were exported from Archi, the possible elements and relationships are known and finite. As a result, the Neo4j database performs the XML parsing internally via the APOC procedure.
+
+If there is only a single child element of a given type, the corresponding map entry contains that element’s value directly rather than a list. If there is more than one child element of the same type, the corresponding map entry contains a list of values, preserving the hierarchical XML structure. \cite{neo4j_apoc_load_xml} This preserves the semantic structure of the original XML and enables subsequent cypher queries to create nodes and relationships on the Neo4j server corresponding to this structure.
+
+The APOC call is made using the simplified parsing mode, which means that each type of child element has its own entry in the parent map. \cite{neo4j_apoc_load_xml} This design choice simplifies cypher traversal and can be changed by modifying the boolean value passed to the procedure call.
+
+The result of this is that the Node.js backend calls the Neo4j server with a cypher containing the APOC procedure and XPath query. The Neo4j server executes this, resulting in the contents of the user's XML file being added to the knowledge graph.
 
 %%%%
 % Data Flow

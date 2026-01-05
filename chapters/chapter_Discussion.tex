@@ -3,9 +3,11 @@
 This chapter is meant to evaluate the implementation. what went well. what didn't go so well. etc.
 
 
+note that the custom parsers for the textbook information and the first parts of the speedparcel data worked well during the proof of concept phase, but the switch to the xml parser was needed to fulfil the requirements.
+
 possible improvements:
 \begin{itemize}
-	\item The schema call before every prompt is costly for large schemas (i assume as of 02.01.26). This source from wan \cite{wan2025prompting} confirms this - giving the complete schema information can overload the context.
+	\item The schema call before every prompt is costly for large schemas (i assume as of 02.01.26). This source from wan \cite{wan2025prompting} confirms this - giving the complete schema information can overload the context. This limitation with character limits and overly large contexts is also mentioned in this paper in the conclusion's limiations: \cite{mihindukulasooriya2023text2kgbench}
 	\item Does the APOC XML parser create noise in the database? you know how the XML files have view-data in it on how to display it in archi? we're not leaving that out. does that get saved into the database?
 	\item The LLM often doesn't know which node type to look in. E.g. if in archi a landscape was created with information in a "BusinessFunction" node and this is queried in Masuta, then the LLM often doesn't know that the information it should look for is in the business function node type. it searches elsewhere, doesn't find anything, and returns 0 results. This not knowing what node type to look in without supplying the context in the prompt is a necessary improvement.
 \end{itemize}
