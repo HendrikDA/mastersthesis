@@ -2,7 +2,10 @@
 \label{ch:background}
 This chapter goes in detail on the terminology and technology that will be relevant for the reader to have a foundational understanding of the rest of this thesis. Later chapters will build upon these concepts and pieces of technology.
 
-\section{Terminology}
+%%%
+% Enterprise Architecture Terminology
+%%%
+\section{Enterprise Architecture Terminology}
 \label{sec:background:terminology}
 
 \subsection{Enterprise Architecture Management}
@@ -35,29 +38,29 @@ Erwähnen, dass eine Herausforderung des EAs es ist, dass die vorzunehmenden Än
 \label{subsub:background:archi}
 
 
+%%%
+% Technology
+%%%
 \section{Technology}
 \label{sec:background:technology}
+The following descriptions of technologies will help the reader to later understand the implementation details. They serve as a high-level, but sufficient, description of each.
 
 
 \subsection{Large Language Models}
 \label{sub:background:llms}
+A Large Language Models (LLM)
 
 LLMs are capable of supporting in language-related tasks where text needs to be generated, translated, summarized, analysed, or questions answered \cite{hadi2023large}.
 
 \cite{singhal2023large} describes what llms are and why they are not good with domain specific information and how that causes them to hallucinate.
 
-% Architecture of LLMs
 
-\subsection{Graph Databases and Knowledge Graphs}
+\subsection{Graph Databases, Neo4j, and Knowledge Graphs}
 \label{sub:background:graphdb}
 
 
 \subsection{Retrieval Augmented Generation}
 \label{sub:background:rag}
-
-
-\subsection{neo4j and the Cypher Query Language}
-\label{sub:background:neo4j}
 
 
 \subsection{Model Context Protocol}
@@ -69,17 +72,3 @@ This is where the Model Context Protocol (MCP), developed by Anthropic and relea
 Imagine an MCP client which leverages several external services such as an e-mail provider and calendar application. If a user prompt is sent to the MCP client with the request to create a calendar entry and send the calendar invite per email, then it must decide which of the external tools to invoke in order to fulfil this request. Based on the user's prompt, the MCP client decides which tool exposed by the MCP server should be invoked in order to fulfill the request. The MCP server is then able to invoke the API calls to these external services in order to fulfil the request, i.e. it is able to call the calendar application's API to create the calendar entry and then call the e-mail provider's API to send out the calendar invite. The results are then sent back to the MCP client. \cite{hou2025model} Without the MCP server, the AI application would have to have manually written interfaces to communicate with and handle the e-mail provider's API and the calendar application's API. 
 
 The MCP server is able to offer this agnostic connection to external services, such as an e-mail provider or calendar application, by requiring the tool's providers to explicitly implement their services as MCP-compatible tool interfaces \cite{hou2025model}. There are many pre-built MCP servers offered that allow standardized communication to specific external tools. For example, Neo4j has an official, open source MCP Server. As described later in section \ref{sub:mcp}, this is the MCP server implemented for the prototype within this research. \cite{neo4j_mcp_2025}
-
-\subsection{XML and Transpilers}
-\label{sec:background:transpilers}
-% Important: only describe what XML and a transpiler is here. The methodology subsection will describe what and why the implementation was later.
-As will be shown later in section xyz, the working prototype uses a domain-specific, source-to-source transpiler to turn the archimate-exported XML data into Cypher queries to insert the EA data into the graph database.
-
-This source has a bit of good information on why XML is good as a structure language\cite{ruhlemann2017conversation} "Simply speaking, eXtensible Markup Language (XML) is a data architecture connecting meta-data and data. The architecture's defining feature is the hierar-chical network of nodes. Every node in the XML structure is connected somehow to any other node; also, being a hierarchy, every node is either subordinate or su-perordinate to another node, as shown in the tree structure in Figure 1. Further, XML "provides a standard syntax for the mark-up of data and documents" (Watt 2002:1). The syntax along with the hierarchical network structure make XML doc-uments exhaustively searchable and therefore useful for linguistic research."
-
-More detailed information on the transpiler is described in section xyz.
-
-
-\subsection{APOC and XPATH}
-\label{sec:background:apoc}
-Describe how apoc + xpath work and what this has to do with the neo4j cyphers. this might be better in the methodology section as a quick paragraph, but it has to be described somewhere.
