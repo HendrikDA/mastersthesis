@@ -48,7 +48,7 @@ LLMs are capable of supporting in language-related tasks where text needs to be 
 
 % Architecture of LLMs
 
-\subsection{Graph Database}
+\subsection{Graph Databases and Knowledge Graphs}
 \label{sub:background:graphdb}
 
 
@@ -62,8 +62,13 @@ LLMs are capable of supporting in language-related tasks where text needs to be 
 
 \subsection{Model Context Protocol}
 \label{sub:background:mcp}
-Also explain (maybe in the SOTA) how it is able to understand the schema of the graphdatabase (by calling get-schema	when initializing the MCP it knows how my graph database is setup). 
+Modern AI applications are typically designed to be connected with further external tools and services, such as a Neo4j database, in order to allow the AI to xyz to do. However, this brings the challenge with it that the developers of the proprietary application must manually define interfaces in order to connect their AI application to these external services. If the AI application is to be connected with \textit{n} external services, then it needs \textit{n} custom-built connections; one for each service. This comes with a lot of overhead, makes interoperability difficult to achieve, and can hinder long-term maintainability of a system. \cite{hou2025model, anthropic_mcp_2025}
 
+This is where the Model Context Protocol (MCP), developed by Anthropic and released in 2024, comes into play. It standardizes the interface between an AI application and its connected external services by defining a structured protocol for tool discovery, invocation, and result handling. This allows a secure, two-way connection between the AI application and external tools. \cite{anthropic_mcp_2025} With an MCP server sitting between the MCP client (the AI application) and the external service, the MCP client only needs to communicate with the standardized MCP interface \cite{hou2025model}. 
+
+Imagine an MCP client which leverages several external services such as an e-mail provider and calendar application. If a user prompt is sent to the MCP client with the request to create a calendar entry and send the calendar invite per email, then it must decide which of the external tools to invoke in order to fulfil this request. Based on the user's prompt, the MCP client decides which tool exposed by the MCP server should be invoked in order to fulfill the request. The MCP server is then able to invoke the API calls to these external services in order to fulfil the request, i.e. it is able to call the calendar application's API to create the calendar entry and then call the e-mail provider's API to send out the calendar invite. The results are then sent back to the MCP client. \cite{hou2025model} Without the MCP server, the AI application would have to have manually written interfaces to communicate with and handle the e-mail provider's API and the calendar application's API. 
+
+The MCP server is able to offer this agnostic connection to external services, such as an e-mail provider or calendar application, by requiring the tool's providers to explicitly implement their services as MCP-compatible tool interfaces \cite{hou2025model}. There are many pre-built MCP servers offered that allow standardized communication to specific external tools. For example, Neo4j has an official, open source MCP Server. As described later in section \ref{sub:mcp}, this is the MCP server implemented for the prototype within this research. \cite{neo4j_mcp_2025}
 
 \subsection{XML and Transpilers}
 \label{sec:background:transpilers}
