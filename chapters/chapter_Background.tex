@@ -46,7 +46,7 @@ Erwähnen, dass eine Herausforderung des EAs es ist, dass die vorzunehmenden Än
 The following descriptions of technologies will help the reader to later understand the implementation details. They serve as a high-level, but sufficient, description of each.
 
 
-\subsection{Large Language Models}
+\subsection{Large Language Models (LLM)}
 \label{sub:background:llms}
 A Large Language Models (LLM)
 
@@ -55,15 +55,32 @@ LLMs are capable of supporting in language-related tasks where text needs to be 
 \cite{singhal2023large} describes what llms are and why they are not good with domain specific information and how that causes them to hallucinate.
 
 
-\subsection{Graph Databases, Neo4j, and Knowledge Graphs}
+\subsection{Graph Databases, Neo4j, Cypher, and Knowledge Graphs}
 \label{sub:background:graphdb}
+A graph database is a special type of database which represents its data via nodes and edges. Via this structure, it is able to represent entities and the relationships between them. \cite[pg. 1]{robinson2015graph} For example, a single business capability may be represented as one node, an application as another node, and a relationship between the two with the information of how the application supports this capability. This structure enables graph databases to build real world models that closely resemble the real world and map closely to the domain \cite[pg. 6 and 38]{robinson2015graph}.
 
+A key feature of graph databases is the possibility to traverse the graph. As opposed to relation databases, where an index lookup would be necessary, graph databases allow neighboring nodes to be discovered. This is an advantage when attempting to find information related to a looked up entity. \cite[pgs. 34-35]{van2014learning}
 
-\subsection{Retrieval Augmented Generation}
+A popular and open source implementation for graph databases is Neo4j \cite{neo4j_2026}. It is a native graph database, meaning it directly stores direct references to adjacent nodes \cite[pgs. 149-150]{robinson2015graph} This allows Neo4j to execute queries in milliseconds \cite{robinson2015graph}. Another main advantage of Neo4j is its features to visually interact with the graph via its Neo4j Desktop application or web based tool.  \cite{van2014learning} This gives the user the option to display the nodes and edges within the graph. Finally, there are a variety of Neo4j libraries that extend its features. One such library is Awesome Procedure on Cypher (APOC), which extends Neo4j to allow specific procedures and functions. Relevant features include retrieving schema information and converting data. \cite{neo4j_apoc_meta_schema, neo4j_apoc_load_xml} 
+
+Within this prototype, Neo4j is implemented as a standalone server and is accessed by the prototype via Cypher queries \cite[pgs. 27 and 77]{robinson2015graph}. Cypher enables access to the knowledge graph through specific patterns that match the data. Data can be added, read, and deleted via Cypher. Queries may match data exactly or specify a matching pattern to find similar or related nodes. This is done by declaring the pattern of how the graph should be traversed and letting the database decide how to go about the retrieval. \cite[pg. 27]{robinson2015graph}\cite[pg. 49]{van2014learning}
+
+A simple example of Cypher can be seen in listing \ref{lst:cypher_simple_example}. This Cypher retrieves all capabilities and the corresponding applications that support them. This exemplifies the structure of how two nodes (application and capability) are connected via a relationship (supports).
+
+% Cypher Example
+\begin{lstlisting}[style=cypherstyle, label={lst:cypher_simple_example},caption={A simple Cypher example to retrieve the capabilities supported by applications.}]
+MATCH (a:Application)-[:SUPPORTS]->(c:Capability)
+RETURN c.name AS capability, c.id AS capabilityId
+ORDER BY capability
+\end{lstlisting}
+
+A knowledge graph is thus a graph database composed of various relationships to represent a real world structure or network, as found in enterprise architecture diagrams. \cite{wang2017knowledge} Building such a knowledge graph and inferring information from it is a central concept within this research.
+
+\subsection{Retrieval Augmented Generation (RAG)}
 \label{sub:background:rag}
 
 
-\subsection{Model Context Protocol}
+\subsection{Model Context Protocol (MCP)}
 \label{sub:background:mcp}
 Modern AI applications are typically designed to be connected with further external tools and services, such as a Neo4j database, in order to allow the AI to xyz to do. However, this brings the challenge with it that the developers of the proprietary application must manually define interfaces in order to connect their AI application to these external services. If the AI application is to be connected with \textit{n} external services, then it needs \textit{n} custom-built connections; one for each service. This comes with a lot of overhead, makes interoperability difficult to achieve, and can hinder long-term maintainability of a system. \cite{hou2025model, anthropic_mcp_2025}
 
