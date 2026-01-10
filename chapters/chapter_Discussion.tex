@@ -12,3 +12,6 @@ possible improvements:
 	\item The LLM often doesn't know which node type to look in. E.g. if in archi a landscape was created with information in a "BusinessFunction" node and this is queried in Masuta, then the LLM often doesn't know that the information it should look for is in the business function node type. it searches elsewhere, doesn't find anything, and returns 0 results. This not knowing what node type to look in without supplying the context in the prompt is a necessary improvement.
 	\item Document parsing with other tools may have helped speed up the process in the beginning, allowing for more well-developed features later in the project. For example doc ling https://www.docling.ai/
 \end{itemize}
+
+
+Den Kreis schließen zur ursprünglichen Diskussion, ob man wirklich eine graph datenbank braucht. Rainer am 09.01 hat erwähnt, dass es denkbar ist, dass man im kleineren Scope gar keine DB braucht, sondern dass die KI sich den Kontext selber irgendwie blackbox artig aufbaut. Die graph db bräuchte man dann nur im falle einer gewissen größe. Ein Skalierungsproblem. dafür ist mein system vollständig transparent. ohne vendor lock in. 

@@ -163,7 +163,7 @@ With this method, the entire textbook is able to be queried via cypher. The resu
 
 The Jupyter Notebook that parsed the textbook was then iteratively refactored for each SpeedParcel file in accordance to its specific structure. The business capability support matrix was read in via an Excel file while the business object model and the cross-application data-flow diagrams were already in XML format which were exported directly from Archi. The approach of each of these custom parsers was the same, loading the respective local file, parsing their content into structures that align with its content (e.g. applications and capabilities), and adding them to the database.
 
-This implementation method quickly reached its limits as each custom parser was forked from the previous parser, requiring manual adaptation of the parser to fit the new file. This would make parsing new files during an on-site meeting impossible without developing a proprietary parser for the user's new files. In parallel the requirements for the final, real world data were also becoming more clear. This required that a generic, universal parser be built that would align better with the new requirements. In the final prototype, only the XML parser remains, as the textbook and SpeedParcel parsers were only necessary for one-time-parsing to fill the database with example data.
+This implementation method quickly reached its limits as each custom parser was forked from the previous parser, requiring manual adaptation of the parser to fit the new file. This would make parsing new files during an on-site review impossible without developing a proprietary parser for the user's new files. In parallel the requirements for the final, real world data were also becoming more clear. This required that a generic, universal parser be built that would align better with the new requirements. In the final prototype, only the XML parser remains, as the textbook and SpeedParcel parsers were only necessary for one-time-parsing to fill the database with example data.
 
 %%% XML Transpiler
 \subsection{Creating a Custom Knowledge Graph via the Xml Parser}
@@ -196,6 +196,6 @@ The sequence of interactions and how data flows between each component is visual
 \label{fig:sequence_diagram}
 \end{figure}
 
-This concludes the implementation for \prototype{}. All of the above described components allow the system to take a user's natural language prompt and retrieve the relevant information from the databases. Together, these components make \prototype{} a cohesive, end-to-end prototype that demonstrates the technical feasibility of the proposed approach. Following this, chapter \ref{ch:experiments} elaborates experiments conducted on the prototype.
+This concludes the implementation for \prototype{}. All of the above described components allow the system to take a user's natural language prompt and retrieve the relevant information from the databases. Together, these components make \prototype{} a cohesive, end-to-end prototype that demonstrates the technical feasibility of the proposed approach. Following this, chapter \ref{ch:case_study} elaborates case studies to justify the prototype.
 
 

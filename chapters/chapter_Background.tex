@@ -34,6 +34,7 @@ Erwähnen, dass eine Herausforderung des EAs es ist, dass die vorzunehmenden Än
 \subsubsection{Application Landscape}
 \label{subsub:background:landscape}
 
+
 \subsubsection{EAM Modeling Tool - Archi}
 \label{subsub:background:archi}
 
@@ -76,9 +77,13 @@ ORDER BY capability
 
 A knowledge graph is thus a graph database composed of various relationships to represent a real world structure or network, as found in enterprise architecture diagrams. \cite{wang2017knowledge} Building such a knowledge graph and inferring information from it is a central concept within this research.
 
-\subsection{Retrieval Augmented Generation (RAG)}
+\subsection{Retrieval-Augmented Generation (RAG)}
 \label{sub:background:rag}
+Retrieval-augmented generation (RAG) aims to reduce hallucinations by retrieving relevant information from an external database, such as a knowledge graph, and incorporating that information into the response generation process. \cite{zhao2026retrieval, lewis2020retrieval}
 
+Although LLMs contain basic knowledge within the realm of enterprise architecture management, it may not be sufficiently broad enough or in depth to  answer domain- or organization-specific questions. Furthermore, generally trained LLMs do not have access to proprietary information about an enterprise's architecture. As a result, prompting a detailed question related to enterprise architecture or organization-specific data can lead to hallucinations. \cite{lewis2020retrieval} This is a known challenge that can be overcome by implementing RAG.
+
+RAG offers increased flexibility, as the underlying database can be updated with more information without requiring the language model to be retrained. \cite{zhao2026retrieval}
 
 \subsection{Model Context Protocol (MCP)}
 \label{sub:background:mcp}
