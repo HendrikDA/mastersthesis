@@ -1,7 +1,26 @@
 \chapter{Current State of the Art}
 \label{ch:SOTA}
-Briefly explain why a literature analysis is important. Define the scope (what fields you looked at, which databases, what keywords). Define the research method and how you narrowed it down from x sources to y sources.i
+In order to understand how this research fits into the current state of the art, it is beneficial to go over current research and implementations. This helps to scientifically position the research at hand and justifies its implementation methods. This chapter describes how research on the current state of the art was conducted and summarizes the most relevant papers and projects found.
 
+%
+% Research Method
+%
+\section{Literature Research Method}
+\label{sec:intro:research}
+
+The importance of documenting the research process in order to demonstrate the exhaustiveness of the research conducted has been emphasized in prior work. A robust literature research comprises querying databases for relevant literature using keywords as well as backward and forward searches based on these findings. Because of the plethora of literature on the subject matter, systematically including and excluding existing research has to be made as transparent as possible. Describing which existing research was included and excluded is vital for the credibility of a literature analysis. \cite{brocke2009reconstructing, webster2002analyzing}
+
+To support in this, the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) framework was applied. The goal of PRISMA is to show why the review was done, how studies were identified and considered, and what was found. \cite{page2021prisma}
+% todo
+\subsection{PRISMA}
+\label{sec:prisma}
+Literature was primarily identified using the Google Scholar search engine. The search process was conducted by defining relevant keywords and searching for these in the search engine. Forward and backward citation tracking was also applied to the extracted sources. Search terms were iteratively improved and clustered around the main themes of this thesis. Search terms included EAM, LLMs, RAG, and Conversational Agents. In addition to manual search methods, a small number of relevant sources were found through prompted searching via ChatGPT \cite{openai_chatgpt_2023}.
+
+Setting up criteria to filter out excessive literature is necessary in order to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Because this work is very practically oriented, more design and implementation oriented approaches were analyzed, as opposed to meta analyses. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable. Meta data of a published paper such as the amount of times the it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers  Internet sources were kept to a bare minimum.
+
+
+
+Define the scope (what fields you looked at, which databases, what keywords). Define the research method and how you narrowed it down from x sources to y sources.i
 Remember: Scientific positioning and comparison
 
 To do: declare how chatgpt was used to help research. the apa style documentation notes how to cite and describe it. use this source \cite{openai_chatgpt_2023}
@@ -31,7 +50,7 @@ Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay foundational work
 %
 % LLMs, Conversational Agents, and RAG
 %
-\section{Large Language Models, Conversational Agents, and Retrieval-Augemented Generation}
+\section{Large Language Models and Retrieval-Augemented Generation}
 \label{sec:intro:llmandrag}
 strengths, hallucination issues, graph-RAG enhancements
 Theoretical foundations
@@ -48,6 +67,10 @@ This paper \cite{Zhai_2025} covers how a chatbot can support in task-planning an
 This paper \cite{deng2023promptingevaluatinglargelanguage} states how proactive dialogue systems work and can be improved. It goes into detail on 3 types of dialogue systems: clarification, target-guided, and non-collaborative dialogues. All 3 of these have a certain relevance for the EAM Chatbot.
 
 RAG: Geh darauf ein, was es für unterschiedliche Chunking methoden gibt, wie man ein Buch runterbringt, und was das alles für vor und nachteile hat. auch welche tools es gibt (neo4j) ist wichtig.
+
+Rag: Basic overview of RAG \cite{zhao2026retrieval}
+
+RAG: \cite{lewis2020retrieval}
 
 %
 % Text to Cypher Generation
