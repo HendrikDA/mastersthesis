@@ -154,15 +154,15 @@ The local environment is set up via Docker containers and can be run on any mach
 
 Lastly, cosmetic changes to the UI were added as well as new features to support the on site review. For example, the user may now upload XML files via the web application as well as reset the playground database, and view the knowledge graph in an interactive way.
 
-\textbf{Evaluation}:
+\textbf{Evaluation}: The refactored prototype was reviewed by both advisors via internal testing and demonstrations using the example data. The advisors assessed whether the system was executable, stable, and suitable for the final review. The replacement of the LLM-based XML parser with a generalized APOC-based parser and the updated schema-handling strategy were evaluated positively, as they enabled deterministic data imports and more reliable cypher generation. At the end of the fourth cycle, \prototype{} was deemed functionally complete and capable of answering all three categories of questions, thereby fulfilling the prerequisites for the final review.
 
 \textbf{Learning}: Many learnings can be taken from this last cycle. The first being that a generalized parser to read XML files into the knowledge graph improves the quality of the import. Another added benefit of this is that the import is now deterministic, while before the LLM-based parser behaved in a non-deterministic way.
 
 The second main learning from this cycle arose from refactoring the way that the queries get generated. Previously, the cyphers were straightforward to generate, as the schema of the SpeedParcel data was entirely known. However, during this cycle, new data was imported into the knowledge graph, which had an unknown structure, meaning the knowldge-graph's schema was unknown. The transformation of text to query has been improved by making a preliminary call to the database to fetch the current database schema. This schema information is then passed as context to the LLM in order to write more accurate cyphers. The results with this new querying strategy meant that for the first time the system was able to answer all three categories of questions.
 
-With the conclusion of this cycle, \prototype{} was a finished prototype and ready to be tested during the on site review.
+With the conclusion of this cycle, \prototype{} was a finished prototype and ready to be tested during the final review.
 
-% Table summarizing the Action Research cycles - todo: muss noch gemacht werden ⚠️
+% Table summarizing the Action Research cycles
 \begin{table}[htbp]
 \centering
 \caption{Overview of Action Research Cycles condensed into three parts per cycle as well as a summary of the final review workshop.}
