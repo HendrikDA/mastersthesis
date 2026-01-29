@@ -45,7 +45,7 @@ The domain of EAM was focused on within this research. In particular, this study
 Due to their structural complexity with heterogenous data sources and multiple stakeholders involved, these artifacts are often large and difficult to interpret. Maintaining an overview can be especially challenging for junior level enterprise architects. This challenge motivates the exploration of AI-supported solutions that enable conversational interaction with the architecture, rather than manually navigating the complex diagrams.
 
 % Stakeholders
-The research was conducted in close collaboration with the academic supervisor and the co-advisor. The academic supervisor gave academic guidance and supported the structuring of the research process to ensure academic relevance. The co-advisor acted as the domain expert and practitioner, contributing practical insights to ground the research with real-world relevance. The author of this thesis assumed the role of the researcher, implementing the Action Research cycles, validating findings, and planning subsequent steps in coordination with the other stakeholders.
+The research was conducted in close collaboration with the academic supervisor and the co-advisor. The academic supervisor gave academic guidance, supported the structuring of the research process to ensure academic relevance, and acted as an expert practitioner. The co-advisor acted as the domain expert and practitioner, contributing practical insights to ground the research with real-world relevance. The author of this thesis assumed the role of the researcher, implementing the Action Research cycles, validating findings, and planning subsequent steps in coordination with the other stakeholders.
 
 % Initial Problem Statement
 At the outset of the research, the general problem space was clear, but the potential solution was only vaguely defined. The co-advisor initialized the research with a vague vision of a centralized system containing all enterprise architecture information, which can be interacted with via natural language. The motivation for this was to reduce the effort required to interpret the enterprise architecture artifacts.
@@ -161,42 +161,15 @@ Lastly, cosmetic changes to the UI were added as well as new features to support
 The second main learning from this cycle arose from refactoring the way that the queries get generated. Previously, the cyphers were straightforward to generate, as the schema of the SpeedParcel data was entirely known. However, during this cycle, new data was imported into the knowledge graph, which had an unknown structure, meaning the knowldge-graph's schema was unknown. The transformation of text to query has been improved by making a preliminary call to the database to fetch the current database schema. This schema information is then passed as context to the LLM in order to write more accurate cyphers. The results with this new querying strategy meant that for the first time the system was able to answer all three categories of questions.
 
 With the conclusion of this cycle, \prototype{} was a finished prototype and ready to be tested during the on site review.
-% Table summarizing the Action Research cycles
-\begin{table}[htbp]
-\centering
-\caption{Overview of Action Research Cycles}
-\label{tab:action-research-cycles}
-
-\makebox[\textwidth][c]{
-\resizebox{1.25\textwidth}{!}{
-\begin{tabular}{p{1.3cm} p{3.5cm} p{3cm} p{3.5cm} p{4cm} p{4cm}}
-\toprule
-\textbf{Cycle} &
-\textbf{Diagnosis} &
-\textbf{Action Planning} &
-\textbf{Action Taken} &
-\textbf{Evaluation} &
-\textbf{Learning / Outcome} \\
-\midrule
-Cycle 1 & Technical feasibility. & Develop a proof of concept. & Built initial knowledge graph with textbook data. Hard-coded cyphers. & Advisors confirmed feasibility and viability of a knowledge graph approach. & White-box approach validated. Challenges identified in data import and querying.  \\
-Cycle 2 & Need to extend data and improve queries. & Integrate SpeedParcel dataset and improve querying. & Added SpeedParcel data. Replace hard-coded cyphers with MCP-based text-to-cypher. & Advisors confirmed correct direction of development. & Dynamic querying identified as essential. Three categories of questions defined.  \\
-Cycle 3 & Action Research identified as appropriate methodology. Scalability and data format issues emerged. & Expand datasets via Archi models to prepare for XML imports & Recreated SpeedParcel models in Archi. Parsed XML. & Progress and trajectory assessed positively. Schema-related answer quality issues observed. & Scalability limits of LLM-based parsing identified. Need for generalized parsing recognized.  \\
-Cycle 4 & Over-reliance on LLMs for parsing and schema handling diagnosed as critical limiatation. & Replace LLM parsing with generalized XML parser. Refactor schema handling. Prepare executable prototype. & Implemented APOC-based XML parsing and schema retrieval. Containerized local setup. UI enhancements added. & todo & Deterministic parsing and dynamic schema handling achieved. System able to answer all three question categorizes. Prototype completed.  \\
-\bottomrule
-\end{tabular}
-}}
-\end{table}
-
 
 % Table summarizing the Action Research cycles - todo: muss noch gemacht werden ⚠️
 \begin{table}[htbp]
 \centering
 \caption{Overview of Action Research Cycles condensed into three parts per cycle}
 \label{tab:action-research-cycles-condensed}
-
 \makebox[\textwidth][c]{
 \resizebox{1.25\textwidth}{!}{
-\begin{tabular}{p{4cm} p{5cm} p{5cm} p{5cm}}
+\begin{tabular}{p{3cm} p{5cm} p{5cm} p{5cm}}
 \toprule
 \textbf{Cycle} &
 \textbf{Diagnosis} &
@@ -207,6 +180,9 @@ Cycle 1 & Technical feasibility. & Develop a proof of concept. & Built initial k
 Cycle 2 & Need to extend data and improve queries. & Integrate SpeedParcel dataset and improve querying. & Added SpeedParcel data. Replace hard-coded cyphers with MCP-based text-to-cypher.  \\
 Cycle 3 & Action Research identified as appropriate methodology. Scalability and data format issues emerged. & Expand datasets via Archi models to prepare for XML imports & Recreated SpeedParcel models in Archi. Parsed XML. \\
 Cycle 4 & Over-reliance on LLMs for parsing and schema handling diagnosed as critical limiatation. & Replace LLM parsing with generalized XML parser. Refactor schema handling. Prepare executable prototype. & Implemented APOC-based XML parsing and schema retrieval. Containerized local setup. UI enhancements added. \\
+Final Review &
+\multicolumn{3}{p{16cm}}{
+A hands-on workshop with domain experts confirmed the feasibility and value of a transparent, RAG-based EAM assistant, while also revealing limitations related to context sensitivity, schema precision, and LLM-driven Cypher generation. The prototype was comparatively assessed against an industrial AI solution using realistic EAM questions, prompt variations, and data imports. The results highlight context dependency and over-reliance on LLM reasoning as key challenges and inform concrete lessons learned and directions for future research.} \\
 \bottomrule
 \end{tabular}
 }}
@@ -222,11 +198,27 @@ It is important to note that during each cycle, continuous system tests were bei
 Todo: den Termin vor Ort beschreiben
 Purpose of the review, who participated, what was validated, what kind of feedback was collected.
 
+After the fourth and final Action Research cycle, a hands-on workshop was conducted. The goal of the final review was to test \prototype{} with real-world EAM questions in order to identify how it handles tasks, what it does well, and what can be improved upon in future development. This review was by nature explorative in understanding how the system functions but also deemed as a summative evaluation. Thus, this review also marked the end of the development for the prototype. This section does not yet evaluate the results and only describes how the final review was conducted. The discussion of the results can be found in chapter \ref{ch:Discussion} and the improvements for future development can be found in section \ref{sub:conclusion:futureWork}.
+
+Review setting and structure: The final review was conducted as a workshop between the researcher and both stakeholders, who acted as the domain experts. The workshop spanned four hours via an online meeting. Parallel testing of both systems along with open discussions were held. Each participant went about the testing in an explorative manner.
+
+Evaluation Focus and Procedure:
+
+Role and Comparative Testing: 
+
+Data Collection and Documentation: 
+
+Scope and Limitations of the Review: 
+
+
+% Notes:
+%“Am I describing how the evaluation was conducted, or what it means?” If it’s the second then move it out.
+%Todo: Die Agendapunkte von Herrn Schloer noch einbauen. die 4 phasen des workshops, die er notiert hat müssen hier rein.
 
 
 
 % Conclusion Paragraph
-As described in this chapter, it becomes clear why Action Research was an invaluable methodology. From unclear beginnings containing only a vague vision for a final prototype, each development cycle contributed to the final architecture being clear and goal oriented. Each phase helped to examine what was possible from a technical standpoint as well as how to move forward. This supported the explorative nature of the project.
+As described in this chapter, it becomes clear why Action Research was an invaluable methodology. From unclear beginnings containing only a vague vision for a final prototype, each development cycle contributed to the final architecture being clear and goal oriented. Each phase helped to examine what was possible from a technical standpoint as well as how to move forward. This supported the explorative nature of the project. The final review of the prototype proved that the development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development.
 
 
 
