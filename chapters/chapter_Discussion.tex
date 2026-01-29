@@ -1,4 +1,4 @@
-\chapter{Discussion}
+\chapter{Results and Discussion}
 \label{ch:Discussion}
 This chapter is meant to evaluate the implementation. what went well. what didn't go so well. etc.
 
@@ -15,3 +15,14 @@ possible improvements:
 
 
 Den Kreis schließen zur ursprünglichen Diskussion, ob man wirklich eine graph datenbank braucht. Rainer am 09.01 hat erwähnt, dass es denkbar ist, dass man im kleineren Scope gar keine DB braucht, sondern dass die KI sich den Kontext selber irgendwie blackbox artig aufbaut. Die graph db bräuchte man dann nur im falle einer gewissen größe. Ein Skalierungsproblem. dafür ist mein system vollständig transparent. ohne vendor lock in. 
+
+Die wichtigsten Punkte aus dem Workshop:
+\begin{itemize}
+	\item Kontext ist alles bei masuta. die selbe frage mit minimalen anpassungen erzeugt bessere ergebnisse.
+	\item wie groß ist das risiko bei der weiterentwicklung? wenn masuta etwas nicht kann, wie leicht ist es, das system anzupassen?
+	\item festhalten: mit RAG kriegt man expertenwissen in das system rein. das kann Rovo zB nicht - er wird niemals ein EAM experte sein über dem, worauf das LLM trainiert ist, hinaus
+	\item fehlermeldungen, zB dass masuta immer wieder versucht hat, informationen in die DB zu schreiben.
+	\item USP: die transparenz von masuta. man kann alles genau nachschlagen, wie er die antwort generiert hat, indem man sich die cypher anschaut.
+	\item arbeitsweise mit masuta in der echten welt: ein Jr. EA könnte Masuta nehmen, um sachen auszuarbeiten, die sonst außerhalb seines scopes liegen würden.
+	\item Rovo war sehr inkonsistent und hat viel halluziniert. Masuta zwar auch, aber man konnte die halluzination besser nachvollziehen weil man die cypher und den knowledge graph einsehen konnte.
+\end{itemize}

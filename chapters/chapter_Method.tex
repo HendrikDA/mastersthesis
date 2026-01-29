@@ -165,7 +165,7 @@ With the conclusion of this cycle, \prototype{} was a finished prototype and rea
 % Table summarizing the Action Research cycles - todo: muss noch gemacht werden ⚠️
 \begin{table}[htbp]
 \centering
-\caption{Overview of Action Research Cycles condensed into three parts per cycle}
+\caption{Overview of Action Research Cycles condensed into three parts per cycle as well as a summary of the final review workshop.}
 \label{tab:action-research-cycles-condensed}
 \makebox[\textwidth][c]{
 \resizebox{1.25\textwidth}{!}{
@@ -195,27 +195,19 @@ It is important to note that during each cycle, continuous system tests were bei
 %%%%
 \section{Final Review}
 \label{sec:action_research_final_meeting}
-Todo: den Termin vor Ort beschreiben
-Purpose of the review, who participated, what was validated, what kind of feedback was collected.
+After the fourth and final Action Research cycle, a hands-on workshop was conducted as the final review of the prototype. The purpose of this  review was to test \prototype{} using real-world EAM questions in order to observe and identify its behavior and capabilities in a realistic setting. The review combined an explorative testing approach as well as a summative evaluation and marked the formal end of the Action Research process within the scope of this thesis. This section focusses exclusively on describing the setup and procedure of the final review. The evaluation of the results and implications can be found in chapter \ref{ch:Discussion} and section \ref{sub:conclusion:futureWork}.
 
-After the fourth and final Action Research cycle, a hands-on workshop was conducted. The goal of the final review was to test \prototype{} with real-world EAM questions in order to identify how it handles tasks, what it does well, and what can be improved upon in future development. This review was by nature explorative in understanding how the system functions but also deemed as a summative evaluation. Thus, this review also marked the end of the development for the prototype. This section does not yet evaluate the results and only describes how the final review was conducted. The discussion of the results can be found in chapter \ref{ch:Discussion} and the improvements for future development can be found in section \ref{sub:conclusion:futureWork}.
+The final review was conducted as a four-hour online workshop with a strict agenda between the researcher and both stakeholders, who acted as EAM domain experts. Parallel testing of two systems was conducted, accompanied by open, discussion-based feedback. Each participant interacted with the systems in an explorative manner.
 
-Review setting and structure: The final review was conducted as a workshop between the researcher and both stakeholders, who acted as the domain experts. The workshop spanned four hours via an online meeting. Parallel testing of both systems along with open discussions were held. Each participant went about the testing in an explorative manner.
+For contextual comparison, the chatbot Rovo \cite{atlassian2026rovo}, which is integrated in Atlassian's knowledge management software Confluence, was used in parallel on the same set of data. This setup allowed the domain experts to contrast the behavior and outputs of both systems under identical conditions.
 
-Evaluation Focus and Procedure:
+A new set of data was introduced specifically for the workshop. Rather than relying on the SpeedParcel data or synthetic data, the enterprise architecture of the examination office at the Frankfurt University of Applied Sciences was used. This enabled evaluation in a realistic but controlled real-world scenario.
 
-Role and Comparative Testing: 
+The workshop was purposefully conducted in an explorative nature, consistent with the applied Action Research approach. One domain expert interacted with \prototype{}, while the other interacted with Rovo. The researcher documented observations and supported the workshop with technical assistance for \prototype{}.
 
-Data Collection and Documentation: 
+The four hour workshop was structured in five phases, each with a defined scope. After a short status overview, in which each participant aligned on the current state of the prototype's development and thesis, the first round of experiments began. The first phase focused on assessing the basic system functionality using simple domain questions. These questions were asked to both systems in parallel. In the second experiment, the workshop shifted toward whether or not \prototype{} could directly process and analyze XML files exported from the examination office's architecture landscape in ArchiMate. This mainly contained business functions containing little to no further documentation. The third experiment concentrated on identifying missing domain objects, incomplete or missing descriptions, and errors in classifying the imported data. The behavior of both systems was observed and contrasted throughout these phases. The workshop concluded with a closing phase in which the domain experts summarized the findings, advantages of \prototype{}, and potential improvements for future development.
 
-Scope and Limitations of the Review: 
-
-
-% Notes:
-%“Am I describing how the evaluation was conducted, or what it means?” If it’s the second then move it out.
-%Todo: Die Agendapunkte von Herrn Schloer noch einbauen. die 4 phasen des workshops, die er notiert hat müssen hier rein.
-
-
+The final review was intentionally limited to qualitative, expert-driven evaluation. The main findings of the workshop were both the advantages of a custom build chatbot compared to an industrial chatbot as well as possible improvements for future development of \prototype{}. No quantitative performance measurements were conducted. The review was limited by the number of expert participants and the one-time execution of a review of this scope. These constraints were intentional and reflect the prototype's state of the time of the final review. The final review served as the concluding evaluation step of the applied Action Research methodology and formally ended the development phase of the prototype within this study.
 
 % Conclusion Paragraph
 As described in this chapter, it becomes clear why Action Research was an invaluable methodology. From unclear beginnings containing only a vague vision for a final prototype, each development cycle contributed to the final architecture being clear and goal oriented. Each phase helped to examine what was possible from a technical standpoint as well as how to move forward. This supported the explorative nature of the project. The final review of the prototype proved that the development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development.
