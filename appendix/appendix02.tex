@@ -60,9 +60,7 @@ docker compose --profile speedparcel-restore run --rm speedparcel-restore
 docker compose --profile textbook-restore  run --rm textbook-restore
 \end{lstlisting}
 
-\textbf{Windows}: If the executing system runs on Windows, this step may require the use of WSL (Windows Subsystem for Linux) and to set the HOME variable via \texttt{SET HOME=\textbackslash{}C:\textbackslash{}Users\textbackslash{}<username>}. It may be required to execute these commands from a normal terminal instead of the Windows PowerShell.
-
-
+\textbf{Windows}: If the executing system runs on Windows, this step requires the use of WSL (Windows Subsystem for Linux) and to set the HOME variable via \texttt{SET HOME=\textbackslash{}C:\textbackslash{}Users\textbackslash{}<username>}. It may be required to execute these commands from a normal terminal instead of the Windows PowerShell.
 
 Once these commands have run through successfully, both databases are populated with the default data and are ready to be used.
 
@@ -126,7 +124,7 @@ Under the menu at the top left, the user is presented with the option to reset t
 % Importing Data
 \subsection{Importing Custom Data}
 \label{appendix:instructions:import}
-Under the menu at the top left, the user is presented with the option to import their own data. This option is only available if the playground database is selected via the toggle switch. Within the dialog that pops up, the user can add up to 10 files either by selecting them via the file system or by dragging-and-dropping them into the dialog. Only .xml files are accepted.
+Under the menu at the top left, the user is presented with the option to import their own data. This option is only available if the playground database is selected via the toggle switch. Within the dialog that pops up, the user can add up to 10 files either by selecting them via the file system or by dragging-and-dropping them into the dialog. Only .xml files are accepted. Check section \ref{appendix:instructions:exportArchi} on how to export XML files from ArchiMate.
 
 After clicking the import button, the files are uploaded. If the upload was successful, an alert is shown notifying the user of this. The uploaded data remains within the realms of the Docker containers and is not uploaded to any third-party sources. The data can then be queried if the database toggle is set to the playground database.
 
@@ -141,6 +139,23 @@ In order to access the neo4j console, it may be required that the user has a neo
 \subsection{Chat Context and Building on Previous Answers}
 \label{appendix:instructions:context}
 \prototype{} saves the chat history so that the user is able to build upon previous prompts. The chat history is set so that the single previous user prompt and corresponding response is saved. This means that a further question can be asked about the previous prompt or its response. The chat history's context only goes back one prompt and response.
+
+
+% Exporting from ArchiMate
+\section{Exporting XML Files From ArchiMate}
+\label{appendix:instructions:exportArchi}
+It is recommended to import XML files into \prototype{} that have been exported directly from Archi. To do so, within the Archi application, click on file \textrightarrow{} export \textrightarrow{} model to open exchange file. Save this to a location you can find later. Notice that the exported file is an XML file. This can then be imported into \prototype{} as described in section \ref{appendix:instructions:import}.
+
+
+% Using a Different LLM
+\section{Using a Different LLM}
+\label{appendix:instructions:llm}
+Although \prototype{} was implemented with the intention of using an LLM from Open AI, it is technically possible to use a different LLM. To do so, the source code needs to be edited in x different locations as follows:
+
+\begin{itemize}
+	\item ./mcp-backend/.env: Set the variable of the OPENAI\_API\_KEY to the API key of whatever new LLM you wish to use.
+	\item ./mcp-backend/src/server.ts: The root server file needs to have all calls toward Open AI replaced with calls to the new LLM. These can be found in the functions \texttt{nlToCypher()} and \texttt{explainResult()}. The structure of the calls made and the way they are subsequently handled may have to be refactored as well. It must also be ensured that the structure of the response to the frontend remains the same, otherwise a refactoring on the frontend will also be necessary.
+\end{itemize}
 
 % Example Questions
 \section{Example Questions}
