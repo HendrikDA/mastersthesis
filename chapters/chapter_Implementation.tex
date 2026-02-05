@@ -25,6 +25,8 @@ Each of these application components are explained in more detail in section \re
 \label{fig:architecture_diagram}
 \end{figure}
 
+Todo: Should we describe what Masuta does somewhere here as well? We've described the architecture and how the individual parts interact, but we haven't described its functionality in any way yet.
+
 %%%%
 % Component Details
 %%%%
@@ -123,6 +125,8 @@ During the later stages of development, the need for a fully local execution env
 Both the frontend and backend components are built from individual Dockerfiles that define their respective runtime environments and startup commands. The backend defines a mounted volume within it, allowing the user's uploaded XML files to be persisted across container restarts.
 
 The Neo4j databases use deployed using the official, predefined Neo4j image. The databases are initialized via two services defined in the Docker Compose which must be executed ahead of starting the application for the first time. This initialization procedure is described in detail in the setup instruction in Appendix~\ref{appendix:ch:instructions}.
+
+Todo: Describe why docker compose was chosen rather than a dockerfile.
 
 As a result of the containerization, the complete prototype can be started via a single \texttt{docker compose up} command.  This containerization approach ensures a consistent environment across different host systems, thereby improving reproducibility and reducing environment-specific errors during evaluation. Furthermore, each component is encapsulated within a clearly defined architectural boundary, enabling independent scaling. For example, allocating more memory for a database can be adjusted independently without impacting the other application components.
 
