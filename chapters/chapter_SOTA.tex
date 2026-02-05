@@ -11,21 +11,26 @@ In order to understand how this research fits into the current state of the art,
 The importance of documenting the research process in order to demonstrate the exhaustiveness of the research conducted has been emphasized in prior work. A robust literature research comprises querying databases for relevant literature using keywords as well as backward and forward searches based on these findings. Because of the plethora of literature on the subject matter, systematically including and excluding existing research has to be made as transparent as possible. Describing which existing research was included and excluded is vital for the credibility of a literature analysis. \cite{brocke2009reconstructing, webster2002analyzing}
 
 To support in this, the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) framework was applied. The goal of PRISMA is to show why the review was done, how studies were identified and considered, and what was found. \cite{page2021prisma}
-% todo
-\subsection{PRISMA}
+
+\subsection{PRISMA Framework}
 \label{sec:prisma}
-Literature was primarily identified using the Google Scholar search engine. The search process was conducted by defining relevant keywords and searching for these in the search engine. Forward and backward citation tracking was also applied to the extracted sources. Search terms were iteratively improved and clustered around the main themes of this thesis. Search terms included EAM, LLMs, RAG, and Conversational Agents. In addition to manual search methods, a small number of relevant sources were found through prompted searching via ChatGPT \cite{openai_chatgpt_2023}.
+Literature was primarily identified using the Google Scholar search engine. The search process was conducted by defining relevant keywords and searching for these in the search engine. Forward and backward citation tracking was also applied to the extracted sources. Search terms were iteratively improved and clustered around the main themes of this thesis. Search terms included EAM, LLMs, RAG, and Conversational Agents. In addition to manual search methods, a small number of relevant sources were found through prompted searching via ChatGPT \cite{openai_chatgpt_2023}. A flowchart of the applied PRISMA framework can be seen in figure \ref{fig:prisma}.
 
-Setting up criteria to filter out excessive literature is necessary in order to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Because this work is very practically oriented, more design and implementation oriented approaches were analyzed, as opposed to meta analyses. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable. Meta data of a published paper such as the amount of times the it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers  Internet sources were kept to a bare minimum.
+Setting up criteria to filter out excessive literature is necessary in order to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Because this work is very practically oriented, more design and implementation oriented approaches were analyzed, as opposed to meta analyses. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable to this research. Meta data of a published paper such as the amount of times it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers is likely to be a key paper within its domain. A paper cited by little to no further papers is to be critically considered. Internet sources were kept to a bare minimum.
 
+Applying the above filters, papers found were initially skimmed in order to assess if it may be relevant to this research. This meant going over the papers' abstracts and key points, but not reading every detail yet. This allows papers that do not support the goal of this thesis to be filtered out quickly. Afterwards, the remaining papers were read more thoroughly.
 
+\begin{figure}[h]
+\centering
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1\textwidth]{images/PRISMA}
+}
+\caption{A flowchart of the applied PRISMA framework depicting how many sources were initially found with each search method and how many were left for the final current state of the art analysis. The framework is applied as seen in \cite{mishra2023prisma}.}
+\label{fig:prisma}
+\end{figure}
 
-Define the scope (what fields you looked at, which databases, what keywords). Define the research method and how you narrowed it down from x sources to y sources.i
-Remember: Scientific positioning and comparison
+By applying the PRISMA framework as mentioned above, it was possible to reduce the amount of sources from an initial count of x sources down to y sources after the first step and down to the final z sources after the final step.	
 
-To do: declare how chatgpt was used to help research. the apa style documentation notes how to cite and describe it. use this source \cite{openai_chatgpt_2023}
-
-%PRISMA-lite anwenden: search strings definieren (zB "EAM", "LLM"), durchsuchte datenbanken aufzählen (zB Google Scholar), wie viele Treffer ich gefunden habe und wie viele ich davon rausgefiltert habe. Prisma-flowchart zeigen? zB von 150 hits -> 30 nach dem ersten screening -> 15 am Ende übrig geblieben
 
 % You don’t need to retell everything — the goal is to extract what is relevant to your thesis. A good mini-summary (2–5 sentences) should cover:
 %Context: What problem or domain does it deal with?
@@ -34,7 +39,28 @@ To do: declare how chatgpt was used to help research. the apa style documentatio
 %Relevance for you: Why does this matter for your thesis? (e.g., “demonstrates limitations of plain RAG approaches — motivates KG integration”)
 % Template on how to summarize a paper: "Authors (Year) investigate X using Y. They found Z. For my thesis, this shows A / highlights gap B."
 
+%
+% Related Work and Research Landscape
+%
+\section{Related Work and Research Landscape}
+\label{sec:intro:relatedWork}
+This section synthesizes and discusses the relevant literature and projects found through the previously described PRISMA-based research process. The selected works are semantically grouped and allow the reader to understand how the research at hands fits within the research landscape.
 
+%%%%%%%%%% -------------------------------------------------------------------------------------
+% Wan et al. 2025: Prompting large language models based on semantic schema for text-to-Cypher transformation towards domain Q\&A
+Wan et al. (2025) \cite{wan2025prompting} investigate how LLMs can effectively be employed in order to generate Cypher queries and retrieve domain-specific information from a knowledge graph in order to supplement LLM-generated answers. The authors propose a text-to-cypher approach that leverages a lightweight semantic schema derived from the domain ontology. By injecting the relevant parts of this schema at query runtime, the LLM can be guided toward generating syntactically correct and semantically aligned Cypher queries without requiring model retraining.
+
+This approach demonstrates that an LLM can be aligned with domain specific information through in-context learning, without having to retrain the underlying model. The injected schema context enables the LLM to generate domain-aligned answers grounded in the structure of the knowledge-graph.
+
+For this thesis, this illustrates that a text-to-Cypher approach offers key advantages, such as aligning an LLM with domain-specific information and enabling domain-aligned reasoning without retraining. Additionally, this allows an LLM to remain up to date with a changing knowledge graph by dynamically incorporating the updated schema information at runtime. By exposing the knowledge graph through natural language inputs, the proposed approach lowers the barrier for non-technical users to interact with and extract information from the knowledge graph, allowing for a democratization of the information within it.
+
+The research by Wan et al. further reinforces the suitability of a graph-based solution for the research at hand, as enterprise architecture involves highly interconnected data and requires reasoning across various entities and their relationships. 
+%%%%%%%%%% -------------------------------------------------------------------------------------
+
+
+
+
+%%%%%%%%%% ------------------------------------------------------------------
 %
 % Enterprise Architecture Management
 %
@@ -101,13 +127,16 @@ Studies analyzing strengths/weaknesses of RAG, embedding quality, hallucination 
 
 Papers about user interaction with EA tools, chatbot evaluation frameworks, usability challenges
 
-This paper \cite{evaluationFrameworkLLMs} gives a standardized method and framework for evaluating coversational AI agents.
+This paper \cite{evaluationFrameworkLLMs} gives a standardized method and framework for evaluating conversational AI agents.
 
 This paper \cite{liu2023agentbench} proposes a benchmark for open-ended multi-turn conversational agents. I think this paper focuses more on evaluating agents and comparing their results, but maybe i can copy their evaluation methods and benchmarks?
 
 
 
 
+
+% Closing paragraph that describes the current gap in the research landscape and a high-level view of how i close the gap.
+The reviewed literature demonstrates that recent advances in LLM-based text-to-cypher approaches xyz... However, existing approaches xyz (what do they lack?). This thesis builds upon these findings by proposing a graph-based, schema-aware approach tailored to enterprise architects and enterprise architecture data, aiming to combine the flexibility of LLMs with the required domain knowledge of enterprise architecture.
 
 
 

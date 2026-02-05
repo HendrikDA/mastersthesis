@@ -140,6 +140,21 @@ In order to access the neo4j console, it may be required that the user has a neo
 \label{appendix:instructions:context}
 \prototype{} saves the chat history so that the user is able to build upon previous prompts. The chat history is set so that the single previous user prompt and corresponding response is saved. This means that a further question can be asked about the previous prompt or its response. The chat history's context only goes back one prompt and response.
 
+% Exported Chat Protocol
+\subsection{Exported Chat Protocol}
+\label{appendix:instructions:protocol}
+In order to support the explorative nature of the prototype, a built-in function that runs in the background of \prototype{} logs all interactions between the user and the system. This protocol can be found in the project's directory under \texttt{./mcp-backend/protocols/chat\_history.txt}. The log's schema is always the same and looks as follows:
+
+% Code Listing of what the logged protocol looks like
+\begin{lstlisting}[style=cypherstyle, label={lst:protocol},caption={Schema of the automatically exported protocol}]
+--- New Chat Turn <current date as YYYY-MM-DDTHH:mm:ss.SSSZ> ---
+Using DB Target: <SpeedParcel or Playground>
+User: <prompt>
+Agent: <response>
+Executed Cypher: <cypher>
+\end{lstlisting}
+
+Each turn between the user and the chatbot is appended to the end of the text file. The chat history is never reset and is thus persistent across multiple sessions. This protocol can be helpful in documenting results when interacting with \prototype{}.
 
 % Exporting from ArchiMate
 \section{Exporting XML Files From ArchiMate}
