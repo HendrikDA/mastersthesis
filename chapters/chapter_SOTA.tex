@@ -18,9 +18,8 @@ Literature was primarily identified using the Google Scholar search engine. The 
 
 Setting up criteria to filter out excessive literature is necessary in order to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Because this work is very practically oriented, more design and implementation oriented approaches were analyzed, as opposed to meta analyses. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable to this research. Meta data of a published paper such as the amount of times it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers is likely to be a key paper within its domain. A paper cited by little to no further papers is to be critically considered. Internet sources were kept to a bare minimum.
 
-Applying the above filters, papers found were initially skimmed in order to assess if it may be relevant to this research. This meant going over the papers' abstracts and key points, but not reading every detail yet. This allows papers that do not support the goal of this thesis to be filtered out quickly. Afterwards, the remaining papers were read more thoroughly.
-
-\begin{figure}[h]
+% Figure for PRISMA Framework
+\begin{figure}[H]
 \centering
 \makebox[\textwidth][c]{%
   \includegraphics[width=1\textwidth]{images/PRISMA}
@@ -28,6 +27,9 @@ Applying the above filters, papers found were initially skimmed in order to asse
 \caption{A flowchart of the applied PRISMA framework depicting how many sources were initially found with each search method and how many were left for the final current state of the art analysis. The framework is applied as seen in \cite{mishra2023prisma}.}
 \label{fig:prisma}
 \end{figure}
+
+Applying the above filters, papers found were initially skimmed in order to assess if it may be relevant to this research. This meant going over the papers' abstracts and key points, but not reading every detail yet. This allows papers that do not support the goal of this thesis to be filtered out quickly. Afterwards, the remaining papers were read more thoroughly.
+
 
 By applying the PRISMA framework as mentioned above, it was possible to reduce the amount of sources from an initial count of x sources down to y sources after the first step and down to the final z sources after the final step.	
 
@@ -53,11 +55,25 @@ LLMs are notorious for hallucinating, meaning that incorrect information is spew
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Zhao et al. 2024: Retrieval augmented generation (rag) and beyond: A comprehensive survey on how to make your llms use external data more wisely
 % Key points: Supplementing an LLM with RAG
-Zhao et al (2024) \cite{zhao2024retrieval} investigate how to overcome this issue by supplementing an LLM with a RAG-based solution. Augmenting the context given to an LLM comes with the advantage that the data is up to date, aligned with domain expert knowledge, reduces hallucination, and the data supplied in the context explains the answers generated.
+Zhao et al. (2024) \cite{zhao2024retrieval} investigate how to overcome this issue by supplementing an LLM with a RAG-based solution. Augmenting the context given to an LLM comes with the advantage that the data is up to date, aligned with domain expert knowledge, reduces hallucination, and the data supplied in the context explains the answers generated.
 
 A key challenge mentioned by the authors when developing an RAG-based LLM system is enabling the LLM to comprehend varied forms of data necessary within the applied domain. In the case of the research at hand, this means that a central challenge when developing the RAG-based LLM system will be to structure and query the data in such a way that the LLM is given the right context to respond to the user with factual correctness. It is also mentioned that making a system transparent helps in increasing trust and reliability in the system.
 
+To tackle this challenge, the authors identify four levels of complexity when it comes to information retrieval. The levels are as follows and range from level 1, being less complex queries, to level 4, which require complex information retrieval operations.
 
+% Four levels of query-complexity
+\begin{enumerate}[label=Level \arabic*, leftmargin=*]
+	\item Explicit Facts: Require no reasoning and are facts found directly in the data.
+	\item Implicit Facts: May require common reasoning or logical deductions based on the data.
+	\item Interpretable Rationales: Require a grasp of the factual content as well as domain-specific knowledge which is integral to the data's context.
+	\item Hidden Rationales: Require that more information than that which is being asked is leveraged to generate the answer.
+\end{enumerate}
+
+While queries in level 1 and level 2 are rather straightforward and only require the system to retrieve the relevant facts, queries within level 3 and level 4 require that the system has the capacity to learn and apply the rationales that go above and beyond the data itself. The challenge of query tasks which require rationale can be overcome through in-context learning. The authors describe this as the ability of an LLM to infer hidden rationales by being given relevant examples within the context of the prompt.
+
+These categories will be relevant again later in chapter \ref{ch:method} as these are also applicable within the domain of enterprise architecture management. Each question posed to the system within this research can be broken down into one of these four categories.
+
+However, this does not answer the question of how information from a knowledge graph can be retrieved. This is especially challenging as each question by a user contains a certain level of complexity which needs to be covered by the generated query. How can this challenge be overcome?
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
@@ -69,6 +85,8 @@ Wan et al. (2025) \cite{wan2025prompting} investigate how LLMs can effectively b
 
 For this thesis, this illustrates that a text-to-Cypher approach offers key advantages, such as aligning an LLM with domain-specific information and enabling domain-aligned reasoning without retraining. Additionally, this allows an LLM to remain up to date with a changing knowledge graph by dynamically incorporating the updated schema information at runtime. By exposing the knowledge graph through natural language inputs, the proposed approach lowers the barrier for non-technical users to interact with and extract information from the knowledge graph, allowing for a democratization of the information within it. The research by Wan et al. further reinforces the suitability of a graph-based solution for the research at hand, as enterprise architecture involves highly interconnected data and requires reasoning across various entities and their relationships. 
 %%%%%%%%%% -------------------------------------------------------------------------------------
+
+Connecting the research conducted by Zhao et al. (2024) and Wan et al. (2025), it becomes clear that a RAG-based LLM system must be able to categorize the complexity of a user's request and build the queries accordingly. While Zhao et al. (2024) provide a high-level framework for understanding the complexity of the task given by the user, their work remains agnostic to concrete query-generation techniques required to interact with the knowledge graph. This gap is addressed by Wan et al. (2025) through their text-to-cypher approach.
 
 
 
