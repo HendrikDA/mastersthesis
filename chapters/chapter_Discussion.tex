@@ -31,6 +31,7 @@ Die wichtigsten Punkte aus dem Workshop:
 	\item Fact checking ist sehr wichtig - man muss parallel mit neo4j zusammen arbeiten, um die ergebnisse von masuta zu überprüfen. das ist ein großer vorteil gegenüber rovo, wegen der transparenz.
 	\item vorteil von rovo: das schema, nachdem er die antwort generiert. herrn schlör gefiel es, dass rovo die wichtigsten infos und die gestellte frage in eigenen worten wiedergegeben hat. das zeigt, wie er die frage verstanden hat.
 	\item Fragen können runtergebrochen werden in ein der 3 gestellten kategorien, genauso wie in diesem paper aus dem SOTA: \cite{zhao2024retrieval} Seite 15 ist eventuell relevant für die diskussion, da beschrieben wird dass fragen auf level 3 und level 4 jeweils nur beantwortet werden können durch in-context learning. das ist etwas, was mein system definitiv besser machen könnte
+	\item Verbesserung: Traversal strategie. Im SOTA \ref{sec:intro:relatedWork} habe ich beschrieben, dass es bessere traversal strategien gibt als LLM-as-retriever. Allerdings habe ich das genauso implementiert. das kann hinten raus probleme machen in der skalierung. es hat sich auch im final review gezeigt, dass die retrieval methode verbessert werden kann. vielleicht genau hierdurch. \cite{chen2025gril}
 \end{itemize}
 
 Schau dir nochmal das Protokoll von Jürgen an und vergleich mal frage-für-frage wie beide Systeme damit umgegangen sind.

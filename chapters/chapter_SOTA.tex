@@ -48,13 +48,25 @@ By applying the PRISMA framework as mentioned above, it was possible to reduce t
 \label{sec:intro:relatedWork}
 This section synthesizes and discusses the relevant literature and projects found through the previously described PRISMA-based research process. The selected works are semantically grouped and allow the reader to understand how the research at hands fits within the current research landscape.
 
-LLMs are notorious for hallucinating, meaning that incorrect information is spewed while looking as though it could be factually correct. This is a major downside when interacting with an LLM, especially if expert knowledge in a specific domain is required. An LLM is trained on a large corpus of data and generates its answers through probability calculations. It is thus not concerned with whether or not the returned information is factually correct, but rather only if the text is human-like. \cite{hicks2024chatgpt}
+%%%%%%%%%% -------------------------------------------------------------------------------------
+% Jung, Fraunholz 2021: Masterclass Enterprise Architecture Management
+% Key points: Supplementing an LLM with RAG
+% Todo: start with a high-level explanation of EAM and what the common challenges are here.
+theories, digital twin efforts, EA tool landscapeStandards or frameworks (e.g., TOGAF, ArchiMate, IATA ONE Record, LeanIX).
+Theoretical foundations (auch auf prozessmanagment eingehen, wie der aktuelle Prozess aussieht, wenn die Landschaft geändert werden soll)
+Current tools and methods
+Research prototypes in EA
 
+Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay foundational work from which many EAM concepts can be derived.
+%%%%%%%%%% -------------------------------------------------------------------------------------
 
+This high-level overview of EAM show that some of the challenges faced by enterprise architects may be supported with the advancements of modern AI. Tasks such as todo (maybe that junior architects need a lot of time to understand the data and retrieve information for architectures?) are predestined to be supported by LLMs.
+
+However, LLMs are notorious for hallucinating, meaning that incorrect information is spewed while looking as though it could be factually correct. This is a major downside when interacting with an LLM, especially if expert knowledge in a specific domain is required. An LLM is trained on a large corpus of data and generates its answers through probability calculations. It is thus not concerned with whether or not the returned information is factually correct, but rather only if the text is human-like. \cite{hicks2024chatgpt}
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Zhao et al. 2024: Retrieval augmented generation (rag) and beyond: A comprehensive survey on how to make your llms use external data more wisely
-% Key points: Supplementing an LLM with RAG
+% Key points: Supplementing an LLM with RAG and categorizing levels of complexity
 Zhao et al. (2024) \cite{zhao2024retrieval} investigate how to overcome this issue by supplementing an LLM with a RAG-based solution. Augmenting the context given to an LLM comes with the advantage that the data is up to date, aligned with domain expert knowledge, reduces hallucination, and the data supplied in the context explains the answers generated.
 
 A key challenge mentioned by the authors when developing an RAG-based LLM system is enabling the LLM to comprehend varied forms of data necessary within the applied domain. In the case of the research at hand, this means that a central challenge when developing the RAG-based LLM system will be to structure and query the data in such a way that the LLM is given the right context to respond to the user with factual correctness. It is also mentioned that making a system transparent helps in increasing trust and reliability in the system.
@@ -88,27 +100,41 @@ For this thesis, this illustrates that a text-to-Cypher approach offers key adva
 
 Connecting the research conducted by Zhao et al. (2024) and Wan et al. (2025), it becomes clear that a RAG-based LLM system must be able to categorize the complexity of a user's request and build the queries accordingly. While Zhao et al. (2024) provide a high-level framework for understanding the complexity of the task given by the user, their work remains agnostic to concrete query-generation techniques required to interact with the knowledge graph. This gap is addressed by Wan et al. (2025) through their text-to-cypher approach.
 
+This now begs the question of how such a RAG-based LLM system is able to retrieve the relevant information from the knowledge graph in order to answer the user's prompt with factual correctness.
+
+%%%%%%%%%% -------------------------------------------------------------------------------------
+% Chen et al. 2025: GRIL: Knowledge Graph Retrieval-Integrated Learning with Large Language Models
+% Key points: Schema
+Chen et al. (2025) \cite{chen2025gril} propose a graph-retrieval approach that is tightly integrated with an LLM by allowing it to iteratively retrieve and refine relevant subgraphs from a knowledge graph for downstream reasoning. This works by identifying seed entities within the graph based on the user's prompt. A graph retriever then iteratively expands from these seed entities along promising relations while pruning irrelevant nodes and edges. The extracted relevant subgraphs are then given to the LLM as context for reasoning. This multi-hop retrieval strategy allows the system to retrieve complex relational information that is necessary to answer more complex user queries.
+
+In contrast to this multi-hop approach, simpler approaches rely on the LLM-as-retriever paradigm. In such approaches, the LLM performs a one-time extraction based on what the LLM thinks is relevant within the graph. Chen et al. explicitly criticize this LLM-as-retriever strategy. They argue that this does not allow the subgraphs and its intricacies to be fully exploited. Moreover, it requires that multiple LLM calls be made to explore different parts of the graph, leading to complex queries and scalability issues when applied to large knowledge graphs.
+
+%%%%%%%%%% -------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------
 
 
 
-%%%%%%%%%% ------------------------------------------------------------------
-%
-% Enterprise Architecture Management
-%
-\section{Enterprise Architecture Management}
-\label{sec:intro:eam}
-theories, digital twin efforts, EA tool landscapeStandards or frameworks (e.g., TOGAF, ArchiMate, IATA ONE Record, LeanIX).
-Theoretical foundations (auch auf prozessmanagment eingehen, wie der aktuelle Prozess aussieht, wenn die Landschaft geändert werden soll)
-Current tools and methods
-Research prototypes in EA
 
-Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay foundational work from which many EAM concepts can be derived.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %
 % LLMs, Conversational Agents, and RAG
 %
-\section{Large Language Models and Retrieval-Augemented Generation}
-\label{sec:intro:llmandrag}
+
 strengths, hallucination issues, graph-RAG enhancements
 Theoretical foundations
 Current tools and methods
@@ -130,17 +156,8 @@ Rag: Basic overview of RAG \cite{zhao2026retrieval}
 RAG: \cite{lewis2020retrieval}
 
 %
-% Text to Cypher Generation
-%
-\section{Text-to-Cypher Generation}
-\label{sec:text_to_cypher}
-Text-to-cypher: this source is OP \cite{wan2025prompting}. it goes into detail on why text to cypher is beneficial, how it is done, how to prompt the system, and how they used a 3 step system to preprocess the text, map the preprocessed text to the entities in the db, generate the cypher based on all previous information and context.
-
-%
 % Comparable Projects and Prototypes
 %
-\section{Comparable Projects and Prototypes}
-\label{sec:intro:prototypes}
 Proof-of-concepts, research prototypes, industry whitepapers, GitHub projects.
 
 Tools like ChatEA, LeanIX AI features, or Microsoft Copilot integrations in architecture/governance.
