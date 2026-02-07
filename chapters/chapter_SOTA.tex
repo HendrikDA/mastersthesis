@@ -3,17 +3,15 @@
 In order to understand how this research fits into the current state of the art, it is beneficial to go over current research and implementations. This helps to scientifically position the research at hand and justifies its implementation methods. This chapter describes how research on the current state of the art was conducted and summarizes the most relevant papers and projects found.
 
 %
-% Research Method
+% PRISMA Framework
 %
-\section{Literature Research Method}
-\label{sec:intro:research}
-
+\section{PRISMA Framework}
+\label{sec:prisma}
 The importance of documenting the research process in order to demonstrate the exhaustiveness of the research conducted has been emphasized in prior work. A robust literature research comprises querying databases for relevant literature using keywords as well as backward and forward searches based on these findings. Because of the plethora of literature on the subject matter, systematically including and excluding existing research has to be made as transparent as possible. Describing which existing research was included and excluded is vital for the credibility of a literature analysis. \cite{brocke2009reconstructing, webster2002analyzing}
 
 To support in this, the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) framework was applied. The goal of PRISMA is to show why the review was done, how studies were identified and considered, and what was found. \cite{page2021prisma}
 
-\subsection{PRISMA Framework}
-\label{sec:prisma}
+
 Literature was primarily identified using the Google Scholar search engine. The search process was conducted by defining relevant keywords and searching for these in the search engine. Forward and backward citation tracking was also applied to the extracted sources. Search terms were iteratively improved and clustered around the main themes of this thesis. Search terms included EAM, LLMs, RAG, and Conversational Agents. In addition to manual search methods, a small number of relevant sources were found through prompted searching via ChatGPT \cite{openai_chatgpt_2023}. A flowchart of the applied PRISMA framework can be seen in figure \ref{fig:prisma}.
 
 Setting up criteria to filter out excessive literature is necessary in order to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Because this work is very practically oriented, more design and implementation oriented approaches were analyzed, as opposed to meta analyses. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable to this research. Meta data of a published paper such as the amount of times it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers is likely to be a key paper within its domain. A paper cited by little to no further papers is to be critically considered. Internet sources were kept to a bare minimum.
@@ -111,49 +109,38 @@ In contrast to this multi-hop approach, simpler approaches rely on the LLM-as-re
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
--------------------------------------------------------------------------------------------------
+So far it has only been discussed how to retrieve information from a knowledge graph. However, it has not yet been discussed how to persist information within a graph database. Preparing and storing data in a graph representation comes with challenges of its own. The applicable method to break data down into nodes and edges depends on the source data. For example, converting a textbook, which is semi-structured, will require a different approach compared to converting an existing application landscape, which is structured data.
+
+
+%%%%%%%%%% -------------------------------------------------------------------------------------
+% author jahr: titel
+% Key points: Umwandlung von Daten in eine GraphDB
+
+
+%%%%%%%%%% -------------------------------------------------------------------------------------
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%
-% LLMs, Conversational Agents, and RAG
-%
-
-strengths, hallucination issues, graph-RAG enhancements
-Theoretical foundations
-Current tools and methods
+Taking a step back from the technical details of a RAG-based implementation, it fair to ask why it is even necessary to digitalize the work that can be done by expert enterprise architects.
 
 This paper covers how ai tools are more scalable than manual expertise analysis of things. The source is highly relevant. Look at the summary in notebookLM. 05.10.25 \cite{gu2024survey}
 
-This 2025 paper has ideas on how changing knowledge graphs (e.g. through updates) can be handled \cite{temporalGraphRag}. It looks at temporal data and how to handle it. This might be relevant since addressing how a changing application landscape can be handled will probably be a challenge.
+This paper \cite{evaluationFrameworkLLMs} gives a standardized method and framework for evaluating conversational AI agents.
+
+
+The next section takes a step away from academic papers and delves into similar projects and prototypes.
+
+
+%
+% Related Projects
+%
+\section{Related Projects}
+\label{sec:intro:projects}
+Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to have a look at similar projects on the market. This section also takes a look at common challenges faced by such chatbots.
+
 
 This paper gives an overview on how to control the dialog sequence and also notes 4 types of dialog options for chatbots in the related works section: \cite{li2025chatsopsopguidedmctsplanning}.
 
-This paper \cite{Zhai_2025} covers how a chatbot can support in task-planning and output generation. Might be helpful in understanding how my chatbot can tell the EA how to conduct changes in the application landscape.
-
-This paper \cite{deng2023promptingevaluatinglargelanguage} states how proactive dialogue systems work and can be improved. It goes into detail on 3 types of dialogue systems: clarification, target-guided, and non-collaborative dialogues. All 3 of these have a certain relevance for the EAM Chatbot.
-
-RAG: Geh darauf ein, was es für unterschiedliche Chunking methoden gibt, wie man ein Buch runterbringt, und was das alles für vor und nachteile hat. auch welche tools es gibt (neo4j) ist wichtig.
-
-Rag: Basic overview of RAG \cite{zhao2026retrieval}
-
-RAG: \cite{lewis2020retrieval}
 
 %
 % Comparable Projects and Prototypes
@@ -166,18 +153,6 @@ A prototypical graph-based RAG approach for text-summarization has been created 
 
 Dragon1 needs to be detailed here!
 
-%
-% Evaluations and Limitations
-%
-\section{Evaluations and Limitations}
-\label{sec:intro:limitations}
-Studies analyzing strengths/weaknesses of RAG, embedding quality, hallucination mitigation.
-
-Papers about user interaction with EA tools, chatbot evaluation frameworks, usability challenges
-
-This paper \cite{evaluationFrameworkLLMs} gives a standardized method and framework for evaluating conversational AI agents.
-
-This paper \cite{liu2023agentbench} proposes a benchmark for open-ended multi-turn conversational agents. I think this paper focuses more on evaluating agents and comparing their results, but maybe i can copy their evaluation methods and benchmarks?
 
 
 
