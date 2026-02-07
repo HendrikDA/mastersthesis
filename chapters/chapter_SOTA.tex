@@ -109,24 +109,36 @@ In contrast to this multi-hop approach, simpler approaches rely on the LLM-as-re
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
-So far it has only been discussed how to retrieve information from a knowledge graph. However, it has not yet been discussed how to persist information within a graph database. Preparing and storing data in a graph representation comes with challenges of its own. The applicable method to break data down into nodes and edges depends on the source data. For example, converting a textbook, which is semi-structured, will require a different approach compared to converting an existing application landscape, which is structured data.
+So far it has only been discussed how to retrieve information from a knowledge graph. However, it has not yet been discussed how to persist information within it. Preparing and storing data in a graph representation comes with challenges of its own. The applicable method to break data down into nodes and edges depends on the source data. For example, converting a textbook, which is semi-structured, will require a different approach compared to converting an existing application landscape, which is structured data. How can the challenge of creating a knowledge graph be overcome?
 
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
-% author jahr: titel
+% Laurenzi et al. 2024: An LLM-aided enterprise knowledge graph (EKG) engineering process
 % Key points: Umwandlung von Daten in eine GraphDB
 
+Laurenzi et al. (2024) \cite{laurenzi2024llm} address this challenge by proposing a six-step process for creating a knowledge graph with the assistance of LLMs. The six-step cycle is broken down as follows:
+\begin{enumerate}
+	\item Understand what types of questions the knowledge graph will have to be able to answer, as defined in the previous research by Zhao et al. (2024).
+	\item Construct the knowledge graph's schema.
+	\item Extract the knowledge from the data source and map it to the ontology of the knowledge graph.
+	\item Validate the mapping between the data source and the knowledge graph.
+	\item Add the data to the knowledge graph.
+	\item Update and maintain the knowledge graph.
+\end{enumerate}
+
+Their research takes an LLM-based approach to each of the six steps. For example, in step 1 an LLM was used in order to generate competency questions in natural language. In step 5 an LLM was used in order to generate queries based on natural language input. Within the research, ChatGPT achieved the best results. Sticking to the example of step 1, the LLM was able to generate well tailored competency questions for the knowledge graph. For step 5 it was also able to generate queries, with only minor corrections necessary for successful knowledge extraction. However, the authors note that this step prerequisites a certain awareness of the LLM and the underlying ontology schema, enabling the user to understand what information is being queried and how this may be improved. Query results can then be validated against the actual knowledge graph instance. This awareness is beneficial when working with LLMs and knowledge graphs.
+
+The results of this study are beneficial for the research at hand as it details how to set up a knowledge graph with the assistance of LLMs. This will be relevant again later in section \ref{sec:action_research_cycles}.
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
 
 
-Taking a step back from the technical details of a RAG-based implementation, it fair to ask why it is even necessary to digitalize the work that can be done by expert enterprise architects.
+Taking a step back from the technical details of a RAG-based implementation, it is fair to ask why it is even necessary to digitalize the work that can be done by expert enterprise architects.
 
 This paper covers how ai tools are more scalable than manual expertise analysis of things. The source is highly relevant. Look at the summary in notebookLM. 05.10.25 \cite{gu2024survey}
 
 This paper \cite{evaluationFrameworkLLMs} gives a standardized method and framework for evaluating conversational AI agents.
-
 
 The next section takes a step away from academic papers and delves into similar projects and prototypes.
 
