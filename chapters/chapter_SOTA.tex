@@ -32,12 +32,12 @@ Applying the above filters, papers found were initially skimmed in order to asse
 By applying the PRISMA framework as mentioned above, it was possible to reduce the amount of sources from an initial count of x sources down to y sources after the first step and down to the final z sources after the final step.	
 
 
-% You don’t need to retell everything — the goal is to extract what is relevant to your thesis. A good mini-summary (2–5 sentences) should cover:
-%Context: What problem or domain does it deal with?
-%Approach: What methods, models, or tools does it use?
-%Findings / Contributions: What are the main results?
-%Relevance for you: Why does this matter for your thesis? (e.g., “demonstrates limitations of plain RAG approaches — motivates KG integration”)
-% Template on how to summarize a paper: "Authors (Year) investigate X using Y. They found Z. For my thesis, this shows A / highlights gap B."
+
+
+% ------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 %
 % Related Work and Research Landscape
@@ -58,9 +58,13 @@ Research prototypes in EA
 Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay foundational work from which many EAM concepts can be derived.
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
+
+
 This high-level overview of EAM show that some of the challenges faced by enterprise architects may be supported with the advancements of modern AI. Tasks such as todo (maybe that junior architects need a lot of time to understand the data and retrieve information for architectures?) are predestined to be supported by LLMs.
 
 However, LLMs are notorious for hallucinating, meaning that incorrect information is spewed while looking as though it could be factually correct. This is a major downside when interacting with an LLM, especially if expert knowledge in a specific domain is required. An LLM is trained on a large corpus of data and generates its answers through probability calculations. It is thus not concerned with whether or not the returned information is factually correct, but rather only if the text is human-like. \cite{hicks2024chatgpt}
+
+
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Zhao et al. 2024: Retrieval augmented generation (rag) and beyond: A comprehensive survey on how to make your llms use external data more wisely
@@ -88,6 +92,7 @@ However, this does not answer the question of how information from a knowledge g
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
 
+
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Wan et al. 2025: Prompting large language models based on semantic schema for text-to-Cypher transformation towards domain Q\&A
 % Key points: Text-to-cypher
@@ -96,9 +101,13 @@ Wan et al. (2025) \cite{wan2025prompting} investigate how LLMs can effectively b
 For this thesis, this illustrates that a text-to-Cypher approach offers key advantages, such as aligning an LLM with domain-specific information and enabling domain-aligned reasoning without retraining. Additionally, this allows an LLM to remain up to date with a changing knowledge graph by dynamically incorporating the updated schema information at runtime. By exposing the knowledge graph through natural language inputs, the proposed approach lowers the barrier for non-technical users to interact with and extract information from the knowledge graph, allowing for a democratization of the information within it. The research by Wan et al. further reinforces the suitability of a graph-based solution for the research at hand, as enterprise architecture involves highly interconnected data and requires reasoning across various entities and their relationships. 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
+
+
 Connecting the research conducted by Zhao et al. (2024) and Wan et al. (2025), it becomes clear that a RAG-based LLM system must be able to categorize the complexity of a user's request and build the queries accordingly. While Zhao et al. (2024) provide a high-level framework for understanding the complexity of the task given by the user, their work remains agnostic to concrete query-generation techniques required to interact with the knowledge graph. This gap is addressed by Wan et al. (2025) through their text-to-cypher approach.
 
 This now begs the question of how such a RAG-based LLM system is able to retrieve the relevant information from the knowledge graph in order to answer the user's prompt with factual correctness.
+
+
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Chen et al. 2025: GRIL: Knowledge Graph Retrieval-Integrated Learning with Large Language Models
@@ -109,13 +118,15 @@ In contrast to this multi-hop approach, simpler approaches rely on the LLM-as-re
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
+
+
 So far it has only been discussed how to retrieve information from a knowledge graph. However, it has not yet been discussed how to persist information within it. Preparing and storing data in a graph representation comes with challenges of its own. The applicable method to break data down into nodes and edges depends on the source data. For example, converting a textbook, which is semi-structured, will require a different approach compared to converting an existing application landscape, which is structured data. How can the challenge of creating a knowledge graph be overcome?
+
 
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Laurenzi et al. 2024: An LLM-aided enterprise knowledge graph (EKG) engineering process
 % Key points: Umwandlung von Daten in eine GraphDB
-
 Laurenzi et al. (2024) \cite{laurenzi2024llm} address this challenge by proposing a six-step process for creating a knowledge graph with the assistance of LLMs. The six-step cycle is broken down as follows:
 \begin{enumerate}
 	\item Understand what types of questions the knowledge graph will have to be able to answer, as defined in the previous research by Zhao et al. (2024).
@@ -127,12 +138,23 @@ Laurenzi et al. (2024) \cite{laurenzi2024llm} address this challenge by proposin
 \end{enumerate}
 
 Their research takes an LLM-based approach to each of the six steps. For example, in step 1 an LLM was used in order to generate competency questions in natural language. In step 5 an LLM was used in order to generate queries based on natural language input. Within the research, ChatGPT achieved the best results. Sticking to the example of step 1, the LLM was able to generate well tailored competency questions for the knowledge graph. For step 5 it was also able to generate queries, with only minor corrections necessary for successful knowledge extraction. However, the authors note that this step prerequisites a certain awareness of the LLM and the underlying ontology schema, enabling the user to understand what information is being queried and how this may be improved. Query results can then be validated against the actual knowledge graph instance. This awareness is beneficial when working with LLMs and knowledge graphs.
-
-The results of this study are beneficial for the research at hand as it details how to set up a knowledge graph with the assistance of LLMs. This will be relevant again later in section \ref{sec:action_research_cycles}.
-
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
 
+
+The results of this study are beneficial for the research at hand as it details how to set up a knowledge graph with the assistance of LLMs. This will be relevant again later in section \ref{sec:action_research_cycles}. However, while the work by Laurenzi et al. (2024) demonstrates how LLMs can assist in the creation of a knowledge graph, this process requires a human in the loop that is aware of the ontology. Moreover, this approach may be flexible, but it is not scalable. In many cases when dealing with enterprise architectures, the data is already structured in architecture diagrams and can be exported from the respective modeling tool into structured formats such as XML. This raises the question of how an automated approach can be taken in cases where the artifacts exist and only require systematic parsing in order to be added to the knowledge graph, without the assistance of an LLM.
+
+
+
+%%%%%%%%%% -------------------------------------------------------------------------------------
+% Smajevic and Bork 2021: From conceptual models to knowledge graphs: a generic model transformation platform
+% Key points: Umwandlung von Daten in eine GraphDB
+Smajevic and Bork (2021) \cite{smajevic2021conceptual} introduce a generic, end-to-end platform that enables automated transformation of conceptual models into knowledge graphs. The authors define a cloud-based platform in which predefined models, exported in XML from Archi, can be uploaded. The uploaded model is then transformed and added to their Neo4j graph database. However, the authors do not reveal in detail how this transformation is conducted. For the research at hand, the results show that an automated approach for transforming common exported formats is a feasible solution when generating a knowledge graph via a preexisting conceptual model.
+%%%%%%%%%% -------------------------------------------------------------------------------------
+
+
+
+The above two researches by Laurenzi et al. (2024) and Smajevic et al. (2021) both exemplify two different approaches to creating knowledge graphs. While Laurenzi et al. (2024) proposes an LLM-based, hands-on approach which offers flexibility in creating a knowledge graph from the ground up, Smajevic et al. (2021) offer a generic solution to transform an existing model into a knowledge graph in an automated fashion. Both approaches come with advantages and disadvantages and will later be relevant in sections \ref{sec:action_research_cycles} and \ref{ch:Discussion}. %Todo: ch:Discussion ersetzen durch das Unterkapitel der Diskussion.
 
 Taking a step back from the technical details of a RAG-based implementation, it is fair to ask why it is even necessary to digitalize the work that can be done by expert enterprise architects.
 
