@@ -2,6 +2,84 @@
 \label{ch:case_study}
 With chapter \ref{ch:implementation} describing each component of the prototype, this chapter builds upon this by showcasing experiments and test cases on it.
 
+% A structured, factual description of how Masuta was applied in a concrete setting and what was observed during its use.
+
+% Case Context
+\section{Case Context}
+Where, why, and by whom was the system used?
+
+Put here:
+- Enterprise Architecture domain
+- Role of participants (e.g. EA, junior EA, workshop setting)
+- Purpose of the case
+- Why this case is relevant
+Example content:
+- “Masuta was evaluated in a workshop setting with EA practitioners”
+- No opinions yet
+- No success/failure claims
+This grounds the entire evaluation.
+
+% System Setup and Data
+\section{System Setup and Data}
+What exactly was deployed and with which data?
+Prototype version
+Architecture components (brief, not full architecture)
+Read-only DB constraint
+Data sources:
+- Textbook data
+- SpeedParcel XML? --> didn't really use it
+- Fra UAS Architecture Diagram
+Graph size / rough schema complexity
+Prompting setup (system prompt, schema injection, etc.)
+
+% Case Execution
+\section{Case Execution}
+What did users actually do?
+How questions were asked
+Categories of questions (your 3 levels)
+Who asked which type of question
+Sequence:
+- User prompt
+- Schema call
+- Retrieval
+- Cypher generation
+- Answer
+- Rovo comparisson
+
+You can include:
+- Representative example questions
+- Short transcripts (possibly anonymized)
+- No judgment
+
+
+% Observed System Behavior
+\section{Observed System Behavior}
+What did the system output or do?
+Put here:
+- Correct answers
+- Empty result sets
+- Hallucinated outputs
+- Cypher generation attempts
+- Hardcoded Cypher cases
+ Read-only write attempts
+- Latency observations
+- Differences between expert vs. novice prompts
+Example: “In several cases, the system generated Cypher queries that did not reference the retrieved graph elements but instead returned static text.”
+
+% Summary of Case Observations
+\section{Summary of Case Observations}
+Bullet-point summary of:
+- What was observed
+- What patterns appeared
+No evaluation language
+Examples:
+“Successful retrieval occurred primarily when node types were explicitly mentioned.”
+“Schema ambiguity frequently led to empty result sets.”
+
+
+----------------------------------------------
+
+
 What we did with the finished prototype and how we tested it. Prompts we used, cases we built, edge cases, etc.
 
 show some test cases here. break down an answer like "i want to remove the application StatManPlus. What do i have to look out for as an enterprise architect?". the returned answer goes into a lot of depth as this is a level 3 question. break down the result of the query and how the result pulls information about the application but also pulls information from the Lehrbuch database.
