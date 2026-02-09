@@ -11,3 +11,67 @@ This chapter contains screenshots of user prompts and the system's responses. It
 \label{appendix:code:xyz}
 todo
 
+
+\begin{figure}[h]
+\centering
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1\textwidth]{./images/masuta_screenshot_question_answer_1.png}
+}
+\label{fig:masuta_screenshot_statmanplus}
+\caption{Raw response returned from the Cypher in listing \ref{lst:cypher-statmanplus}. Notice that the response contains both information about the applications themselves as well as textbook information on enterprise architecture management (right-most column).}
+\end{figure}
+
+
+
+\begin{lstlisting}[style=cypherstyle, label={lst:first_time_setup},caption={Cypher query to retrieve application impact and decommission guidance}]
+MATCH (a:Application {name: 'StatManPlus'})
+OPTIONAL MATCH (a)-[:SUPPORTS]->(cap:Capability)
+WITH a, collect(DISTINCT cap) AS caps
+UNWIND (CASE WHEN size(caps) > 0 THEN caps ELSE [NULL] END) AS cap
+OPTIONAL MATCH (cap)-[:HAS_CHILD*0..]->(desc:Capability)
+WITH a, caps, collect(DISTINCT desc) AS cap_impacted
+OPTIONAL MATCH (a)-[:DATA_FLOW]->(outApp:Application)
+WITH a, caps, cap_impacted, collect(DISTINCT outApp.name) AS outgoing_apps
+OPTIONAL MATCH (inApp:Application)-[:DATA_FLOW]->(a)
+WITH a, caps, cap_impacted, outgoing_apps, collect(DISTINCT inApp.name) AS incoming_apps
+OPTIONAL MATCH (ch:Chunk)
+WHERE toLower(coalesce(ch.text,'')) CONTAINS toLower(a.name)
+   OR toLower(coalesce(ch.table_summary,'')) CONTAINS toLower(a.name)
+   OR toLower(coalesce(ch.title,'')) CONTAINS toLower(a.name)
+   OR toLower(coalesce(ch.definition,'')) CONTAINS toLower(a.name)
+WITH a, caps, cap_impacted, outgoing_apps, incoming_apps,
+     collect(DISTINCT {key: ch.key, title: ch.title, snippet: ch.table_summary, text: ch.text}) AS app_chunks
+OPTIONAL MATCH (guid:Chunk)
+WHERE toLower(coalesce(guid.text,'')) CONTAINS 'decommission'
+   OR toLower(coalesce(guid.text,'')) CONTAINS 'retire'
+   OR toLower(coalesce(guid.text,'')) CONTAINS 'sunset'
+   OR toLower(coalesce(guid.title,'')) CONTAINS 'decommission'
+   OR toLower(coalesce(guid.title,'')) CONTAINS 'retire'
+   OR toLower(coalesce(guid.title,'')) CONTAINS 'sunset'
+   OR toLower(coalesce(guid.definition,'')) CONTAINS 'decommission'
+   OR toLower(coalesce(guid.definition,'')) CONTAINS 'retire'
+   OR toLower(coalesce(guid.definition,'')) CONTAINS 'sunset'
+   OR toLower(coalesce(guid.table_summary,'')) CONTAINS 'decommission'
+   OR toLower(coalesce(guid.table_summary,'')) CONTAINS 'retire'
+   OR toLower(coalesce(guid.table_summary,'')) CONTAINS 'sunset'
+WITH a, caps, cap_impacted, outgoing_apps, incoming_apps, app_chunks,
+     collect(DISTINCT {key: guid.key, title: guid.title, snippet: guid.table_summary, text: guid.text}) AS guidance_chunks
+RETURN a.name AS application,
+       [c IN caps WHERE c IS NOT NULL | c.id] AS supported_capability_ids,
+       [g IN cap_impacted WHERE g IS NOT NULL | g.id] AS impacted_capability_ids,
+       outgoing_apps AS outgoing_data_flows_to_apps,
+       incoming_apps AS incoming_data_flows_from_apps,
+       app_chunks AS chunks_referencing_application,
+       guidance_chunks AS chunks_with_decommission_guidance
+\end{lstlisting}
+
+
+
+\begin{figure}[h]
+\centering
+\makebox[\textwidth][c]{%
+  \includegraphics[width=1.4\textwidth]{./images/cypher_results_category_3.png}
+}
+\label{fig:cypher_results}
+\caption{Raw response returned from the Cypher in listing \ref{lst:first_time_setup}. Notice that the response contains both information about the applications themselves as well as textbook information on enterprise architecture management (right-most column).}
+\end{figure}
