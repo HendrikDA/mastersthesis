@@ -18,6 +18,7 @@ Core concepts of EAM include maintaining application landscapes, ensuring busine
 
 \subsection{Enterprise Architect Role}
 \label{sub:background:ea}
+% was eine gute idee ist, dass ich enterprise architect als rolle / tätigkeit eingehe. sehr wichtig hier zu beschreiben, was ein EA macht, weil masuta ihn ja später ersetzen / erägnzen. soll mein prototype einen junior ersetzten oder ergänzen? können wir ja formulieren, wie wir wollen. können wir als ziel setzen, dass wir ihn ersetzen wollen, weil dann die diskussion später gut ist. aber wir können auch definieren, dass er nur unterstützen soll. ist mir überlassen.
 The role of an enterprise architect is thus complex, because they are faced with the challenge of preparing, planning, deciding, and supporting the changes necessary to improve the application architecture and business. A core task of the enterprise architect is creating the necessary artifacts by gathering the necessary information and presenting it in the relevant types of documentation. Applying changes to artifacts in a landscape comes with the responsibility of making the changes public and accessible for the respective stakeholders. The enterprise architect is also responsible for maintaining compliance regulations, as not everyone in an enterprise should be able to view this information. Because architecture landscapes are ever changing, the enterprise architect is also faced with the task of maintaining the existing artifacts. This also includes establishing processes and mechanisms to stay on top of the changing organization and stakeholder requirements. Lastly, the enterprise architect is faced with organizing this process. They are responsible for selecting the right tooling to manage the architecture, organize EAM team, and embed enterprise architecture in governance mechanisms. \cite[pg. 152-154]{jung2021masterclass}
 
 \subsection{Architecture Diagrams and Tools}
@@ -34,7 +35,7 @@ The in this section described concepts will be relevant throughout the remainder
 \label{sec:background:technology}
 The following descriptions of technologies will help the reader to later understand the implementation details. They serve as a high-level, but sufficient, description of each.
 
-
+% LLMs
 \subsection{Large Language Models (LLM)}
 \label{sub:background:llms}
 A Large Language Models (LLM)
@@ -45,7 +46,16 @@ LLMs are capable of supporting in language-related tasks where text needs to be 
 
 \cite{wan2025prompting} describes what hallucinating is.
 
+% RAG
+\subsection{Retrieval-Augmented Generation (RAG)}
+\label{sub:background:rag}
+Retrieval-augmented generation (RAG) aims to reduce hallucinations by retrieving relevant information from an external database, such as a knowledge graph, and incorporating that information into the response generation process. \cite{zhao2026retrieval, lewis2020retrieval}
 
+Although LLMs contain basic knowledge within the realm of enterprise architecture management, it may not be sufficiently broad enough or in depth to  answer domain- or organization-specific questions. Furthermore, generally trained LLMs do not have access to proprietary information about an enterprise's architecture. As a result, prompting a detailed question related to enterprise architecture or organization-specific data can lead to hallucinations. \cite{lewis2020retrieval} This is a known challenge that can be overcome by implementing RAG.
+
+RAG offers increased flexibility, as the underlying database can be updated with more information without requiring the language model to be retrained. \cite{zhao2026retrieval}
+
+% Graph Databases, Neo4j, Cypher, and Knowledge Graphs
 \subsection{Graph Databases, Neo4j, Cypher, and Knowledge Graphs}
 \label{sub:background:graphdb}
 A graph database is a special type of database which represents its data via nodes and edges. Via this structure, it is able to represent entities and the relationships between them. \cite[pg. 1]{robinson2015graph} For example, a single business capability may be represented as one node, an application as another node, and a relationship between the two with the information of how the application supports this capability. This structure enables graph databases to build real world models that closely resemble the real world and map closely to the domain \cite[pg. 6 and 38]{robinson2015graph}.
@@ -67,14 +77,7 @@ ORDER BY capability
 
 A knowledge graph is thus a graph database composed of various relationships to represent a real world structure or network, as found in enterprise architecture diagrams. \cite{wang2017knowledge} Building such a knowledge graph and inferring information from it is a central concept within this research.
 
-\subsection{Retrieval-Augmented Generation (RAG)}
-\label{sub:background:rag}
-Retrieval-augmented generation (RAG) aims to reduce hallucinations by retrieving relevant information from an external database, such as a knowledge graph, and incorporating that information into the response generation process. \cite{zhao2026retrieval, lewis2020retrieval}
-
-Although LLMs contain basic knowledge within the realm of enterprise architecture management, it may not be sufficiently broad enough or in depth to  answer domain- or organization-specific questions. Furthermore, generally trained LLMs do not have access to proprietary information about an enterprise's architecture. As a result, prompting a detailed question related to enterprise architecture or organization-specific data can lead to hallucinations. \cite{lewis2020retrieval} This is a known challenge that can be overcome by implementing RAG.
-
-RAG offers increased flexibility, as the underlying database can be updated with more information without requiring the language model to be retrained. \cite{zhao2026retrieval}
-
+% MCP
 \subsection{Model Context Protocol (MCP)}
 \label{sub:background:mcp}
 Modern AI applications are typically designed to be connected with further external tools and services, such as a Neo4j database, in order to allow the AI to xyz to do. However, this brings the challenge with it that the developers of the proprietary application must manually define interfaces in order to connect their AI application to these external services. If the AI application is to be connected with \textit{n} external services, then it needs \textit{n} custom-built connections; one for each service. This comes with a lot of overhead, makes interoperability difficult to achieve, and can hinder long-term maintainability of a system. \cite{hou2025model, anthropic_mcp_2025}
