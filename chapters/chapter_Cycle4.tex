@@ -2,15 +2,21 @@
 \label{ch:cycle4}
 This chapter describes how the chatbot “\prototype{}” (pronounced “mah-soo-taa” - a phonetic adaptation of the English term "master" into Japanese katakana) was developed. It provides further insight into the applied research method and the process through which the prototype was created. This gives the reader the understanding of how the research and implementation was conducted before discussing the implementation details in chapter \ref{ch:implementation}.
 
-% Cycle 4
-\subsection{Cycle 4}
-\label{sub:cycle4}
+% Diagnosis
+\section{Diagnosis}
+\label{sec:cycle4_diagnosis}
 \textbf{Diagnosis}: The fourth and last cycle diagnoses that the system in its current state relies too heavily on LLMs for core precessing tasks. Importing the XML data into the knowledge graph is a critical point of the application and relying on an LLM to handle this parsing is not a good choice because XML is a standardized format and many parsers exist to handle XML. It was agreed upon that a generalized parser should be used to parse the incoming XML files into the knowledge graph, replacing the LLM at this critical point within the system's architecture.
 
 A second critical part of the system that was diagnosed to be insufficient was the querying method to retrieve the information from the knowledge graph. Although the cyphers are being LLM-generated custom to the user's input, it is having trouble dealing with the changing schema of the knowledge graph because a hard-coded schema is written into the frontend which it uses as a reference for what to query. With an evolving knowledge graph, this approach is no longer viable because it is guessing at the graph's structure and not able to retrieve the data this way.
 
+% Action Planning
+\section{Action Planning}
+\label{sec:cycle4_planning}
 \textbf{Action Planning}: The goal of this cycle was to finish the prototype and have it be ready for the on site review at the end of the cycle where all three stakeholders will be testing and discussing the system together. Achieving this goal means that the XML data must be parsed via a generalized parser, replacing the LLM implementation. On top of that, the strategy of how to handle the schema must be refactored. It will be required to dynamically understand the data, rather than have one schema hard-coded. Lastly, it also meant setting up a containerized local environment to allow running the prototype on the advisor's devices during the on site review. 
 
+% Action Taken
+\section{Action Taken}
+\label{sec:cycle4_actionTaken}
 \textbf{Action Taken}: The LLM-based data parser was replaced by an out of the box solution from Awesome Procedures On Cypher (APOC), which contains functions to parse file types and also how to better query a knowledge graph. Here, APOC takes the input XML files and parses them directly into cyphers. This allows any type of Archi-exported XML file to be saved into the knowledge graph.
 
 The schema-handling strategy was updated from the hard-coded variant. Before passing the user-prompt and system context to the LLM, a call to the knowledge graph was made via neo4j's built-in call \path{db.schema.visualization()} \cite{neo4j_operations_procedures} in order to get the graph's schema information. While this did improve the generated results, it still proved to be insufficient, as the LLM was not able to handle this schema information well enough to generate reliable responses.
@@ -21,8 +27,14 @@ The local environment is set up via Docker containers and can be run on any mach
 
 Lastly, cosmetic changes to the UI were added as well as new features to support the on site review. For example, the user may now upload XML files via the web application as well as reset the playground database, and view the knowledge graph in an interactive way.
 
+% Evaluation
+\section{Evaluation}
+\label{sec:cycle4_evaluation}
 \textbf{Evaluation}: The refactored prototype was reviewed by both advisors via internal testing and demonstrations using the example data. The advisors assessed whether the system was executable, stable, and suitable for the final review. The replacement of the LLM-based XML parser with a generalized APOC-based parser and the updated schema-handling strategy were evaluated positively, as they enabled deterministic data imports and more reliable cypher generation. At the end of the fourth cycle, \prototype{} was deemed functionally complete and capable of answering all three categories of questions, thereby fulfilling the prerequisites for the final review.
 
+% Learning
+\section{Learning}
+\label{sec:cycle4_learning}
 \textbf{Learning}: Many learnings can be taken from this last cycle. The first being that a generalized parser to read XML files into the knowledge graph improves the quality of the import. Another added benefit of this is that the import is now deterministic, while before the LLM-based parser behaved in a non-deterministic way.
 
 The second main learning from this cycle arose from refactoring the way that the queries get generated. Previously, the cyphers were straightforward to generate, as the schema of the SpeedParcel data was entirely known. However, during this cycle, new data was imported into the knowledge graph, which had an unknown structure, meaning the knowldge-graph's schema was unknown. The transformation of text to query has been improved by making a preliminary call to the database to fetch the current database schema. This schema information is then passed as context to the LLM in order to write more accurate cyphers. The results with this new querying strategy meant that for the first time the system was able to answer all three categories of questions.

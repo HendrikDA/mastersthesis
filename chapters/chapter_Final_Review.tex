@@ -1,51 +1,52 @@
 \chapter{Final Review}
 \label{ch:finalReview}
-%%%%
-% Final Review
-%%%%
-\section{Final Review}
-\label{sec:action_research_final_meeting}
-After the fourth and final Action Research cycle, a hands-on workshop was conducted as the final review of the prototype. The purpose of this  review was to test \prototype{} using real-world EAM questions in order to observe and identify its behavior and capabilities in a realistic setting. The review combined an explorative testing approach as well as a summative evaluation and marked the formal end of the Action Research process within the scope of this thesis. This section focusses exclusively on describing the setup and procedure of the final review. The evaluation of the results and implications can be found in chapter \ref{ch:Discussion} and section \ref{sub:conclusion:futureWork}.
-
-The final review was conducted as a four-hour online workshop with a strict agenda between the researcher and both stakeholders, who acted as EAM domain experts. Parallel testing of two systems was conducted, accompanied by open, discussion-based feedback. Each participant interacted with the systems in an explorative manner.
-
-For contextual comparison, the chatbot Rovo \cite{atlassian2026rovo}, which is integrated in Atlassian's knowledge management software Confluence, was used in parallel on the same set of data. This setup allowed the domain experts to contrast the behavior and outputs of both systems under identical conditions.
-
-A new set of data was introduced specifically for the workshop. Rather than relying on the SpeedParcel data or synthetic data, the enterprise architecture of the examination office at the Frankfurt University of Applied Sciences was used. This enabled evaluation in a realistic but controlled real-world scenario.
-
-The workshop was purposefully conducted in an explorative nature, consistent with the applied Action Research approach. One domain expert interacted with \prototype{}, while the other interacted with Rovo. The researcher documented observations and supported the workshop with technical assistance for \prototype{}.
-
-The four hour workshop was structured in five phases, each with a defined scope. After a short status overview, in which each participant aligned on the current state of the prototype's development and thesis, the first round of experiments began. The first phase focused on assessing the basic system functionality using simple domain questions. These questions were asked to both systems in parallel. In the second experiment, the workshop shifted toward whether or not \prototype{} could directly process and analyze XML files exported from the examination office's architecture landscape in ArchiMate. This mainly contained business functions containing little to no further documentation. The third experiment concentrated on identifying missing domain objects, incomplete or missing descriptions, and errors in classifying the imported data. The behavior of both systems was observed and contrasted throughout these phases. The workshop concluded with a closing phase in which the domain experts summarized the findings, advantages of \prototype{}, and potential improvements for future development.
-
-The final review was intentionally limited to qualitative, expert-driven evaluation. The main findings of the workshop were both the advantages of a custom build chatbot compared to an industrial chatbot as well as possible improvements for future development of \prototype{}. No quantitative performance measurements were conducted. The review was limited by the number of expert participants and the one-time execution of a review of this scope. These constraints were intentional and reflect the prototype's state of the time of the final review. The final review served as the concluding evaluation step of the applied Action Research methodology and formally ended the development phase of the prototype within this study.
-
-
-% ------------------- below is the previous chapter "case study" that needs to be fused with the above
-
-\chapter{Review Workshop With Experts}
-\label{ch:case_study}
-With an understanding of the prototype's architecture from chapter \ref{ch:implementation}, this chapter dives into the test cases that \prototype{} was put through during the final review from section \ref{sec:action_research_final_meeting}. This chapter describes the context of the case study, how the system was prepared, the tests executed, and how everything was evaluated.
-
-% A structured, factual description of how Masuta was applied in a concrete setting and what was observed during its use.
+After the fourth and final Action Research cycle, a hands-on workshop was conducted as the final review of the prototype. The purpose of this  review was to test \prototype{} using real-world EAM questions in order to observe its behavior and identify capabilities in a realistic setting. The review combined an explorative testing approach as well as a summative evaluation and marked the formal end of the Action Research process within the scope of this thesis. This section focuses on describing the setup and procedure of the final review as well as discussing the results.
 
 % Case Context
 \section{Case Context}
-\prototype{} was put to the test by two domain experts within the realm of enterprise architecture management. This ensured that the questions being asked of the system mirrored a real world setting. The goal of the conducted case study was to evaluate the final system end-to-end and compare its results to a similar, mainstream system. The conducted tests were done in a qualitative and explorative manner, meaning that the focus of the case study was placed on the system's usefulness and perceived value from the experts' point of view.
+\label{sec:caseContext}
+\prototype{} was put to the test by the two EAM domain experts who supported throughout the Action Research cycles. Their expertise ensured that the questions being asked of the system mirrored a real world setting. The goal of the conducted review was to evaluate the final system end-to-end and compare its results to a similar, mainstream system named Rovo \cite{atlassian2026rovo}, which is integrated in Atlassian's knowledge management software Confluence. This setup allowed the domain experts to contrast the behavior and outputs of both systems under identical conditions. The conducted tests were done in a qualitative and explorative manner, meaning that the focus of the case study was placed on the system's usefulness and perceived value from the experts' point of view.
 
-This qualitative approach was deemed appropriate, as the system was developed as a proof of concept to support enterprise architects in their daily doing. A quantitative test scenario was not considered because the prototype was not developed with explicit quantitative requirements, for example response times within \textit{x} seconds. The practitioners interacted with both \prototype{} and Rovo in parallel while actively comparing results for similar prompts. The comparison was meant to reveal strengths and weaknesses within \prototype{}.
+This qualitative approach to reviewing the system was deemed appropriate, as the system was developed as a proof of concept to support enterprise architects in their daily doing. A quantitative test scenario was not considered because the prototype was not developed with explicit quantitative requirements, for example response times within \textit{x} seconds. The practitioners interacted with both \prototype{} and Rovo in parallel while actively comparing results for similar prompts. The comparison was meant to reveal strengths and weaknesses within \prototype{}.
 
-Questions asked towards both systems were constructed to cover all three categories of questions as well attempt to expand the existing architecture with further information.
+The final review was conducted as a four-hour online workshop with a strict agenda between the researcher and both stakeholders, who acted as EAM domain experts. Parallel testing of two systems was conducted, accompanied by open, discussion-based feedback loops. Each participant interacted with the systems in an explorative manner.
 
 % System Setup and Data
 \section{System Setup and Data}
-The finished prototype system as described in chapter \ref{ch:implementation} was used throughout. \prototype{} was installed on both practitioners computers and came out of the box with the SpeedParcel example dataset and the empty playground database which only contained the textbook knowledge. All components of \prototype{}, with the exception of the LLM, ran on the local environments of the practitioners' computers.
+The finished prototype system as described later in chapter \ref{ch:implementation} was used throughout. \prototype{} was installed on both practitioners computers and came out of the box with the SpeedParcel example dataset and the empty playground database which only contained the textbook knowledge. All components of \prototype{}, with the exception of the LLM, ran on the local environments of the practitioners' computers.
 
-In order to simulate a real world setting, the enterprise architecture for the examination office of Frankfurt University of Applied Science was used. This architecture included several diagrams within the Archi modeling tool, ranging from high-level process landscapes to detailed views of examination preparation, thesis handling, certification assurance, and IT systems used by the examination office. Models were exported into XML format and read into \prototype{}'s playground database as described in section \ref{sub:xml_parser} and appendix section \ref{appendix:instructions:import}. Frankfurt University of Applied Science's architecture is described in German. The imported data from the examination office's architecture diagrams contained a total of 92 nodes and 152 edges.
+In order to simulate a real world setting, a new set of data was introduced specifically for the workshop. The enterprise architecture for the examination office of Frankfurt University of Applied Science was used and included several diagrams within Archi, ranging from high-level process landscapes to detailed views of examination preparation, thesis handling, certification assurance, and IT systems used by the examination office. Models were exported into XML format and read into \prototype{}'s playground database as described in section \ref{sub:xml_parser} and appendix section \ref{appendix:instructions:import}. Frankfurt University of Applied Science's architecture is described in German. The imported data from the examination office's architecture diagrams contained a total of 92 nodes and 152 edges. This dataset enabled evaluation in a realistic but controlled real-world scenario.
 
-Parallel to \prototype{}, Rovo was being used with the same ingested architecture data loaded into Confluence. This allowed the practitioners to test the same dataset with a second system. It included the same documentation and architecture data as found in Archi. 
+Parallel to \prototype{}, Rovo was being used with the same architecture data loaded into Confluence. This allowed the practitioners to test the same dataset with a second system. It included the same documentation and architecture data as found in Archi.
 
 % Case Execution
-\section{Case Execution}
+\section{Review Execution}
+\label{sec:reviewExec}
+The four hour workshop was structured in four phases, each with a defined scope fr the experiments conducted. After a short status overview, in which each participant aligned on the current state of the prototype's development and the state of the thesis, the first round of experiments began.
+
+% Phase 1
+\subsection{Phase 1}
+\label{sub:phase1}
+The first phase focused on assessing the basic system functionality using simple domain questions. These questions were asked to both systems in parallel.
+
+% Phase 2
+\subsection{Phase 2}
+\label{sub:phase2}
+In the second experiment, the workshop shifted toward whether or not \prototype{} could directly process and analyze XML files exported from the examination office's architecture landscape in ArchiMate. This mainly contained business functions containing little to no further documentation.
+
+% Phase 3
+\subsection{Phase 3}
+\label{sub:phase3}
+The third experiment concentrated on identifying missing domain objects, incomplete or missing descriptions, and errors in classifying the imported data. The behavior of both systems was observed and contrasted throughout these phases.
+
+% Phase 4
+\subsection{Phase 4}
+\label{sub:phase4}
+The workshop concluded with a closing phase in which the domain experts summarized the findings, advantages of \prototype{}, and potential improvements for future development.
+
+
+% Case Execution
+
 What did users actually do?
 How questions were asked
 Categories of questions (your 3 levels)
@@ -63,9 +64,12 @@ You can include:
 - Short transcripts (possibly anonymized)
 - No judgment
 
+Questions asked towards both systems were constructed to cover all three categories of questions as well attempt to expand the existing architecture with further information.
+
 
 % Observed System Behavior
 \section{Observed System Behavior}
+\label{sec:observedSysBehavior}
 What did the system output or do?
 Put here:
 - Correct answers
@@ -78,8 +82,6 @@ Put here:
 - Differences between expert vs. novice prompts
 Example: “In several cases, the system generated Cypher queries that did not reference the retrieved graph elements but instead returned static text.”
 
-% Summary of Case Observations
-\section{Summary of Case Observations}
 Bullet-point summary of:
 - What was observed
 - What patterns appeared
@@ -89,17 +91,18 @@ Examples:
 “Schema ambiguity frequently led to empty result sets.”
 
 
-----------------------------------------------
-
-
-What we did with the finished prototype and how we tested it. Prompts we used, cases we built, edge cases, etc.
-
-show some test cases here. break down an answer like "i want to remove the application StatManPlus. What do i have to look out for as an enterprise architect?". the returned answer goes into a lot of depth as this is a level 3 question. break down the result of the query and how the result pulls information about the application but also pulls information from the Lehrbuch database.
-
-
-Idea: create a list of questions over each category with expected answers and see how it performs. also run x amount of experiments and see how many errors came up (e.g. cypher errors) and count the percent of answers that were perfect, good but could be improved, and wrong / faulty.
+% Discussion of the Results
+\section{Discussion of the Results}
+\label{sec:discussionOfResults}
 
 
 
-% Conclusion Paragraph
- The final review of the prototype proved that the development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development.
+
+% Conclusion
+The final review was intentionally limited to qualitative, expert-driven evaluation. The main findings of the workshop were both the advantages of a custom build chatbot compared to an industrial chatbot as well as possible improvements for future development of \prototype{}. No quantitative performance measurements were conducted. The review was limited by the number of expert participants and the one-time execution of a review of this scope. These constraints were intentional and reflect the prototype's state of the time of the final review. The final review served as the concluding evaluation step of the applied Action Research methodology and formally ended the development phase of the prototype within this study. The final review also proved that the four development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development.
+
+The next chapter will describe the final prototype's technical details.
+
+
+
+

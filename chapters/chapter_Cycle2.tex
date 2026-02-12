@@ -3,23 +3,35 @@
 This chapter describes how the chatbot “\prototype{}” (pronounced “mah-soo-taa” - a phonetic adaptation of the English term "master" into Japanese katakana) was developed. It provides further insight into the applied research method and the process through which the prototype was created. This gives the reader the understanding of how the research and implementation was conducted before discussing the implementation details in chapter \ref{ch:implementation}.
 
 
-% Cycle 2
-\subsection{Cycle 2}
-\label{sub:cycle2}
+% Diagnosis
+\section{Diagnosis}
+\label{sec:cycle2_diagnosis}
 \textbf{Diagnosis}: Following the initial feasibility assessment, the next identified challenge concerned extending the knowledge graph with more information and positioning the prototype as a useful tool within the realm of enterprise architecture management.
 
 One design consideration involved separating textbook-based domain\linebreak knowledge from enterprise architecture data into two distinct databases. After discussion, a single integrated database was chosen to enable direct relationships between conceptual textbook knowledge and architectural data, with the expectation of improved contextual reasoning.
 
 The challenge imposed by lack of real-world data to test the system was also diagnosed. Potential test-datasets for further development and evaluation were discussed in order to bridge the gap before real-world data would be ready. The real-world data would require more time to be prepared because the co-advisor's company policy constraints meant the data cannot be used directly and has to be sanitzed first. Instead, it was agreed upon to use data from a completed university assignment, consisting of an application landscape, business capability map, business capability support matrix, business object model, and cross-application data-flow diagram for a fictitious company named SpeedParcel.
 
+% Action Planning
+\section{Action Planning}
+\label{sec:cycle2_planning}
 \textbf{Action Planning}: The objective of the second cycle was to extend the knowledge graph with additional data from the SpeedParcel dataset. This included integrating the business capability support matrix on top of the already existent application landscape and business capability map. A second goal of this cycle was to improve the database querying method as soon as more data is available to test with.
 
+% Action Taken
+\section{Action Taken}
+\label{sec:cycle2_actionTaken}
 \textbf{Action Taken}: The capability support matrix of the SpeedParcel dataset was integrated into the knowledge graph, requiring adjustments to existing query mechanisms. A large challenge that hindered advancements in development came up. The hard-coded cyphers that were being used to query the database were reaching their limit. A viable solution was not found to hard-code cyphers in such a way that the changing dataset can be dynamically queried.
 
 The idea of a Model Context Protocol (MCP) server came up during development. This brought the advantage of a standardized interface between the application and the knowlede-graph. Implementing the MCP server helped achieve a higher quality in the retrieved answers, as the prompt was being transformed into custom cyphers during runtime. This allowed the cyphers being used to query the database to no longer be hard-coded in the frontend, but allowed them to be generated dynamically based on the user input. This text-to-cypher generation is achieved by using an LLM to transform the user's prompt directly into cyphers, as apposed to having predefined cyphers that get populated with the user's input by the LLM. A prerequisite for this to work, however, was that the schema of the knowledge graph was known. At this stage, the schema was hard-coded into the frontend.
 
+% Evaluation
+\section{Evaluation}
+\label{sec:cycle2_evaluation}
 \textbf{Evaluation}: The extended prototype was again evaluated qualitatively through a demonstration by the researcher and open discussions between all three stakeholders. Both advisors expressed strong interest in the approach and assured that the chatboat was being developed in the correct direction in order to achieve the end goal of allowing enterprise architects to interact with the knowledge graph via natural language.
 
+% Learning
+\section{Learning}
+\label{sec:cycle2_learning}
 \textbf{Learning}: As the prototype is starting to mature, more learnings are being pulled from each phase. Particularly, the hard-coded query method that was previously implemented was proved to be insufficient for flexible interaction with the evolving graph structure. The MCP implementation allows the entire system to be more dynamic, independent of the data in the knowledge graph.
 
 Furthermore, three key categories of user questions were identified, similar to the ones described in section \ref{sec:intro:relatedWork} \cite{zhao2024retrieval}. The first category being conceptual questions related to enterprise architecture principles, concepts, and best practices found in textbooks. The second category being descriptive questions targeting concrete architectural elements and relationships. The third category being integrative questions combining conceptual knowledge with specific architectural contexts. Examples of these categories can be found in section \textbf{todo}.

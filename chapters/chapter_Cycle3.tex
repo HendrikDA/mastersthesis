@@ -1,22 +1,37 @@
 \chapter{Cycle 3}
 \label{ch:cycle3}
-% Cycle 3
-\subsection{Cycle 3}
-\label{sub:cycle3}
-\textbf{Diagnosis}: During this phase it became apparent that Action Research will be the most appropriate methodological framework for the project. The development process had evolved into an exploratory and iterative approach. This has been characterized by continuous development, reflection between all three stakeholders, and decision-making regarding which direction to take the prototype in. Consequently, the previously considered expert interview was no longer the methodology of choice for this thesis.
+
+% Diagnosis
+\section{Diagnosis}
+\label{sec:cycle3_diagnosis}
+During this phase it became apparent that Action Research will be the most appropriate methodological framework for the project. The development process had evolved into an exploratory and iterative approach. This has been characterized by continuous development, reflection between all three stakeholders, and decision-making regarding which direction to take the prototype in. Consequently, the previously considered expert interview was no longer the methodology of choice for this thesis.
 
 In parallel, the co-advisor began modelling real-world enterprise architecture data using the Archi tool. It was agreed upon that the real-world data would later be exported from Archi and imported into the knowledge graph in XML format. This meant that the format of the real-world data is finalized and can be prepared for in the prototype, allowing the integration of more realistic data into the finished prototype.
 
+Various tools exist in order to maintain such architecture diagrams. The modeling languages ArchiMate is a common practice for graphical representation of an enterprise's architecture. The software tool Archi builds upon the ArchiMate modeling language and offers a UI for modeling enterprise architectures. \cite{archi_tool}
+
 Additionally, it was decided that a final review will be conducted at the end of the fourth cycle. This review would require that the prototype be finished and be executable in a local environment. This review will also mark the end of the development phase of the prototype.
 
+% Action Planning
+\section{Action Planning}
+\label{sec:cycle3_planning}
 \textbf{Action Planning}: The objective of the third cycle was to further expand the information saved in the knowledge graph by creating additional datasets from the SpeedParcel dataset. The datasets existed in a third party architecture modelling tool and had to be replicated in Archi in order to simulate the real-world data which will later also be exported from Archi. Modelling the data in Archi allows it to be exported into XML format and imported into the knowledge graph via an XML parser. This step aimed to prepare the system for handling the more complex and structured architectural models expected later.
 
+% Action Taken
+\section{Action Taken}
+\label{sec:cycle3_actionTaken}
 \textbf{Action Taken}: Both the business object model and the cross-application data-flow diagram were recreated in Archi, in order to test how exported XML files will behave when parsing them into the knowledge graph. The parsing at this step was still being conducted via a custom, per-file LLM-based parser. This cycle mostly dealt with expanding the knowledge graph and fine tuning the system.
 
+% Evaluation
+\section{Evaluation}
+\label{sec:cycle3_evaluation}
 \textbf{Evaluation}: The progress of the third cycle was reviewed with both advisors during open discussions. The current state of the prototype and the extended data integration were assessed positively, and the overall research trajectory was again confirmed as appropriate. The end goal is in sight and is being worked towards in an appropriate manner.
 
 The system had trouble generating qualitative answers for the newly imported dataset. This is due to the new data having a different schema than the other datasets.
 
+% Learning
+\section{Learning}
+\label{sec:cycle3_learning}
 \textbf{Learning}: The third cycle revealed scaling issues. While the individual per-file parsers have worked well so far, this cycle showed that its limits have been reached. Parsing the more complex files during this cycle showed that LLMs are no longer the appropriate method moving forward. On top of this, this custom, per-file parsing approach would also not allow for parsing files without manual implementation specific for the file at hand; a problem that has to be solved before the final review where files will have to be parsed on site and on the fly.
 
 Another scalability issue revealed was a discussion about the real-world data. While SpeedParcel's data contained hundreds of nodes and edges, the real-world data will potentially have thousands of nodes and edges. This gap revealed that a better parsing solution and a better querying solution will be necessary before the prototype is ready for the final on site review. This will have to be tested before the on site review to ensure that this does not cause performance issues within the system.

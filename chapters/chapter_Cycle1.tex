@@ -1,9 +1,9 @@
 \chapter{Cycle 1}
 \label{ch:cycle1}
 
-% Cycle 1
-\subsection{Cycle 1}
-\label{sub:cycle1}
+% Diagnosis
+\section{Diagnosis}
+\label{sec:cycle1_diagnosis}
 \textbf{Diagnosis}:  The initial problem statement lacked concrete technical formulation and the feasibility of natural language interaction with enterprise architecture data was unclear.
 
 The co-advisor outlined typical enterprise architecture workflows and the tools used to document and interact with architectural artifacts in practice. An initial idea was propsed of an AI-based black-box system capable of ingesting architecture data and deriving its own internal representations. The achievability as well as academic applicability of such a black-box system were critically questioned, particularly because of the limited transparency of the inner mechanisms and how to test this. As an alternative, the academic supervisor proposed an explicit knowledge graph approach in which a knowledge graph is built and used to supplement LLM-generated answers. This transparency aligns well with the mentioned advantages of a RAG-based LLM system in section \ref{sec:intro:relatedWork} \cite{zhao2024retrieval}.
@@ -14,16 +14,28 @@ These discussions were necessary in order to scope the solution space. Early vis
 
 At this stage, the research methodology had not yet been explicitly defined as Action Research, and it was initially assumed that the resulting prototype would be evaluated through an expert-interview.
 
+% Action Planning
+\section{Action Planning}
+\label{sec:cycle1_planning}
 \textbf{Action Planning}: The first cycle aimed to develop a proof of concept that enables conversational access to a knowledge graph consisting of enterprise architecture knowledge grounded in textbook-based domain information. It was decided that a single-agent architecture will be used, as multi-agent architectures were considered unnecessarily complex for an initial proof of concept.
 
+% Action Taken
+\section{Action Taken}
+\label{sec:cycle1_actionTaken}
 \textbf{Action Taken}: An initial knowledge graph was constructed based on content from the textbook \textit{Masterclass Enterprise Architecture Management} \cite{jung2021masterclass}. The textual content was iteratively preprocessed and transformed into graph representations, with successive refinements  applied to improve the mapping of domain concepts into nodes and relationships. This mapping was implemented using an LLM to parse the file and add it to the knowledge graph, as described by authors Laurenzi et al. (2024) \cite{laurenzi2024llm} in section \ref{sec:intro:relatedWork}. The parser was individually fit to each file. After integrating the full textbook into the knowledge graph, additional prototypical data was incorporated in the form of an application landscape and business capability map to enable querying the knowledge graph of concrete architectural data. Each of these files also received a customized LLM-based parser.
 
 The querying method was implemented via hard-coded cyphers in the frontend. The user's input prompt was then run through an LLM which attempted to fit the input into the predefined cyphers.
 
 The LLM of choice during this stage was Qwen2.5-7B-Instruct \cite{qwen2.5} as it was free to use and readily available via the Hugging Pace platform.
 
+% Evaluation
+\section{Evaluation}
+\label{sec:cycle1_evaluation}
 \textbf{Evaluation}: The state of the proof of concept after the first cycle was demonstrated to both advisors and evaluated qualitatively through open discussions. Both advisors positively assessed the feasibility of the approach, and the co-advisor confirmed that an explicit knowledge graph-based solution will be a viable direction for further development.
 
+% Learning
+\section{Learning}
+\label{sec:cycle1_learning}
 \textbf{Learning}: Compared to the beginning of the cycle, in which the feasibility of a centralized knowledge graph was uncertain, the first cycle demonstrated that an explicit, white-box approach represents a practical path forward. The cycle also revealed key challenges in three critical layers of the application. These layers relate to importing heterogeneous data and transforming it into graph structures, the effective querying of such representations, and the slow response generation by the LLM. On top of this, the risk of relying too heavily on an LLM arose by giving full control of critical points of the application to the LLM and thus being dependent on the capabilities of the language model.
 
 Finally, it became evident that further iterations would be required to systematically address these challenges with an exploratory development process.
