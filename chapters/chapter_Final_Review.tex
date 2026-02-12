@@ -1,195 +1,5 @@
 \chapter{Final Review}
 \label{ch:finalReview}
-This chapter describes how the chatbot “\prototype{}” (pronounced “mah-soo-taa” - a phonetic adaptation of the English term "master" into Japanese katakana) was developed. It provides further insight into the applied research method and the process through which the prototype was created. This gives the reader the understanding of how the research and implementation was conducted before discussing the implementation details in chapter \ref{ch:implementation}.
-
-%%%%
-% Action Research in theory
-%%%%
-\section{Action Research Design}
-\label{sec:action_research_design}
-Action research  is a research method which is highly applicable when developing an information system such as the one presented in this paper \cite{baskerville1999investigating}. The advantage of Action Research is that a large focus can be laid on the development of a system while still achieving an academic benefit. This allows for a very explorative approach to developing an information system.
-
-% Why action research applies well to software development (case studies)
-Todo: describe why action research applies well to software development
-
-Todo: add these challenges to the cycles:
-\begin{itemize}
-	\item Chunking methoden beim Einlesen des Textbuches 21.10.25
-	\item Die Datenstruktur des eingelesenen Textbuches 21.10.25
-	\item Das abfragen der GraphDB zusammen mit dem LLM - zB wurden unendliche Rekursionen mit eingebaut am Anfang, weil Nodes auf sich im Kreis zeigen (schätze ich mal - nicht so wirklich verifiziert) 21.10.25
-\end{itemize}
-
-% What cyclical phases are
-Cyclical phases are central to the concept of Action Research. Baskerville \cite{baskerville1999investigating} describes Action Research as an iterative process consisting of five steps within a single cycle. Other sources, such as Cornish et al. \cite{cornish2023participatory}, propose variations with fewer (usually three) phases within a cycle; however these models also boil down to the same concepts. Across the literature, Action Research cycles follow the same structure: planning what should be done in the new cycle, taking action, and evaluating the outcome of the completed cycle before moving on to the next one \cite{baskerville1999investigating, cornish2023participatory}.
-
-% Steps in the cycle
-The paper at hand applied a cycle using the following five steps according to Baskerville \cite{baskerville1999investigating}: diagnosing, action planning, action taking, evaluating, and specifying learning. The reason this research applies five cycles instead of three is the benefit of describing the development process in more detail. This five-step-cycle including the preliminary and subsequent steps built the basis of the conducted Action Research..
-
-% Cycle duration
-Each cycle lasted between three and four weeks. The sources used do not mention how long a single cycle should last. However, a timeframe of two to three weeks for each cycle was deemed as a reasonable for the development of \prototype{} because status updates were held at the end of each cycle and with the given amount of time for the cycle, there was enough progress to discuss in these status update meetings.
-
-% Participatory Action Research
-Action Research typically leaves the main theorizing up to the researcher. However, an extended form of Action Research named Participatory Action Research goes a step further in creating a more collaborative environment between the researcher and client participants. Instead of leaving the theorizing up to the researcher, new information and ideas are thought up together with the other participants, giving both parties an active role. This is beneficial because the other participants often have both theoretical and practical knowledge of the subject matter being worked on. \cite{baskerville1999investigating} From here on out, the term Participatory Action Research will be used interchangeably with Action Research.
-
-The following subsections explain the research design of the applied Action Research. For the exhaustive Action Research protocol, refer to chapter \ref{appendix:action_research_protocol} of the Appendix.
-
-%%%%
-% Action Research Setup
-%%%%
-\section{Action Research Setup}
-\label{sec:action_research_setup}
-
-% Domain
-The domain of EAM was focused on within this research. In particular, this study addressed mostly application landscapes, business capability maps, as well as the relationships between these two architectural artifacts. These artifacts are commonly used to support documenting an enterprise's landscapes and are used to align an enterprise's IT with its strategic business objectives.
-
-Due to their structural complexity with heterogenous data sources and multiple stakeholders involved, these artifacts are often large and difficult to interpret. Maintaining an overview can be especially challenging for junior level enterprise architects. This challenge motivates the exploration of AI-supported solutions that enable conversational interaction with the architecture, rather than manually navigating the complex diagrams.
-
-% Stakeholders
-The research was conducted in close collaboration with the academic supervisor and the co-advisor. The academic supervisor gave academic guidance, supported the structuring of the research process to ensure academic relevance, and acted as an expert practitioner. The co-advisor acted as the domain expert and practitioner, contributing practical insights to ground the research with real-world relevance. The author of this thesis assumed the role of the researcher, implementing the Action Research cycles, validating findings, and planning subsequent steps in coordination with the other stakeholders.
-
-% Initial Problem Statement
-At the outset of the research, the general problem space was clear, but the potential solution was only vaguely defined. The co-advisor initialized the research with a vague vision of a centralized system containing all enterprise architecture information, which can be interacted with via natural language. The motivation for this was to reduce the effort required to interpret the enterprise architecture artifacts.
-
-However, in the early stages of the project, not only were the technical details of the potential solution unclear, but also the feasibility of such a system. Early on it was mutually agreed upon that LLMs would play a key role in realizing this, even though the data structures, mechanisms, storage options, and interaction patterns were still open. Consequently, the initial problem statement was intentionally formulated at a high level to provide a suitable starting point for iterative exploration. Through the iterative development cycles, this high level problem statement without a planned technical concept was refined into a concrete problem definition and technical solution.
-
-
-% Constraints and Data
-
-%%%%
-% Action Research Cycles
-%%%%
-\section{Action Research Cylces}
-\label{sec:action_research_cycles}
-The above mentioned vague details of the implementation became clear during the development cycles, leading to a final architecture with a clear structure. Each cycle began with a meeting between all three stakeholders. The end of one cycle was the incubator for the next cycle and was conducted in the same meeting. Table \ref{tab:action-research-cycles-condensed} summarizes these cycles.
-
-% Development Cycles
-Todo: note in the cycles where i attemtped implementation x, which didn't work out because of reason y. any path taken should be noted. also, note at what state the system as a whole was at the end of each cycle. you have this in the learnings for cycle 4 that it was able to answer all 3 categories of questions. do something similar for each cycle.
-% Cycle 1
-\subsection{Cycle 1}
-\label{sub:cycle1}
-\textbf{Diagnosis}:  The initial problem statement lacked concrete technical formulation and the feasibility of natural language interaction with enterprise architecture data was unclear.
-
-The co-advisor outlined typical enterprise architecture workflows and the tools used to document and interact with architectural artifacts in practice. An initial idea was propsed of an AI-based black-box system capable of ingesting architecture data and deriving its own internal representations. The achievability as well as academic applicability of such a black-box system were critically questioned, particularly because of the limited transparency of the inner mechanisms and how to test this. As an alternative, the academic supervisor proposed an explicit knowledge graph approach in which a knowledge graph is built and used to supplement LLM-generated answers. This transparency aligns well with the mentioned advantages of a RAG-based LLM system in section \ref{sec:intro:relatedWork} \cite{zhao2024retrieval}.
-
-The key distinction between the black-box and white-box approaches is the transparency. While the black-box approach autonomously creates an internal representation of the information, the white-box approach requires the manual design and implementation of an explicit technical architecture.
-
-These discussions were necessary in order to scope the solution space. Early visions of an end goals included a chatbot that would support enterprise architects in exploring and improving application landscapes, for example by identifying inconsistencies or incomplete application landscapes.
-
-At this stage, the research methodology had not yet been explicitly defined as Action Research, and it was initially assumed that the resulting prototype would be evaluated through an expert-interview.
-
-\textbf{Action Planning}: The first cycle aimed to develop a proof of concept that enables conversational access to a knowledge graph consisting of enterprise architecture knowledge grounded in textbook-based domain information. It was decided that a single-agent architecture will be used, as multi-agent architectures were considered unnecessarily complex for an initial proof of concept.
-
-\textbf{Action Taken}: An initial knowledge graph was constructed based on content from the textbook \textit{Masterclass Enterprise Architecture Management} \cite{jung2021masterclass}. The textual content was iteratively preprocessed and transformed into graph representations, with successive refinements  applied to improve the mapping of domain concepts into nodes and relationships. This mapping was implemented using an LLM to parse the file and add it to the knowledge graph, as described by authors Laurenzi et al. (2024) \cite{laurenzi2024llm} in section \ref{sec:intro:relatedWork}. The parser was individually fit to each file. After integrating the full textbook into the knowledge graph, additional prototypical data was incorporated in the form of an application landscape and business capability map to enable querying the knowledge graph of concrete architectural data. Each of these files also received a customized LLM-based parser.
-
-The querying method was implemented via hard-coded cyphers in the frontend. The user's input prompt was then run through an LLM which attempted to fit the input into the predefined cyphers.
-
-The LLM of choice during this stage was Qwen2.5-7B-Instruct \cite{qwen2.5} as it was free to use and readily available via the Hugging Pace platform.
-
-\textbf{Evaluation}: The state of the proof of concept after the first cycle was demonstrated to both advisors and evaluated qualitatively through open discussions. Both advisors positively assessed the feasibility of the approach, and the co-advisor confirmed that an explicit knowledge graph-based solution will be a viable direction for further development.
-
-\textbf{Learning}: Compared to the beginning of the cycle, in which the feasibility of a centralized knowledge graph was uncertain, the first cycle demonstrated that an explicit, white-box approach represents a practical path forward. The cycle also revealed key challenges in three critical layers of the application. These layers relate to importing heterogeneous data and transforming it into graph structures, the effective querying of such representations, and the slow response generation by the LLM. On top of this, the risk of relying too heavily on an LLM arose by giving full control of critical points of the application to the LLM and thus being dependent on the capabilities of the language model.
-
-Finally, it became evident that further iterations would be required to systematically address these challenges with an exploratory development process.
-
-% Cycle 2
-\subsection{Cycle 2}
-\label{sub:cycle2}
-\textbf{Diagnosis}: Following the initial feasibility assessment, the next identified challenge concerned extending the knowledge graph with more information and positioning the prototype as a useful tool within the realm of enterprise architecture management.
-
-One design consideration involved separating textbook-based domain\linebreak knowledge from enterprise architecture data into two distinct databases. After discussion, a single integrated database was chosen to enable direct relationships between conceptual textbook knowledge and architectural data, with the expectation of improved contextual reasoning.
-
-The challenge imposed by lack of real-world data to test the system was also diagnosed. Potential test-datasets for further development and evaluation were discussed in order to bridge the gap before real-world data would be ready. The real-world data would require more time to be prepared because the co-advisor's company policy constraints meant the data cannot be used directly and has to be sanitzed first. Instead, it was agreed upon to use data from a completed university assignment, consisting of an application landscape, business capability map, business capability support matrix, business object model, and cross-application data-flow diagram for a fictitious company named SpeedParcel.
-
-\textbf{Action Planning}: The objective of the second cycle was to extend the knowledge graph with additional data from the SpeedParcel dataset. This included integrating the business capability support matrix on top of the already existent application landscape and business capability map. A second goal of this cycle was to improve the database querying method as soon as more data is available to test with.
-
-\textbf{Action Taken}: The capability support matrix of the SpeedParcel dataset was integrated into the knowledge graph, requiring adjustments to existing query mechanisms. A large challenge that hindered advancements in development came up. The hard-coded cyphers that were being used to query the database were reaching their limit. A viable solution was not found to hard-code cyphers in such a way that the changing dataset can be dynamically queried.
-
-The idea of a Model Context Protocol (MCP) server came up during development. This brought the advantage of a standardized interface between the application and the knowlede-graph. Implementing the MCP server helped achieve a higher quality in the retrieved answers, as the prompt was being transformed into custom cyphers during runtime. This allowed the cyphers being used to query the database to no longer be hard-coded in the frontend, but allowed them to be generated dynamically based on the user input. This text-to-cypher generation is achieved by using an LLM to transform the user's prompt directly into cyphers, as apposed to having predefined cyphers that get populated with the user's input by the LLM. A prerequisite for this to work, however, was that the schema of the knowledge graph was known. At this stage, the schema was hard-coded into the frontend.
-
-\textbf{Evaluation}: The extended prototype was again evaluated qualitatively through a demonstration by the researcher and open discussions between all three stakeholders. Both advisors expressed strong interest in the approach and assured that the chatboat was being developed in the correct direction in order to achieve the end goal of allowing enterprise architects to interact with the knowledge graph via natural language.
-
-\textbf{Learning}: As the prototype is starting to mature, more learnings are being pulled from each phase. Particularly, the hard-coded query method that was previously implemented was proved to be insufficient for flexible interaction with the evolving graph structure. The MCP implementation allows the entire system to be more dynamic, independent of the data in the knowledge graph.
-
-Furthermore, three key categories of user questions were identified, similar to the ones described in section \ref{sec:intro:relatedWork} \cite{zhao2024retrieval}. The first category being conceptual questions related to enterprise architecture principles, concepts, and best practices found in textbooks. The second category being descriptive questions targeting concrete architectural elements and relationships. The third category being integrative questions combining conceptual knowledge with specific architectural contexts. Examples of these categories can be found in section \textbf{todo}.
-
-Beyond the scope of this thesis, a broader vision by the advisors emerged in which the prototype could support project planning by assessing impacts on application interfaces, systems, and stakeholders. The co-advisor noted that the developments achieved thus far provide a starting point for exploring such directions in future work.
-
-% Cycle 3
-\subsection{Cycle 3}
-\label{sub:cycle3}
-\textbf{Diagnosis}: During this phase it became apparent that Action Research will be the most appropriate methodological framework for the project. The development process had evolved into an exploratory and iterative approach. This has been characterized by continuous development, reflection between all three stakeholders, and decision-making regarding which direction to take the prototype in. Consequently, the previously considered expert interview was no longer the methodology of choice for this thesis.
-
-In parallel, the co-advisor began modelling real-world enterprise architecture data using the Archi tool. It was agreed upon that the real-world data would later be exported from Archi and imported into the knowledge graph in XML format. This meant that the format of the real-world data is finalized and can be prepared for in the prototype, allowing the integration of more realistic data into the finished prototype.
-
-Additionally, it was decided that a final review will be conducted at the end of the fourth cycle. This review would require that the prototype be finished and be executable in a local environment. This review will also mark the end of the development phase of the prototype.
-
-\textbf{Action Planning}: The objective of the third cycle was to further expand the information saved in the knowledge graph by creating additional datasets from the SpeedParcel dataset. The datasets existed in a third party architecture modelling tool and had to be replicated in Archi in order to simulate the real-world data which will later also be exported from Archi. Modelling the data in Archi allows it to be exported into XML format and imported into the knowledge graph via an XML parser. This step aimed to prepare the system for handling the more complex and structured architectural models expected later.
-
-\textbf{Action Taken}: Both the business object model and the cross-application data-flow diagram were recreated in Archi, in order to test how exported XML files will behave when parsing them into the knowledge graph. The parsing at this step was still being conducted via a custom, per-file LLM-based parser. This cycle mostly dealt with expanding the knowledge graph and fine tuning the system.
-
-\textbf{Evaluation}: The progress of the third cycle was reviewed with both advisors during open discussions. The current state of the prototype and the extended data integration were assessed positively, and the overall research trajectory was again confirmed as appropriate. The end goal is in sight and is being worked towards in an appropriate manner.
-
-The system had trouble generating qualitative answers for the newly imported dataset. This is due to the new data having a different schema than the other datasets.
-
-\textbf{Learning}: The third cycle revealed scaling issues. While the individual per-file parsers have worked well so far, this cycle showed that its limits have been reached. Parsing the more complex files during this cycle showed that LLMs are no longer the appropriate method moving forward. On top of this, this custom, per-file parsing approach would also not allow for parsing files without manual implementation specific for the file at hand; a problem that has to be solved before the final review where files will have to be parsed on site and on the fly.
-
-Another scalability issue revealed was a discussion about the real-world data. While SpeedParcel's data contained hundreds of nodes and edges, the real-world data will potentially have thousands of nodes and edges. This gap revealed that a better parsing solution and a better querying solution will be necessary before the prototype is ready for the final on site review. This will have to be tested before the on site review to ensure that this does not cause performance issues within the system.
-
-% Cycle 4
-\subsection{Cycle 4}
-\label{sub:cycle4}
-\textbf{Diagnosis}: The fourth and last cycle diagnoses that the system in its current state relies too heavily on LLMs for core precessing tasks. Importing the XML data into the knowledge graph is a critical point of the application and relying on an LLM to handle this parsing is not a good choice because XML is a standardized format and many parsers exist to handle XML. It was agreed upon that a generalized parser should be used to parse the incoming XML files into the knowledge graph, replacing the LLM at this critical point within the system's architecture.
-
-A second critical part of the system that was diagnosed to be insufficient was the querying method to retrieve the information from the knowledge graph. Although the cyphers are being LLM-generated custom to the user's input, it is having trouble dealing with the changing schema of the knowledge graph because a hard-coded schema is written into the frontend which it uses as a reference for what to query. With an evolving knowledge graph, this approach is no longer viable because it is guessing at the graph's structure and not able to retrieve the data this way.
-
-\textbf{Action Planning}: The goal of this cycle was to finish the prototype and have it be ready for the on site review at the end of the cycle where all three stakeholders will be testing and discussing the system together. Achieving this goal means that the XML data must be parsed via a generalized parser, replacing the LLM implementation. On top of that, the strategy of how to handle the schema must be refactored. It will be required to dynamically understand the data, rather than have one schema hard-coded. Lastly, it also meant setting up a containerized local environment to allow running the prototype on the advisor's devices during the on site review. 
-
-\textbf{Action Taken}: The LLM-based data parser was replaced by an out of the box solution from Awesome Procedures On Cypher (APOC), which contains functions to parse file types and also how to better query a knowledge graph. Here, APOC takes the input XML files and parses them directly into cyphers. This allows any type of Archi-exported XML file to be saved into the knowledge graph.
-
-The schema-handling strategy was updated from the hard-coded variant. Before passing the user-prompt and system context to the LLM, a call to the knowledge graph was made via neo4j's built-in call \path{db.schema.visualization()} \cite{neo4j_operations_procedures} in order to get the graph's schema information. While this did improve the generated results, it still proved to be insufficient, as the LLM was not able to handle this schema information well enough to generate reliable responses.
-
-This was also solved via APOC. Rather than using neo4j's built-in schema call, the schema retrieval was changed to a predefined APOC function \path{apoc.meta.schema()} \cite{neo4j_apoc_meta_schema}. This ensures that the LLM understands how the knowledge graph is structured and how it may query it for the information requested by the user's prompt.
-
-The local environment is set up via Docker containers and can be run on any machine. It comes equipped with a frontend, backend, and two databases. The first database contains all data pertaining to SpeedParcel. The second database is a playground database and is only pre-filled with textbook information. This ensures that the on site review will allow the application to work.
-
-Lastly, cosmetic changes to the UI were added as well as new features to support the on site review. For example, the user may now upload XML files via the web application as well as reset the playground database, and view the knowledge graph in an interactive way.
-
-\textbf{Evaluation}: The refactored prototype was reviewed by both advisors via internal testing and demonstrations using the example data. The advisors assessed whether the system was executable, stable, and suitable for the final review. The replacement of the LLM-based XML parser with a generalized APOC-based parser and the updated schema-handling strategy were evaluated positively, as they enabled deterministic data imports and more reliable cypher generation. At the end of the fourth cycle, \prototype{} was deemed functionally complete and capable of answering all three categories of questions, thereby fulfilling the prerequisites for the final review.
-
-\textbf{Learning}: Many learnings can be taken from this last cycle. The first being that a generalized parser to read XML files into the knowledge graph improves the quality of the import. Another added benefit of this is that the import is now deterministic, while before the LLM-based parser behaved in a non-deterministic way.
-
-The second main learning from this cycle arose from refactoring the way that the queries get generated. Previously, the cyphers were straightforward to generate, as the schema of the SpeedParcel data was entirely known. However, during this cycle, new data was imported into the knowledge graph, which had an unknown structure, meaning the knowldge-graph's schema was unknown. The transformation of text to query has been improved by making a preliminary call to the database to fetch the current database schema. This schema information is then passed as context to the LLM in order to write more accurate cyphers. The results with this new querying strategy meant that for the first time the system was able to answer all three categories of questions.
-
-With the conclusion of this cycle, \prototype{} was a finished prototype and ready to be tested during the final review.
-
-% Table summarizing the Action Research cycles
-\begin{table}[htbp]
-\centering
-\caption{Overview of Action Research Cycles condensed into three parts per cycle as well as a summary of the final review workshop.}
-\label{tab:action-research-cycles-condensed}
-\makebox[\textwidth][c]{
-\resizebox{1.25\textwidth}{!}{
-\begin{tabular}{p{3cm} p{5cm} p{5cm} p{5cm}}
-\toprule
-\textbf{Cycle} &
-\textbf{Diagnosis} &
-\textbf{Action Taken} &
-\textbf{Learning / Outcome} \\
-\midrule
-Cycle 1 & Technical feasibility. & Develop a proof of concept. & Built initial knowledge graph with textbook data. Hard-coded cyphers.\\
-Cycle 2 & Need to extend data and improve queries. & Integrate SpeedParcel dataset and improve querying. & Added SpeedParcel data. Replace hard-coded cyphers with MCP-based text-to-cypher.  \\
-Cycle 3 & Action Research identified as appropriate methodology. Scalability and data format issues emerged. & Expand datasets via Archi models to prepare for XML imports & Recreated SpeedParcel models in Archi. Parsed XML. \\
-Cycle 4 & Over-reliance on LLMs for parsing and schema handling diagnosed as critical limiatation. & Replace LLM parsing with generalized XML parser. Refactor schema handling. Prepare executable prototype. & Implemented APOC-based XML parsing and schema retrieval. Containerized local setup. UI enhancements added. \\
-Final Review &
-\multicolumn{3}{p{16cm}}{
-A hands-on workshop with domain experts confirmed the feasibility and value of a transparent, RAG-based EAM assistant, while also revealing limitations related to context sensitivity, schema precision, and LLM-driven Cypher generation. The prototype was comparatively assessed against an industrial AI solution using realistic EAM questions, prompt variations, and data imports. The results highlight context dependency and over-reliance on LLM reasoning as key challenges and inform concrete lessons learned and directions for future research.} \\
-\bottomrule
-\end{tabular}
-}}
-\end{table}
-
-It is important to note that during each cycle, continuous system tests were being run in order to ensure that the system's requirements were being met. For example, when adding new data to the knowledge graph, the system was prompted to test if it is able to retrieve this new data. In most cases, it was not able to do so right after adding new data. These tests led to the system's prompt having to be continuously be fine tuned in order to be able to handle the data in the knowledge graph. This was a routine step conducted regularly during each iteration of development.
-
 %%%%
 % Final Review
 %%%%
@@ -209,8 +19,87 @@ The four hour workshop was structured in five phases, each with a defined scope.
 
 The final review was intentionally limited to qualitative, expert-driven evaluation. The main findings of the workshop were both the advantages of a custom build chatbot compared to an industrial chatbot as well as possible improvements for future development of \prototype{}. No quantitative performance measurements were conducted. The review was limited by the number of expert participants and the one-time execution of a review of this scope. These constraints were intentional and reflect the prototype's state of the time of the final review. The final review served as the concluding evaluation step of the applied Action Research methodology and formally ended the development phase of the prototype within this study.
 
+
+% ------------------- below is the previous chapter "case study" that needs to be fused with the above
+
+\chapter{Review Workshop With Experts}
+\label{ch:case_study}
+With an understanding of the prototype's architecture from chapter \ref{ch:implementation}, this chapter dives into the test cases that \prototype{} was put through during the final review from section \ref{sec:action_research_final_meeting}. This chapter describes the context of the case study, how the system was prepared, the tests executed, and how everything was evaluated.
+
+% A structured, factual description of how Masuta was applied in a concrete setting and what was observed during its use.
+
+% Case Context
+\section{Case Context}
+\prototype{} was put to the test by two domain experts within the realm of enterprise architecture management. This ensured that the questions being asked of the system mirrored a real world setting. The goal of the conducted case study was to evaluate the final system end-to-end and compare its results to a similar, mainstream system. The conducted tests were done in a qualitative and explorative manner, meaning that the focus of the case study was placed on the system's usefulness and perceived value from the experts' point of view.
+
+This qualitative approach was deemed appropriate, as the system was developed as a proof of concept to support enterprise architects in their daily doing. A quantitative test scenario was not considered because the prototype was not developed with explicit quantitative requirements, for example response times within \textit{x} seconds. The practitioners interacted with both \prototype{} and Rovo in parallel while actively comparing results for similar prompts. The comparison was meant to reveal strengths and weaknesses within \prototype{}.
+
+Questions asked towards both systems were constructed to cover all three categories of questions as well attempt to expand the existing architecture with further information.
+
+% System Setup and Data
+\section{System Setup and Data}
+The finished prototype system as described in chapter \ref{ch:implementation} was used throughout. \prototype{} was installed on both practitioners computers and came out of the box with the SpeedParcel example dataset and the empty playground database which only contained the textbook knowledge. All components of \prototype{}, with the exception of the LLM, ran on the local environments of the practitioners' computers.
+
+In order to simulate a real world setting, the enterprise architecture for the examination office of Frankfurt University of Applied Science was used. This architecture included several diagrams within the Archi modeling tool, ranging from high-level process landscapes to detailed views of examination preparation, thesis handling, certification assurance, and IT systems used by the examination office. Models were exported into XML format and read into \prototype{}'s playground database as described in section \ref{sub:xml_parser} and appendix section \ref{appendix:instructions:import}. Frankfurt University of Applied Science's architecture is described in German. The imported data from the examination office's architecture diagrams contained a total of 92 nodes and 152 edges.
+
+Parallel to \prototype{}, Rovo was being used with the same ingested architecture data loaded into Confluence. This allowed the practitioners to test the same dataset with a second system. It included the same documentation and architecture data as found in Archi. 
+
+% Case Execution
+\section{Case Execution}
+What did users actually do?
+How questions were asked
+Categories of questions (your 3 levels)
+Who asked which type of question
+Sequence:
+- User prompt
+- Schema call
+- Retrieval
+- Cypher generation
+- Answer
+- Rovo comparisson
+
+You can include:
+- Representative example questions
+- Short transcripts (possibly anonymized)
+- No judgment
+
+
+% Observed System Behavior
+\section{Observed System Behavior}
+What did the system output or do?
+Put here:
+- Correct answers
+- Empty result sets
+- Hallucinated outputs
+- Cypher generation attempts
+- Hardcoded Cypher cases
+ Read-only write attempts
+- Latency observations
+- Differences between expert vs. novice prompts
+Example: “In several cases, the system generated Cypher queries that did not reference the retrieved graph elements but instead returned static text.”
+
+% Summary of Case Observations
+\section{Summary of Case Observations}
+Bullet-point summary of:
+- What was observed
+- What patterns appeared
+No evaluation language
+Examples:
+“Successful retrieval occurred primarily when node types were explicitly mentioned.”
+“Schema ambiguity frequently led to empty result sets.”
+
+
+----------------------------------------------
+
+
+What we did with the finished prototype and how we tested it. Prompts we used, cases we built, edge cases, etc.
+
+show some test cases here. break down an answer like "i want to remove the application StatManPlus. What do i have to look out for as an enterprise architect?". the returned answer goes into a lot of depth as this is a level 3 question. break down the result of the query and how the result pulls information about the application but also pulls information from the Lehrbuch database.
+
+
+Idea: create a list of questions over each category with expected answers and see how it performs. also run x amount of experiments and see how many errors came up (e.g. cypher errors) and count the percent of answers that were perfect, good but could be improved, and wrong / faulty.
+
+
+
 % Conclusion Paragraph
-As described in this chapter, it becomes clear why Action Research was an invaluable methodology. From unclear beginnings containing only a vague vision for a final prototype, each development cycle contributed to the final architecture being clear and goal oriented. Each phase helped to examine what was possible from a technical standpoint as well as how to move forward. This supported the explorative nature of the project. The final review of the prototype proved that the development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development.
-
-
-
+ The final review of the prototype proved that the development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development.
