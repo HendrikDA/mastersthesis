@@ -24,6 +24,11 @@ The challenge imposed by lack of real-world data to test the system was also dia
 
 The idea of a Model Context Protocol (MCP) server came up during development. This brought the advantage of a standardized interface between the application and the knowlede-graph. Implementing the MCP server helped achieve a higher quality in the retrieved answers, as the prompt was being transformed into custom cyphers during runtime. This allowed the cyphers being used to query the database to no longer be hard-coded in the frontend, but allowed them to be generated dynamically based on the user input. This text-to-cypher generation is achieved by using an LLM to transform the user's prompt directly into cyphers, as apposed to having predefined cyphers that get populated with the user's input by the LLM. A prerequisite for this to work, however, was that the schema of the knowledge graph was known. At this stage, the schema was hard-coded into the frontend.
 
+todo: capability support matrix xml datei aus der veranstaltung eingelesen + queries angepasst
+Todo: Herausforderung, dass queries nicht gut funktionieren dadurch dass sie hardcoded waren
+Todo: MCP server eingebaut + query generierung per LLM
+
+
 % Evaluation
 \section{Evaluation}
 \label{sec:cycle2_evaluation}

@@ -32,12 +32,29 @@ Lastly, cosmetic changes to the UI were added as well as new features to support
 \label{sec:cycle4_evaluation}
 \textbf{Evaluation}: The refactored prototype was reviewed by both advisors via internal testing and demonstrations using the example data. The advisors assessed whether the system was executable, stable, and suitable for the final review. The replacement of the LLM-based XML parser with a generalized APOC-based parser and the updated schema-handling strategy were evaluated positively, as they enabled deterministic data imports and more reliable cypher generation. At the end of the fourth cycle, \prototype{} was deemed functionally complete and capable of answering all three categories of questions, thereby fulfilling the prerequisites for the final review.
 
+Todo: docker angefangen aufzusetzen
+Todo: optimierung des UXs. container hat 2 dbs, zwischen die man schalten kann, ein knopf eingefügt mitdem man den cypher kopieren kann.
+Todo: Parser mit apoc.xml geschrieben. converstation memory auch eingebaut die auf 1 nachricht zurückgeht.
+Todo: jetzt wo man eigene XMLs hochladen kann, habe ich schwierigkeiten damit, die DB zurückzusetzen. ich kann sie nicht einfach löschen und alle cypher des lehrbuchs nochmal ausführen. und eine neo4j .backup datei einzuspielen passiert auf container-ebene und müsste der nutzer per kommandozeile machen statt aus der UX.  die endgültige lösung ist, dass beim reset alle nodes und edges gelöscht werden, die nicht zum lehrbuch gehören.
+
+Todo: Eine herausforderung war es, dass die cypher abhängig vom systemkontext waren, um das schema zu verstehen. es musste hier eine lösung eingebaut werden, wodurch das system das modell generisch verstehen kann um daraufhin die cypher zu bauen.
+
+Todo: Meilenstein erreicht, dass zum ersten mal alle 3 kategorien an fragen beantwortet werden können.
+
+Todo: Schema verbessert durch den austausch von db.graph.visualization() durch apoc.meta.schema().
+
+Todo: einen frischen install von masuta auf mama's rechner ausprobiert in vorbereitung auf den termin vor ort.
+
+
 % Learning
 \section{Learning}
 \label{sec:cycle4_learning}
 \textbf{Learning}: Many learnings can be taken from this last cycle. The first being that a generalized parser to read XML files into the knowledge graph improves the quality of the import. Another added benefit of this is that the import is now deterministic, while before the LLM-based parser behaved in a non-deterministic way.
 
 The second main learning from this cycle arose from refactoring the way that the queries get generated. Previously, the cyphers were straightforward to generate, as the schema of the SpeedParcel data was entirely known. However, during this cycle, new data was imported into the knowledge graph, which had an unknown structure, meaning the knowldge-graph's schema was unknown. The transformation of text to query has been improved by making a preliminary call to the database to fetch the current database schema. This schema information is then passed as context to the LLM in order to write more accurate cyphers. The results with this new querying strategy meant that for the first time the system was able to answer all three categories of questions.
+
+Todo: Herausforderung: Versucht zu optimieren, dass die Cypher unabhängig vom Datenmodell generiert werden. Ich möchte, dass ein Nutzer seine Daten hochladen kann (kann er schon) und dass das Backend diese Daten auch richtig abfragen kann, ohne, dass ich ihm im Context sage, was für Daten in der Datenbank stecken.
+
 
 With the conclusion of this cycle, \prototype{} was a finished prototype and ready to be tested during the final review.
 
