@@ -1,48 +1,70 @@
 \chapter{Cycle 3}
 \label{ch:cycle3}
+Although the third cycle was the shortest in duration, it marked a decisive phase in which the prototype began taking on its final structural form. In contrast to the previous cycles, which focused primarily on technical feasibility and retrieval quality, the third cycle shifted toward scalability, realistic data integration, and preparation for the final review. During this phase, the system moved further away from being an academic experimentation tool and closer to a deployable prototype intended to operate under practical constraints.
 
 % Diagnosis
 \section{Diagnosis}
 \label{sec:cycle3_diagnosis}
-During this phase it became apparent that Action Research will be the most appropriate methodological framework for the project. The development process had evolved into an exploratory and iterative approach. This has been characterized by continuous development, reflection between all three stakeholders, and decision-making regarding which direction to take the prototype in. Consequently, the previously considered expert interview was no longer the methodology of choice for this thesis.
+With a maturing prototype in place, the primary diagnosis of this cycle concerned scalability and filling the knowledge graph with further data. While the integration of the SpeedParcel capability support matrix in Cycle 2 had demonstrated that the approach was feasible, the system had not yet been tested against more complex architectural artifacts such as business object models and cross-application data-flow diagrams. Adding these further diagrams will allow testing the system across all three question categories, as identified and defined in the previous cycle.
 
-In parallel, the co-advisor began modelling real-world enterprise architecture data using the Archi tool. It was agreed upon that the real-world data would later be exported from Archi and imported into the knowledge graph in XML format. This meant that the format of the real-world data is finalized and can be prepared for in the prototype, allowing the integration of more realistic data into the finished prototype.
+During discussions with the practitioners, it became increasingly clear that enterprise architects predominantly work within modeling tools such as Archi, allowing to export architectural artifacts in standardized XML formats. If the prototype is to be usable in realistic settings, it must be capable of processing such exports dynamically rather than relying on manually constructed datasets.
 
-Various tools exist in order to maintain such architecture diagrams. The modeling languages ArchiMate is a common practice for graphical representation of an enterprise's architecture. The software tool Archi builds upon the ArchiMate modeling language and offers a UI for modeling enterprise architectures. \cite{archi_tool}
+Another diagnosed challenge concerned the parser architecture itself. Up to this point, parsing had been implemented iteratively on a per-file basis. While this approach was sufficient for experimentation, it was not sustainable for a live demonstration or an on-site review scenario where unknown datasets may need to be imported without manual intervention. The risk of spending substantial time debugging or adapting parsers during practitioner meetings was identified as unacceptable for the envisioned final review.
 
-Additionally, it was decided that a final review will be conducted at the end of the fourth cycle. This review would require that the prototype be finished and be executable in a local environment. This review will also mark the end of the development phase of the prototype.
+In addition, a structural concern emerged regarding the size of real-world datasets. While the SpeedParcel dataset already contained several hundred nodes and relationships, real enterprise architecture models may contain thousands. This raised questions about parser robustness, querying performance, and overall system responsiveness under increased graph complexity.
 
 % Action Planning
 \section{Action Planning}
 \label{sec:cycle3_planning}
-\textbf{Action Planning}: The objective of the third cycle was to further expand the information saved in the knowledge graph by creating additional datasets from the SpeedParcel dataset. The datasets existed in a third party architecture modelling tool and had to be replicated in Archi in order to simulate the real-world data which will later also be exported from Archi. Modelling the data in Archi allows it to be exported into XML format and imported into the knowledge graph via an XML parser. This step aimed to prepare the system for handling the more complex and structured architectural models expected later.
+The objective of the third cycle was therefore twofold.
+
+First, additional datasets from SpeedParcel were to be recreated within Archi in order to simulate the realistic workflow of exporting enterprise architecture artifacts as XML files. As they stand, the SpeedParcel datasets are present in a graphical representation tool which is not meant for architecture diagrams and has no XML export option, requiring a recreation within Archi. In particular, the business object model (BOM) and the cross-application data-flow diagram were to be rebuilt within Archi and subsequently exported. This step ensured that the prototype would not merely process handcrafted data, but rather data generated by a modeling tool that reflects industry standards, as will be tested during the final review.
+
+Second, the parsing logic needed to evolve beyond the current customized, file-specific implementations. The goal was to move toward a more generalized XML parsing mechanism capable of interpreting structural patterns within Archi exports. This required analyzing the exported  XML structure in detail and identifying stable mapping patterns between Archi elements and knowledge graph nodes and relationships.
+
+Parallel to these technical goals, the Action Research methodology was further formalized during this cycle. The previous development phases were retrospectively structured into explicit Action Research cycles, and documentation was aligned accordingly. This formalization reinforced the iterative logic of intervention, reflection, and adjustment.
 
 % Action Taken
 \section{Action Taken}
 \label{sec:cycle3_actionTaken}
-\textbf{Action Taken}: Both the business object model and the cross-application data-flow diagram were recreated in Archi, in order to test how exported XML files will behave when parsing them into the knowledge graph. The parsing at this step was still being conducted via a custom, per-file LLM-based parser. This cycle mostly dealt with expanding the knowledge graph and fine tuning the system.
+Both the BOM and the cross-application data-flow diagram were recreated within Archi. These models were exported as XML files and analyzed in detail in order to understand their hierarchical structure and relationship encoding. Initial validation of the exported XML structure was conducted with the assistance of generative AI tools to assess whether the structural mapping into nodes and edges was conceptually feasible.
 
-Todo: Architekturdiagramme in Archi nachgebaut um daraus später exportieren zu können so wie im vort-ort termin es sein wird.
+A custom XML parser was then developed, again with AI assistance, but this time with a stronger emphasis on structural generalization rather than file-specific transformation. Instead of manually encoding transformations for each dataset, the parser was designed to interpret recurring XML structures and map them systematically to the graph schema.
 
-Todo: Sorge: Das Bauen des parsers habe ich bisher schritt für schritt und iterativ gemacht pro datei, die ich einlesen möchte. um beim vor-ort treffen mit herrn schlör nicht den halben tag am parser zu verlieren wäre es gut, wenn ich einen all-in-one parser hinkriege, der dynamisch die daten lesen kann, zusammenhänge verstehen kann, und alles in einem rutsch macht.
+During this process, several iterations of parsing and validation were conducted. The imported nodes and relationships were compared via samples in the Neo4j visualization and the original Archi diagrams to ensure semantic correctness.
 
-Todo: custom-Parser für die XML geschrieben (mit AI assistance) 
+In addition, contextual optimization of the backend took place. The system prompt and schema descriptions were refined to better accommodate the newly imported datasets. This included adapting the contextual information passed to the LLM during text-to-Cypher generation in order to reflect the extended graph structure.
 
-Todo: Kontextoptimierung hat hier stattgefunden.
-
-Todo: Parallel den Speedparcel datensatz ausgebaut in archimate.
+All the while during testing, the generated Cyphers threw errors every so often. Usually these errors were due to the LLM generating semantically incorrect Cyphers, which could not be executed. These error cases were used to fine tune the system prompt by improving the description of the task assigned to the LLM to generate the Cyphers. With this additional context, the same errors did not occur twice.
 
 
 % Evaluation
 \section{Evaluation}
 \label{sec:cycle3_evaluation}
-\textbf{Evaluation}: The progress of the third cycle was reviewed with both advisors during open discussions. The current state of the prototype and the extended data integration were assessed positively, and the overall research trajectory was again confirmed as appropriate. The end goal is in sight and is being worked towards in an appropriate manner.
+The progress of the third cycle was reviewed with both advisors through open discussions. The integration of Archi-based exports was assessed as a necessary and strategically important step toward realistic applicability. The overall development trajectory was again confirmed as appropriate, and the it was agreed upon that the final cycle will deal with the necessary preparation for a final review.
 
-The system had trouble generating qualitative answers for the newly imported dataset. This is due to the new data having a different schema than the other datasets.
+However, the evaluation also revealed limitations. While the XML parsing of the newly imported datasets was technically successful, the system struggled to consistently generate high-quality answers based on the expanded graph structure. This was largely attributed to schema differences between datasets and insufficient contextual awareness within the text-to-Cypher generation process.
+
+Furthermore, the increased graph complexity exposed potential performance constraints. Although no critical performance failures occurred, it became evident that the prototype had not yet been stress-tested under real enterprise-scale conditions. The gap between the SpeedParcel dataset and potential real-world datasets highlighted the need for additional robustness testing before the final review.
+
+As this cycle was the shortest of the the four, the goal of implementing a parsing structure which does not rely on a customized implementation per file was not met and will have to be completed as a priority in the last cycle.
+
+Finally, it was agreed that the development phase would conclude after the fourth cycle with the structured final review. The requirement of the final review introduced a fixed deadline and further emphasized the necessity of achieving parser stability, system scalability, and a local deployment environment within the remaining timeframe. The fourth cycle would thus be the final development cycle within the realm of this research.
 
 % Learning
 \section{Learning}
 \label{sec:cycle3_learning}
-\textbf{Learning}: The third cycle revealed scaling issues. While the individual per-file parsers have worked well so far, this cycle showed that its limits have been reached. Parsing the more complex files during this cycle showed that LLMs are no longer the appropriate method moving forward. On top of this, this custom, per-file parsing approach would also not allow for parsing files without manual implementation specific for the file at hand; a problem that has to be solved before the final review where files will have to be parsed on site and on the fly.
+The third cycle revealed that the primary challenge was no longer feasibility, but scalability and robustness.
 
-Another scalability issue revealed was a discussion about the real-world data. While SpeedParcel's data contained hundreds of nodes and edges, the real-world data will potentially have thousands of nodes and edges. This gap revealed that a better parsing solution and a better querying solution will be necessary before the prototype is ready for the final on site review. This will have to be tested before the on site review to ensure that this does not cause performance issues within the system.
+Firstly, the per-file LLM-assisted parsing approach reached its structural limits. While effective for experimentation, it proved unsuitable for handling diverse XML exports without manual intervention. This demonstrated that LLM-assisted parsing is useful for rapid prototyping but insufficient as a long-term solution for standardized data ingestion. Moving forward, a more deterministic and schema-driven parsing architecture is required.
+
+Secondly, the cycle highlighted the complexity introduced by heterogeneous schemas. This revealed that knowledge graph expansion must be accompanied by corresponding updates in contextual schema descriptions provided to the LLM. The scalability of text-to-Cypher generation is therefore tightly coupled with schema management.
+
+Thirdly, discussions with practitioners reinforced that real enterprise architecture projects involve significantly larger datasets and more intricate interdependencies than those represented in SpeedParcel. This emphasized that performance and query optimization must become explicit design considerations rather than secondary concerns.
+
+Finally, this cycle clarified the evolving identity of the prototype. The system is no longer merely a knowledge retrieval tool, but is gradually approaching the characteristics of a decision-support system capable of assisting with architectural transformation scenarios. However, this transition requires stability, generalization, and scalability to ensure that the system can operate under realistic conditions without manual intervention.
+
+In summary, the third cycle shifted the focus from improving answer quality to ensuring structural resilience. The insights gained during this phase directly inform the priorities of the fourth and final cycle.
+
+
+
