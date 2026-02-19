@@ -1,52 +1,74 @@
 \chapter{Final Review}
 \label{ch:finalReview}
-After the fourth and final Action Research cycle, a hands-on workshop was conducted as the final review of the prototype. The purpose of this  review was to test \prototype{} using real-world EAM questions in order to observe its behavior and identify capabilities in a realistic setting. The review combined an explorative testing approach as well as a summative evaluation and marked the formal end of the Action Research process within the scope of this thesis. This section focuses on describing the setup and procedure of the final review as well as discussing the results.
+With all four development cycles completed, a hands-on workshop was conducted as the final review of \prototype{}. The purpose of this  review was to test the prototype using real-world EAM questions in order to observe the system's behavior and identify capabilities and limitations in a realistic setting. The review combined an explorative testing approach as well as a summative evaluation and marked the formal end of the Action Research process within the scope of this thesis. This section focuses on describing the setup and procedure of the final review as well as discussing the results.
 
 % Case Context
 \section{Case Context}
 \label{sec:caseContext}
-\prototype{} was put to the test by the two EAM domain experts who supported throughout the Action Research cycles. Their expertise ensured that the questions being asked of the system mirrored a real world setting. The goal of the conducted review was to evaluate the final system end-to-end and compare its results to a similar, mainstream system named Rovo \cite{atlassian2026rovo}, which is integrated in Atlassian's knowledge management software Confluence. This setup allowed the domain experts to contrast the behavior and outputs of both systems under identical conditions. The conducted tests were done in a qualitative and explorative manner, meaning that the focus of the case study was placed on the system's usefulness and perceived value from the experts' point of view.
+\prototype{} was put to the test by the two EAM domain experts who supported throughout the Action Research cycles. Their expertise ensured that the questions being asked of the system mirrored a real world setting. The goal of the conducted review was to evaluate the final system end-to-end and compare its results to a similar, mainstream system named Rovo\footnote{Rovo: \url{https://www.atlassian.com/software/rovo}}, which is integrated in Atlassian's knowledge management software Confluence. This setup allowed the domain experts to contrast the behavior and outputs of both systems under identical conditions. The conducted tests were done in a qualitative and explorative manner, meaning that the focus of the case study was placed on the system's usefulness and perceived value from the experts' point of view.
 
-This qualitative approach to reviewing the system was deemed appropriate, as the system was developed as a proof of concept to support enterprise architects in their daily doing. A quantitative test scenario was not considered because the prototype was not developed with explicit quantitative requirements, for example response times within \textit{x} seconds. The practitioners interacted with both \prototype{} and Rovo in parallel while actively comparing results for similar prompts. The comparison was meant to reveal strengths and weaknesses within \prototype{}.
+This qualitative approach to reviewing the system was deemed appropriate, as the system was developed as a proof of concept to support enterprise architects in their daily doing. A quantitative test scenario was not considered because the prototype was not developed with explicit quantitative requirements, for example response times within \textit{x} seconds. The practitioners interacted with both \prototype{} and Rovo in parallel while actively comparing results for similar prompts. The comparison was meant to reveal both strengths and weaknesses within \prototype{} as well as define what future development may add to the system.
 
 The final review was conducted as a four-hour online workshop with a strict agenda between the researcher and both stakeholders, who acted as EAM domain experts. Parallel testing of two systems was conducted, accompanied by open, discussion-based feedback loops. Each participant interacted with the systems in an explorative manner.
 
 % System Setup and Data
 \section{System Setup and Data}
-The finished prototype system as described later in chapter \ref{ch:implementation} was used throughout. \prototype{} was installed on both practitioners computers and came out of the box with the SpeedParcel example dataset and the empty playground database which only contained the textbook knowledge. All components of \prototype{}, with the exception of the LLM, ran on the local environments of the practitioners' computers.
+The finished prototype system, as described later in chapter \ref{ch:implementation}, was used throughout. \prototype{} was installed on both practitioners computers. The system came out of the box with two databases. The first database contained the SpeedParcel example dataset as well as the textbook information. The second database served as an empty playground containing only the textbook knowledge. All components of \prototype{}, with the exception of the LLM, ran on the local environments of the practitioners' computers.
 
-In order to simulate a real world setting, a new set of data was introduced specifically for the workshop. The enterprise architecture for the examination office of Frankfurt University of Applied Science was used and included several diagrams within Archi, ranging from high-level process landscapes to detailed views of examination preparation, thesis handling, certification assurance, and IT systems used by the examination office. Models were exported into XML format and read into \prototype{}'s playground database as described in section \ref{sub:xml_parser} and appendix section \ref{appendix:instructions:import}. Frankfurt University of Applied Science's architecture is described in German. The imported data from the examination office's architecture diagrams contained a total of 92 nodes and 152 edges. This dataset enabled evaluation in a realistic but controlled real-world scenario.
+In order to simulate a real world setting, a new set of data was introduced specifically for the workshop. The enterprise architecture for the examination office of Frankfurt University of Applied Science was used and included several diagrams within Archi, ranging from high-level process landscapes to detailed views of examination preparation, thesis handling, certification assurance, and IT systems used by the examination office. Models were exported into XML format and read into \prototype{}'s playground database as described in section \ref{sub:xml_parser} and \ref{appendix:instructions:import}. The imported data from the examination office's architecture diagrams contained a total of 92 nodes and 152 edges. This dataset enabled evaluation in a realistic but controlled real-world scenario.
 
-Parallel to \prototype{}, Rovo was being used with the same architecture data loaded into Confluence. This allowed the practitioners to test the same dataset with a second system. It included the same documentation and architecture data as found in Archi.
+Although Frankfurt University of Applied Science's architecture is described in German, prompts toward both systems contained a mix of both German and English. This reflects a real-world scenario in the German industry, as many companies employ both languages in daily work.
+
+Parallel to the test cases applied to \prototype{}, Rovo was also being used with the same architecture data loaded into Confluence. Rovo is able to answer user prompts about the data via an internal, blackbox knowledge system that it builds. This allowed the practitioners to test the same dataset with a second system. It included the same documentation and architecture data as found in \prototype{}'s imported XML files.
 
 % Case Execution
 \section{Review Execution}
 \label{sec:reviewExec}
-The four hour workshop was structured in four phases, each with a defined scope fr the experiments conducted. After a short status overview, in which each participant aligned on the current state of the prototype's development and the state of the thesis, the first round of experiments began.
+The four-hour workshop was structured in four phases, each with a defined scope of experiments to be conducted on the systems. After a short status overview, in which each participant aligned on the current state of the prototype's development and the state of the thesis, the first round of experiments began.
 
 % Phase 1
 \subsection{Phase 1}
 \label{sub:phase1}
-The first phase focused on assessing the basic system functionality using simple domain questions. These questions were asked to both systems in parallel.
+The first phase served as a baseline check of whether both systems could handle simple, conceptual domain questions about the examination office and whether \prototype{} behaved as expected out of the box. The practitioners asked short prompts such as “What does HIS do?” and “What is an orphan?” to test whether \prototype{} could  retrieve relevant textbook context and ground its answer in the imported architecture model.
+
+In this phase, it became apparent that wording and domain context strongly influenced answer quality. For example, when prompts explicitly framed the question in an EAM context (e.g., “In Enterprise Architecture Management, what is an orphan?”), \prototype{} tended to align more closely with the textbook definition, whereas shorter prompts increased the risk of a drifted definition.
+
+The practitioners also observed that \prototype{} sometimes injected LLM-internal knowledge not present in the dataset, illustrated by a response that referenced the “QIS” system, even though it did not occur in the imported data.
+
+In parallel, Rovo was tested with the same questions; the practitioners noted that Rovo also produced factually incorrect statements in some cases, which reinforced the need to treat both systems’ answers as hypotheses that require validation.
 
 % Phase 2
 \subsection{Phase 2}
 \label{sub:phase2}
-In the second experiment, the workshop shifted toward whether or not \prototype{} could directly process and analyze XML files exported from the examination office's architecture landscape in ArchiMate. This mainly contained business functions containing little to no further documentation.
+The second phase shifted from conceptual questions toward direct interaction with the imported knowledge graph. The focus was whether \prototype{} could work with models that contained business functions with little to no accompanying documentation, and whether meaningfully structured outputs could still be derived. In practice, this phase was driven by prompts that required the system to summarize or reconstruct structures from the graph, such as generating a business support matrix and analyzing modeled elements around HIS, such as identifying that HIS-POS was explicitly present as a module. The practitioners also tried to operationalize outputs, for example by requesting an Excel file export, which revealed a practical limitation in that the frontend did not support file download in the tested setup.
+
+In addition, this phase exposed an important system boundary that when the practitioners asked the system to add descriptions to objects in the knowledge graph, then \prototype{} responded with read-only constraints, which produced Neo4j-related errors during the workshop. Overall, Phase 2 made clear that the system could generate structured, graph-derived summaries, but that interaction patterns must remain aligned with read-only behavior and output channels supported by \prototype{} at this stage of its development.
 
 % Phase 3
 \subsection{Phase 3}
 \label{sub:phase3}
-The third experiment concentrated on identifying missing domain objects, incomplete or missing descriptions, and errors in classifying the imported data. The behavior of both systems was observed and contrasted throughout these phases.
+The third phase concentrated on quality issues in the imported model and on tasks that resemble real EAM grunt work, such as identifying missing descriptions, detecting missing objects, and validating completeness. The practitioners used prompts such as “Which business functions don’t have a description?”. This led to two observations. First, \prototype{} was able to list business functions lacking descriptions and generate generic placeholder descriptions. Second, the practitioners judged these generated descriptions as too unspecific, which was then illustrated by the follow-up question “What is a TOR?”, where the system correctly interpreted TOR as “Transcript of Records.” This sequence highlighted that filling gaps via natural-language generation is possible, but that correctness and specificity must often be validated by experts.
+
+The phase also included prompts aimed at identifying missing business objects in the context. In the observed output, \prototype{} defines missing as “existing in the overall model but not referenced by functions of that unit”. Subsequently, the practitioner clarified that the intended meaning was “objects not yet listed in the specification.”
+
+Beyond the content-level findings, the practitioners reported that element typing mattered. For example, if the prompt did not provide ArchiMate terminology, such as "Business Function”, the system often failed to retrieve relevant parts of the model and instead tended toward hallucinated or over-general answers. Guiding the LLM by prompting with the ArchiMate terminology improved the accuracy and relevance of retrieved information.
+
+A further improvement point emerged around the generic import, as the practitioners suspected that too many nodes were imported under a generic label “ArchiElement” with the actual data type stored only in the metadata. This can reduce the LLM's ability to query the proprietary knowledge graph, thus reducing the quality of answers generated.
 
 % Phase 4
 \subsection{Phase 4}
 \label{sub:phase4}
-The workshop concluded with a closing phase in which the domain experts summarized the findings, advantages of \prototype{}, and potential improvements for future development.
+The closing phase consolidated findings and framed next steps without expanding scope during the workshop itself. A central outcome was that the workshop format enabled a direct comparison between the transparent, inspectable system \prototype{} and the black-box system Rovo under identical data conditions. The practitioners explicitly emphasized transparency as a core differentiator: with \prototype{}, it was possible to inspect what the system executed in the background via the attached Cyphers with every response. Whereas Rovo’s internal reasoning and retrieval remained opaque.
+
+At the same time, Phase 4 captured the main limitations discovered during the session: (1) the system’s sensitivity to prompt context and specialist terminology, (2) the risk of hallucinated knowledge that is not grounded in the imported dataset, (3) operational friction from read-only constraints when users implicitly request write actions, and (4) instability symptoms reflected in Neo4j error messages during some attempts. The practitioners also discussed concrete follow-ups for future development, such as exporting chat logs for documentation purposes and tagging the current GitHub state as a baseline version.
+
+Finally, the workshop concluded with alignment on the broader narrative for the thesis: the system can incorporate expert knowledge via RAG, but it does not automatically infer the correct link between a user prompt and the right slice of that knowledge without sufficient context; this was recorded as a key lesson learned and a driver for future architectural refinements, as described later in chapter \ref{ch:conclusion}
+
 
 
 % Case Execution
-
+\section{Case Execution}
+\label{sec:caseExecution}
 What did users actually do?
 How questions were asked
 Categories of questions (your 3 levels)
