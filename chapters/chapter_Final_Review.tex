@@ -24,7 +24,7 @@ Parallel to the test cases applied to \prototype{}, Rovo was also being used wit
 % Case Execution
 \section{Review Execution}
 \label{sec:reviewExec}
-The four-hour workshop was structured in four phases, each with a defined scope of experiments to be conducted on the systems. After a short status overview, in which each participant aligned on the current state of the prototype's development and the state of the thesis, the first round of experiments began.
+The four-hour workshop was structured in four phases, each with a defined scope of experiments to be conducted on the systems. After a short status overview, in which each participant aligned on the current state of the prototype's development and the state of the thesis, the first round of experiments began. A summary of the review can be seen in table \ref{tab:final-review-summary} containing the goal and result of each phase as well as a summary of the closing phase.
 
 % Phase 1
 \subsection{Phase 1}
@@ -63,6 +63,44 @@ The closing phase consolidated findings and framed next steps without expanding 
 At the same time, Phase 4 captured the main limitations discovered during the session: (1) the system’s sensitivity to prompt context and specialist terminology, (2) the risk of hallucinated knowledge that is not grounded in the imported dataset, (3) operational friction from read-only constraints when users implicitly request write actions, and (4) instability symptoms reflected in Neo4j error messages during some attempts. The practitioners also discussed concrete follow-ups for future development, such as exporting chat logs for documentation purposes and tagging the current GitHub state as a baseline version.
 
 Finally, the workshop concluded with alignment on the broader narrative for the thesis: the system can incorporate expert knowledge via RAG, but it does not automatically infer the correct link between a user prompt and the right slice of that knowledge without sufficient context; this was recorded as a key lesson learned and a driver for future architectural refinements, as described later in chapter \ref{ch:conclusion}
+
+
+
+% Table summarizing the 4 phases of the final review
+\begin{table}[htbp]
+\centering
+\caption{Summary of the four phases of the final review workshop.}
+\label{tab:final-review-summary}
+\makebox[\textwidth][c]{
+\resizebox{1\textwidth}{!}{
+\begin{tabular}{p{2.8cm} p{6.0cm} p{6.5cm}}
+\toprule
+\textbf{Phase} &
+\textbf{Goal} &
+\textbf{Result} \\
+\midrule
+
+Phase 1 &
+Baseline check using conceptual EAM questions; parallel comparison with Rovo. &
+Answer quality depended on prompt context. Explicit EAM framing improved alignment with textbook definitions. Isolated cases of hallucination throgh non-dataset knowledge observed.\\
+
+Phase 2 &
+Test direct interaction with imported XML model and generation of structured outputs. &
+Analysis and summaries were possible. Export requests revealed frontend limitations. Prompts requiring write-permissions to the database triggered read-only Neo4j errors. \\
+
+Phase 3 &
+Identify completeness and classification issues in the imported model. &
+Missing descriptions could be detected and auto-generated, but required expert validation. Interpretation of “missing” depended on phrasing, i.e. the LLM had a different definition of "missing" than the experts. Retrieval improved when ArchiMate terminology was used. Import structure of the generic ArchiMate-node noted as a limitation. \\
+
+\midrule
+\multicolumn{3}{p{15.5cm}}{
+\textbf{Phase 4} \quad  The transparency of \prototype{} through inspectable Cypher was highlighted as a key advantage over Rovo as well as the possibility to customize and extend \prototype{} with more features. Limitations documented include prompt sensitivity, hallucination risk, read-only constraints, and instability when generating responses. Future enhancements and further features discussed.} \\
+\bottomrule
+\end{tabular}
+}}
+\end{table}
+
+
 
 
 
