@@ -15,7 +15,7 @@ The final review was conducted as a four-hour online workshop with a strict agen
 \section{System Setup and Data}
 The finished prototype system, as described later in chapter \ref{ch:implementation}, was used throughout. \prototype{} was installed on both practitioners computers. The system came out of the box with two databases. The first database contained the SpeedParcel example dataset as well as the textbook information. The second database served as an empty playground containing only the textbook knowledge. All components of \prototype{}, with the exception of the LLM, ran on the local environments of the practitioners' computers.
 
-In order to simulate a real world setting, a new set of data was introduced specifically for the workshop. The enterprise architecture for the examination office of Frankfurt University of Applied Science was used and included several diagrams within Archi, ranging from high-level process landscapes to detailed views of examination preparation, thesis handling, certification assurance, and IT systems used by the examination office. Models were exported into XML format and read into \prototype{}'s playground database as described in section \ref{sub:xml_parser} and \ref{appendix:instructions:import}. The imported data from the examination office's architecture diagrams contained a total of 92 nodes and 152 edges. This dataset enabled evaluation in a realistic but controlled real-world scenario.
+In order to simulate a real world setting, a new set of data was introduced specifically for the workshop. The enterprise architecture for the examination office of Frankfurt University of Applied Science was used and included several diagrams within Archi, ranging from high-level process landscapes to detailed views of examination preparation, thesis handling, certification assurance, and IT systems used by the examination office. Models were exported into XML format and read into \prototype{}'s playground database as described in section \ref{sub:xml_parser} and \ref{appendix:instructions:import}. The imported data from the examination office's architecture diagrams contained a total of 92 nodes and 152 edges. This dataset enabled evaluation in a realistic but controlled real-world scenario. During the system tests, the experts edited some of the faculty's architectural components with the generated answers.
 
 Although Frankfurt University of Applied Science's architecture is described in German, prompts toward both systems contained a mix of both German and English. This reflects a real-world scenario in the German industry, as many companies employ both languages in daily work.
 
@@ -127,30 +127,21 @@ The prompts asked toward the systems differed largely from those asked during th
 % Observed System Behavior
 \section{Observed System Behavior}
 \label{sec:observedSysBehavior}
-This section describes the systems' behaviors in depth, which largely generated the results of the subsequent results discussion.
+This section describes the systems' behaviors and generated responses observed throughout the workshop. The focus lies on recurring patterns in outputs, system reactions, and interaction characteristics. The evaluation of the results will commence in the following section.
 
-What did the system output or do?
-Put here:
-- Correct answers
-- Empty result sets
-- Hallucinated outputs
-- Cypher generation attempts
-- Hardcoded Cypher cases
- Read-only write attempts
-- Latency observations
-- Differences between expert vs. novice prompts
-Example: “In several cases, the system generated Cypher queries that did not reference the retrieved graph elements but instead returned static text.”
-e.g. "Successful retrieval primarily occurred when ArchiMate terminology was included in the prompt."
+Across multiple prompts, answer generation was strongly influenced by the level of contextual framing provided in the question. When domain-specific terminology such as “Enterprise Architecture Management” or explicit ArchiMate element types such as "Business Function" were included in the prompts, retrieval results more consistently referenced textbook definitions or correctly modeled elements. When such terminology was omitted, responses more frequently contained broader interpretations, generalized explanations, or even hallucinated responses. For example, the conceptual questions “What is an orphan?” generated different outputs depending on the phrasing. The shorter prompt led to an answer which explained that orphans are elements without relationships to other elements and referenced concrete orphans in the imported model. The more specific prompt “In Enterprise Architecture Management, what is an orphan?” led to retrieval of a textbook-based definition of the term orphan. This behavior illustrates that prompt framing directly affected which knowledge source was accessed. Rovo was observed to not be able to generate factually correct answers and was not able to derive a satisfactory answer to this question. % Discussion: super wichtig, wie man das system promptet. man muss ein bisschen wissen, wie das system aufgebaut ist und wie man die erforderlichen informationen extrahieren kann. man kommt also nicht drum herum, das system von innen ein bisschen zu verstehen (vorteil von masuta)
 
-Bullet-point summary of:
-- What was observed
-- What patterns appeared
-No evaluation language
-Examples:
-“Successful retrieval occurred primarily when node types were explicitly mentioned.”
-“Schema ambiguity frequently led to empty result sets.”
+However, cases were observed where \prototype{} introduced information not present in the imported dataset. For example, when asked about HIS, the system referenced the system “QIS,” although QIS did not appear in the underlying architecture model. This indicates that responses occasionally incorporated LLM-internal knowledge beyond the retrieved graph data. % Discussion: Hallucinationen passieren und es ist erforderlich, dass man alles gegencheckt. oft wird expertenwissen trotzdem gebraucht
 
+When prompted to generate structured outputs such as a business support matrices, \prototype{} required guidance in generating an appropriate output. After initial prompting, the system output an overview of the current business functions and processes. After the experts refined the prompt to generate a matrix, the system responded with a tabular representation in textual form which highlighted unmapped functions. However, the output did not resemble a proper matrix of business functions and applications. Instead, the system output further analysis of the architecture, for example that half of the applications did not have a business function assigned to them. After further refined prompts by the expert, the system was not able to fulfill the task properly and repeatedly went in circles by giving analytical responses to the data at hand rather than generating a matrix. The expert requested that an Excel file be generated of the matrix. Although the system responded with an attached file, the functionality of \prototype{} was not expanded to enable file handling. This means that the file may have been generated within the Open AI servers, but was not able to be presented to the user within \prototype{}. % Discussion: das system konnte keine matrix erstellen und konnte auch keine datei zum download zur verfügung stellen.
 
+The expert then went on to request missing descriptions of the previously mentioned business functions. \prototype{} returned a list of business functions lacking descriptions and recommended to check these for missing descriptions. After the expert requested that these descriptions be filled out and added to the architecture, \prototype{} responded with a Neo4j error that it is only able to execute read-only Cyphers. In contrast, Rovo did not generate any error messages in its outputs and was able to generate answers without systemic errors in all test cases. The expert then requested the missing descriptions from \prototype{} via text, to which the system was able to output full-text descriptions. Subsequent prompts attempted to improve the output format of the generated descriptions in order to allow better copying in order to manually add the descriptions to the department's architecture in Archi. % Discussion: man muss masuta sehr an die hand nehmen, um praktisch nützliche ausgaben zu bekommen
+
+A further observed limitation of \prototype{} regarded the Cypher generation process. It was observed that in some cases the generated Cypher did not solely retrieve existing graph elements but constructed a templated answer structure containing the requested keyword. For example, instead of retrieving the requested information from the knowledge graph, the generated Cypher contained hardcoded strings with an LLM-generated response directly in the Cypher. This meant that a Cypher was being executed within Neo4j without retrieving any information from the knowledge graph, giving the illusion that the necessary information was being retrieved. This manipulated response by the LLM could be detected through a manual analysis within Neo4j by copying and manually executing the Cypher returned along with the response. % Discussion: das system trickst uns aus indem es selbst-genrierte antworten in den cypher packt und ausführt. das liegt daran, dass im systemkontext drin steht, dass es cypher generieren muss. das muss man im systemkontext wohl nachbessern.
+
+The experts positively noted the way in which Rovo generates its responses. Before outputting its results,  Rovo often restated the question and how it understood the information context before presenting an answer. This allowed the experts to verify if the system understood the task correctly and allowed refined prompting in cases where it misunderstood. % Discussion: rovo zeigt einen reiferen grad der generierten antworten
+
+However, Rovo does not offer any further inspection of the generated results, such as a how information was extracted from any sort of knowledge graph. It produces responses without exposing intermediate reasoning steps or retrieval mechanisms. This further illustrates that the black-box mechanisms of Rovo. In some cases, Rovo also generated factually incorrect or misleading information, which was caught by the experts through manual analysis of the generated response. % Discussion: Rovo hat auch seine schwierigkeiten im umgang mit den daten aber hat vor allem den nachteil, dass man nicht nachvollziehen kann, wo Rovo falsch abgebogen ist bei der antwort generierung
 
 
 
@@ -159,6 +150,9 @@ Examples:
 \section{Discussion of the Results}
 \label{sec:discussionOfResults}
 
+Differences in prompting style also influenced output characteristics. When prompts resembled expert terminology and domain language, retrieval more frequently referenced modeled elements. When phrasing resembled non-specialist language, responses were more likely to contain generalized or interpretative expansions.
+
+In several interactions, Neo4j-related error messages were displayed. These errors were particularly associated with write attempts or schema-related operations. The system architecture prevented permanent modifications to the database during the workshop session.
 
 
 
