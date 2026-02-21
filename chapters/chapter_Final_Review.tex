@@ -22,7 +22,7 @@ Although Frankfurt University of Applied Science's architecture is described in 
 Parallel to the test cases applied to \prototype{}, Rovo was also being used with the same architecture data loaded into Confluence. Rovo is able to answer user prompts about the data via an internal, blackbox knowledge system that it builds. This allowed the practitioners to test the same dataset with a second system. It included the same documentation and architecture data as found in \prototype{}'s imported XML files.
 
 % Case Execution
-\section{Review Execution}
+\section{Review Execution Phases}
 \label{sec:reviewExec}
 The four-hour workshop was structured in four phases, each with a defined scope of experiments to be conducted on the systems. After a short status overview, in which each participant aligned on the current state of the prototype's development and the state of the thesis, the first round of experiments began. A summary of the review can be seen in table \ref{tab:final-review-summary} containing the goal and result of each phase as well as a summary of the closing phase.
 
@@ -104,32 +104,31 @@ Missing descriptions could be detected and auto-generated, but required expert v
 
 
 
-% Case Execution
-\section{Case Execution}
-\label{sec:caseExecution}
-What did users actually do?
-How questions were asked
-Categories of questions (your 3 levels)
-Who asked which type of question
-Sequence:
-- User prompt
-- Schema call
-- Retrieval
-- Cypher generation
-- Answer
-- Rovo comparisson
+% Interaction Procedure
+\section{Interaction Procedure}
+\label{sec:interactionProcedure}
+This section describes the procedures in which the systems were interacted with, giving an insight into the method applied. The prompts applied to both systems were structured to build upon one another, covering all three categories of questions as identified in Cycle 2 in section \ref{sec:cycle2_evaluation}. The prompts stretched from vague, short, and open structures to more contextually rich in order to test how the LLM deals with different context levels. Many prompts were refined iteratively during discussions. Both German and English prompts were applied to each system.
 
-You can include:
-- Representative example questions
-- Short transcripts (possibly anonymized)
-- No judgment
+The interaction pipeline started with theorizing questions to ask the systems appropriate to the current review phase. This required that the experts brainstorm questions to ask of the system. These questions were then input into each system. The system then retrieved the information from their respective knowledge bases and presented the information the experts. In the case of \prototype{}, the generated Cypher used to query the knowledge graph was displayed alongside the response. In cases where the expert wished to understand the generated answer in more detail, they were able to copy the Cypher and execute it within their local Neo4j instance, returning the raw results used to answer the prompt. This allowed a deeper understand of how the LLM came up with the answer. Rovo did not allow any further inspection into the generated answer.
 
-Questions asked towards both systems were constructed to cover all three categories of questions as well attempt to expand the existing architecture with further information.
+Prompts were often entered into both systems in parallel, allowing real time comparison of the outputs. After parallel prompting, the experts went into immediate discussions of the results. Observations were captured and documented by the researcher throughout the session.
 
+The answers generated were validated by the experts as soon as they were generated. This was done in one of two ways. First, by applying their own expertise knowledge, for example when prompting the system for conceptual EAM knowledge, they compared it to their own understanding of EAM. Second, by manually comparing the generated results to the architecture of the examination office. Both validation methods were applied continuously throughout the experiments.
+
+The following is an example list of prompts per category that were asked of the systems during the experiments:
+\begin{enumerate}
+	\item Category 1: \textit{What is an orphan?}, later refined to \textit{In EAM, what is an orphan?}
+	\item Category 2: \textit{Explain the business support matrix of the examination office.}
+	\item Category 3: \textit{Which business functions don't have a description} with the follow-up prompt \textit{Please create descriptions for all business functions.}
+\end{enumerate}
+
+The prompts asked toward the systems differed largely from those asked during the development phase. While the researcher tested the system during implementation with typical questions as in the examples above, the experts also regularly asked questions which went beyond the three categories. This included prompting the system with the task of generating descriptions of architectures or generating output files containing architectural information.
 
 % Observed System Behavior
 \section{Observed System Behavior}
 \label{sec:observedSysBehavior}
+This section describes the systems' behaviors in depth, which largely generated the results of the subsequent results discussion.
+
 What did the system output or do?
 Put here:
 - Correct answers
@@ -141,6 +140,7 @@ Put here:
 - Latency observations
 - Differences between expert vs. novice prompts
 Example: “In several cases, the system generated Cypher queries that did not reference the retrieved graph elements but instead returned static text.”
+e.g. "Successful retrieval primarily occurred when ArchiMate terminology was included in the prompt."
 
 Bullet-point summary of:
 - What was observed
@@ -151,9 +151,15 @@ Examples:
 “Schema ambiguity frequently led to empty result sets.”
 
 
+
+
+
+
 % Discussion of the Results
 \section{Discussion of the Results}
 \label{sec:discussionOfResults}
+
+
 
 
 
