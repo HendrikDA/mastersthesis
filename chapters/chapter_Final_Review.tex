@@ -82,7 +82,7 @@ Finally, the workshop concluded with alignment on the broader narrative for the 
 
 Phase 1 &
 Baseline check using conceptual EAM questions; parallel comparison with Rovo. &
-Answer quality depended on prompt context. Explicit EAM framing improved alignment with textbook definitions. Isolated cases of hallucination throgh non-dataset knowledge observed.\\
+Answer quality depended on prompt context. Explicit EAM framing improved alignment with textbook definitions. Isolated cases of hallucination through non-dataset knowledge observed.\\
 
 Phase 2 &
 Test direct interaction with imported XML model and generation of structured outputs. &
@@ -140,6 +140,12 @@ A further observed limitation of \prototype{} regarded the Cypher generation pro
 The experts positively noted the way in which Rovo generates its responses. Before outputting its results,  Rovo often restated the question and how it understood the information context before presenting an answer. This allowed the experts to verify if the system understood the task correctly and allowed refined prompting in cases where it misunderstood. % Discussion: rovo zeigt einen reiferen grad der generierten antworten
 
 However, Rovo does not offer any further inspection of the generated results, such as a how information was extracted from any sort of knowledge graph. It produces responses without exposing intermediate reasoning steps or retrieval mechanisms. This further illustrates that the black-box mechanisms of Rovo. In some cases, Rovo also generated factually incorrect or misleading information, which was caught by the experts through manual analysis of the generated response. % Discussion: Rovo hat auch seine schwierigkeiten im umgang mit den daten aber hat vor allem den nachteil, dass man nicht nachvollziehen kann, wo Rovo falsch abgebogen ist bei der antwort generierung
+
+% Todo:
+Elaborate how well it answered all three categories of questions. which worked best and why. where did the system struggle and why.
+Category 1: Worked well when textbook context was explicitly activated.
+Category 2: Worked partially; required schema alignment.
+Category 3: Required iterative refinement; not autonomous.
 
 
 % Conclusion
