@@ -1,13 +1,8 @@
 \chapter{Results and Discussion}
 \label{ch:Discussion}
-Now that it is clear how the study was conducted and what the architecture of the final prototype is, the holistic results of the conducted Action Research and the state of the prototype can be discussed. The discussion is applied to \prototype{} and not to LLMs in general unless stated otherwise.
+Now that it is clear how the study was conducted and what the architecture of the final prototype is, the results of the conducted Action Research and the state of the prototype can be categorically discussed. The results mainly reference the final review in chapter \ref{ch:finalReview}, but will also take a holistic look at the developed prototype.
 
-% Discussion of the Results
-\section{Discussion of the Results}
-\label{sec:discussionOfResults}
-This section now discusses the results of the above findings and observations. It interprets what the state of the prototype means and what can be learned from the research. It is broken down into three categories of findings.
-
-\subsection{Knowledge Generation and Transparency Mechanisms}
+\section{Knowledge Generation and Transparency Mechanisms}
 \label{sub:knowledgeGenerationMechanism}
 The first category deals with the way that \prototype{} generates its answers and how to achieve the best results when interacting with the system.
 
@@ -27,80 +22,48 @@ The challenge of dealing with hallucinations goes beyond the scope of \prototype
 
 The above points were a common theme throughout the development and final review and show that having an understanding of the system at hand can give the user an advantage to extract the most practical usage from it as well as to mitigate errors.
 
-\subsection{Architectural Limitations}
+\section{Architectural Limitations}
 \label{sub:architecturalLimitations}
-The test results identified several technical limitations in \prototype{}'s current version.
+The results of the final review identified several technical limitations in \prototype{}'s current version.
 
-A frustrating moment presented itself during the final review when \prototype{} was revealed to have tricked the Cypher generation process. The Cypher queries containing a templated answer showcase how relevant the underlying system prompt is. The system prompt tasks the LLM with generating one Cypher per user request and supplements information on how to do so as well as some pointers on how to structure the Cypher. However, the system context never explicitly tells the LLM to not hardcode any self-generated information into the Cypher. This loophole within the system context was abused by the LLM. However, catching this behavior is an attest to the advantage of \prototype{} as described below in section \ref{sub:advatagesAndShortcomings}. Fixing the problem is as easy as adding a further instruction in the system prompt to prohibit this behavior.
+A frustrating moment presented itself during the final review when \prototype{} was revealed to have tricked the Cypher generation process. The Cypher queries containing a templated answer showcase how relevant the underlying system prompt is. The prompt enables the LLM to complete the task, but does not ensure correctness of completion. The system prompt tasks the LLM with generating one Cypher per user request and supplements information on how to do so as well as some pointers on how to structure the Cypher. However, the system prompt never explicitly tells the LLM to not hardcode any self-generated information into the Cypher. Thus, the LLM satisfies the given instruction by generating a Cypher and using the results of the Cypher to generate the final response.
 
-Todo: \cite{sharma2025reducing} als quelle mit einbauen
+Although this loophole within the system prompt was abused by the LLM, catching this behavior is an attest to the transparency advantage of \prototype{} as described previously in section \ref{sub:knowledgeGenerationMechanism}. Fixing the problem is as simple as adding a further instruction in the system prompt to prohibit this behavior. This highlights that the system's context acts as a governance layer for the LLM to correctly fulfill the task given to it. A finely tuned system prompt is thus an important requirement for any system leaving Cypher generation up to an LLM.
 
-% To do weiter ausbauen:
-%Elevate it to:
-%The LLM optimized for task completion, not correctness.
-%It satisfied the instruction “generate Cypher” by embedding the answer.
-%This shows instruction-following ≠ semantic grounding.
-%Implication:
-%Stronger guardrails are required.
-%The system context becomes a governance layer.
-%Retrieval verification must be enforced.
-%This is deep and academically interesting.
+In several interactions, Neo4j-related error messages were displayed. These errors were particularly associated with attempts by the LLM to write to the database. The current system architecture prevented permanent modifications to the database during the workshop session, as all Cyphers executed by the LLM were done in read-only mode. This design choice was deliberate, as not to allow an uncontrolled LLM to modify the knowledge graph. From a research perspective, this restriction was necessary to guarantee data integrity during experimentation and to ensure reproducibility of results. However, it also reveals an architectural threshold between safety and functional completeness. In a more mature version of \prototype{}, write operations could be enabled through controlled interfaces, thereby preserving governance while expanding practical applicability.
 
-In several interactions, Neo4j-related error messages were displayed. These errors were particularly associated with attempts by the LLM to write to the database. The current system architecture prevented permanent modifications to the database during the workshop session, as all Cyphers executed by the LLM were done in read-only mode. This design choice was deliberate, as not to allow an uncontrolled LLM to modify the knowledge graph. However, in a more mature version of \prototype{}, it may be advantageous to allow write operations directly to the database.
+A further technical limitation was identified while tasking the LLM to generate an Excel file. While Open AI does support this file generation and output, the frontend and backend handling within \prototype{} does not currently implement the necessary mechanisms to receive, store, and transmit such artifacts. This means that even if the LLM successfully generated the file server-side, the system architecture lacked the capability to display the results to the user. The limitation is therefore not rooted in reasoning capability, but in missing infrastructural components. It highlights that the prototype primarily focuses on query generation and knowledge retrieval rather than comprehensive document management functionality.
 
-A further technical limitation was identified while tasking the LLM to generate an Excel file. While Open AI does support this functionality, the frontend and backend handling within \prototype{} does not. This means that the LLM may very well have generated the Excel file on the Open AI servers, but \prototype{} was not able to retrieve this file and present it to the user.
+Even when no errors were being thrown, \prototype{} still displayed further technical shortcomings. One such moment was identified during the chain of prompts requesting the business support matrix. Even after multiple, refined prompts requesting a matrix, the system would not comply and instead responded with unrequested analysis. This case highlights that an LLM does not inherently understand the operational objective behind a request, but instead optimizes for plausibility. In order to fulfill a concrete task, it must therefore be meaningfully guided through structured instructions and clearly defined expectations. While this level of orchestration was manageable during the academic review, it demonstrates that the current system requires deliberate steering to reliably produce task-oriented outputs in a real-world context.
 
-Even when no errors were being thrown, \prototype{} still displayed further technical shortcomings. One such moment was identified during the chain of prompts requesting the business support matrix. Even after multiple, refined prompts requesting a matrix, the system would not comply and instead responded with unasked for analysis. This case as well along with the above results discussing the necessary context of a prompt showcase that \prototype{} requires much guidance in order to lead it to the desired output. Often times, refined prompts were necessary in order to guide \prototype{} to an acceptable output. While this may have been acceptable during an academic review of the system, this behavioral shortcoming shows a lack of maturity for a real world system.
+This can be put in contrast to Rovo's behavior, which did not throw any errors during the final review and demonstrated technical stability throughout the process. The system consistently produced coherent outputs without requiring manual intervention or refined steering. This level of robustness indicates a higher degree of technical maturity and integration readiness. In comparison, \prototype{} still required active guidance and exposed instabilities that would not be acceptable in a real world environment.
 
-This can be put in contrast to Rovo's behavior, which did not throw any errors during the final review and demonstrated technical stability throughout the process. 
+The above results demonstrate a level of technical immaturity within the prototype. However, within the scope of this research, a certain degree of technical immaturity was expected and accepted. \prototype{} was conceived and evaluated as a proof-of-concept to validate architectural principles. It is not meant as a production-ready enterprise tool. Qualitative aspects such as stability represent a separate development trajectory from the core research objective of transparent knowledge graph interaction. Within that objective, functional validity was successfully demonstrated, even if technical robustness remains incomplete. These shortcomings would typically be addressed in a subsequent engineering phase and therefore constitute opportunities for future work rather than contradictions of the research contribution.
 
-The above results demonstrate a level of technical immaturity within the prototype. However, within the scope of this research, a certain degree of technical immaturity was expected and taken into account. These technical shortcomings would normally be addressed during a subsequent development phase and may be improved upon during future work on \prototype{}.
-% To do ausbauen:
-%Instead, contextualize it:
-%This was a proof-of-concept, not a production system.
-%Stability is a separate development axis from reasoning capability.
-%Functional validity was demonstrated even if technical robustness was incomplete
-%That prevents your thesis from sounding apologetic.
-
-\subsection{Make or Buy - Comparing \prototype{} to Rovo}
+\section{Make or Buy - Comparing \prototype{} to Rovo}
 \label{sub:makeOrBuy}
-Although the prototype is not meant as a mature system ready to be applied in real world scenarios, it serves well as a discussion point for a typical make or buy decision when questioning which LLM tools to license within an enterprise, or if building a custom tool is more advantageous.
+Although the prototype is not meant as a mature system ready to be applied in real world scenarios, it serves well as a discussion point for a typical make or buy decision when questioning whether licensing an LLM tool or building a custom tool is more advantageous for an enterprise. The argument can be framed as buying a black-box system versus developing one's own greybox system.
 
-mit RAG kriegt man expertenwissen in das system rein. das kann Rovo zB nicht - er wird niemals ein EAM experte sein über dem, worauf das LLM trainiert ist, hinaus
+A further large advantage of a custom tool such as \prototype{} is that it can adopt expert knowledge via RAG. The knowledge graph containing the entirety of an EAM textbook allowed for generated answers to be grounded with expert EAM knowledge. A system such as Rovo cannot do so, as it is only able to utilize the knowledge on which it is trained along with the architectural information documented within the Confluence pages.
+
+% Maturity vs. flexibility
+However, Rovo proved to be a more mature overall system compared to \prototype{}. 
 
 Rovo war insgesamt besser als meins - man muss also überlegen, was die trade offs sind und darauf basierend entscheiden, ob man make or buy machen will.
 Vorteil von rovo: das schema, nachdem er die antwort generiert. herrn schlör gefiel es, dass rovo die wichtigsten infos und die gestellte frage in eigenen worten wiedergegeben hat. das zeigt, wie er die frage verstanden hat.
 
+
+
 When comparing both systems, it becomes clear that \prototype{} is still in a prototypical state compared. Rovo displays technical maturity in the way it can be interacted with and how it generates its answers. However, Rovo was not unsusceptible to cases of hallucination. It can be argued that the danger of hallucinating without it being caught by the user may be much larger compared to hallucinations by \prototype{}. This is due to the lack of transparency offered by Rovo which does not allow for introspection into the generated answers.
 
-Wie groß ist das risiko bei der weiterentwicklung? wenn masuta etwas nicht kann, wie leicht ist es, das system anzupassen?
+% Transparency vs. convenience - hallucination
 
-
-%To do:
-%Push it conceptually:
-%Black-box vs grey-box AI
-%Abstraction vs control
-%Convenience vs traceability
-%Maturity vs flexibility
-%You can frame the comparison as:
-%Make-or-buy decision from an architectural control perspective.
-
-
-% To do idee ausbauen:
-% Push it to a strategic level:
-%Transparency enables error detection.
-%Transparency shifts responsibility to the user.
-%Transparency allows auditability.
-%Transparency supports enterprise trust.
-%Ask:
-%Is transparency merely a debugging feature?
-%Or is it a core architectural principle for enterprise AI?
-%You can position Masuta as:
-%A grey-box AI system prioritizing inspectability over abstraction.
+% Development risk and adaptability
+Wie groß ist das risiko bei der weiterentwicklung? wenn masuta etwas nicht kann, wie leicht ist es, das system anzupassen? die codebase ist nicht sehr komplex und kann problemlos ausgebaut werden. dafür gab es auch das refactoring von python to node.js im backend. 
 
 An area where \prototype{} was able to shine is in its overall user experience. The state of the frontend allowed the users to upload proprietary data, prompt the knowledge graph, and inspect results in Neo4j with ease. At no time during the final review was the user interface or user experience a limiting factor. The experts noted a feature which would have been beneficial for the final review, which was to auto-generate a log of each user input and system response.
 
-\subsection{Practical Applicability in EAM}
+\section{Practical Applicability in EAM}
 \label{sub:practicalApplicability}
 % to do:
 %This is currently underdeveloped.
@@ -118,7 +81,7 @@ An area where \prototype{} was able to shine is in its overall user experience. 
 \prototype{} enables a junior level enterprise architect to interact and deal with data that may otherwise be out of scope for their skill level. With the system's support, a junior architect may be able to gain an understanding of the data develop a course of action for the architecture that would otherwise not be possible as a junior.
 
 
-\subsection{Overall Goal Fulfillment}
+\section{Overall Goal Fulfillment}
 \label{sub:overallGoalFulfillment}
 With the conclusion of the final review, a retrospective comparison between the current state of \prototype{} and the expected outcome from the beginning of the research is appropriate.
 
