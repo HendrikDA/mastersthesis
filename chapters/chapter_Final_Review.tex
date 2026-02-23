@@ -102,8 +102,6 @@ Missing descriptions could be detected and auto-generated, but required expert v
 
 
 
-
-
 % Interaction Procedure
 \section{Interaction Procedure}
 \label{sec:interactionProcedure}
@@ -144,55 +142,8 @@ The experts positively noted the way in which Rovo generates its responses. Befo
 However, Rovo does not offer any further inspection of the generated results, such as a how information was extracted from any sort of knowledge graph. It produces responses without exposing intermediate reasoning steps or retrieval mechanisms. This further illustrates that the black-box mechanisms of Rovo. In some cases, Rovo also generated factually incorrect or misleading information, which was caught by the experts through manual analysis of the generated response. % Discussion: Rovo hat auch seine schwierigkeiten im umgang mit den daten aber hat vor allem den nachteil, dass man nicht nachvollziehen kann, wo Rovo falsch abgebogen ist bei der antwort generierung
 
 
-% Discussion of the Results
-\section{Discussion of the Results}
-\label{sec:discussionOfResults}
-This section now discusses the results of the above findings and observations. It interprets what the state of the prototype means and what can be learned from the research. It is broken down into three categories of findings.
-
-\subsection{Methodology of Generating Answers}
-\label{sub:methodOfGenAnswers}
-The first category deals with the way that \prototype{} generates its answers and how to achieve the best results when utilizing the system.
-
-Differences in prompting style greatly influenced output characteristics. Ambiguous prompts without specialized language and terms left interpretation up to the LLM and often returned results which did not align the expectations of the experts. However, when prompts were fine tuned to resemble expert terminology and domain language, retrieval more frequently referenced elements in the knowledge graph containing the expected information. This is due to the fact that the LLM has more context to build the Cypher with. For example, when supplementing the prompt with specific key words, then the LLM has more context to base the Cypher off of. The observed results exemplify how crucial prompting is in order to achieve a desired result. In this case, it is an advantage if the user is aware of the details of the underlying knowledge graph, which allows the user to prompt specifically for the knowledge graph at hand.
-
-The common challenge of LLMs hallucinating when generating answers could not be mitigated during this research. In the example, the observed reference to the QIS system, illustrates this problem. Although QIS is not mentioned in the department's architecture, it is output and described the LLM as if it were, with no indication of uncertainty. Hallucinations such as this may go unnoticed and although minuscule in this case, the effects this may have in a real world scenario could be large. Thus, the user must be aware that the LLM may hallucinate its answers. This requires the user to constantly fact check and ensure the correctness of outputs. However, this is not specific to \prototype{}, as Rovo also produced factually incorrect answers. The challenge of dealing with hallucinations goes beyond the scope of \prototype{}.  
-
-The above points were a common theme throughout the final review and show that having an understanding of the system at hand can give the user an advantage to extract the most practical usage from it.
-
-
-
-\subsection{Technical Limitations}
-\label{sub:technicalLimitations}
-The test results identified several technical limitations in \prototype{}'s current version.
-
-A frustrating moment presented itself during the final review when \prototype{} was revealed to have tricked the Cypher generation process. The Cypher queries containing a templated answer showcase how relevant the underlying system prompt is. The system prompt tasks the LLM with generating one Cypher per user request and supplements information on how to do so as well as some pointers on how to structure the Cypher. However, the system context never explicitly tells the LLM to not hardcode any self-generated information into the Cypher. This loophole within the system context was abused by the LLM. However, catching this behavior is an attest to the advantage of \prototype{} as described below in section \ref{sub:advatagesAndShortcomings}. Fixing the problem is as easy as adding a further instruction in the system prompt to prohibit this behavior.
-
-In several interactions, Neo4j-related error messages were displayed. These errors were particularly associated with attempts by the LLM to write to the database. The current system architecture prevented permanent modifications to the database during the workshop session, as all Cyphers executed by the LLM were done in read-only mode. This design choice was deliberate, as not to allow an uncontrolled LLM to modify the knowledge graph. However, in a more mature version of \prototype{}, it may be advantageous to allow write operations directly to the database.
-
-A further technical limitation was identified while tasking the LLM to generate an Excel file. While Open AI does support this functionality, the frontend and backend handling within \prototype{} does not. This means that the LLM may very well have generated the Excel file on the Open AI servers, but \prototype{} was not able to retrieve this file and present it to the user.
-
-Even when no errors were being thrown, \prototype{} still displayed further technical shortcomings. One such moment was identified during the chain of prompts requesting the business support matrix. Even after multiple, refined prompts requesting a matrix, the system would not comply and instead responded with unasked for analysis. This case as well along with the above results discussing the necessary context of a prompt showcase that \prototype{} requires much guidance in order to lead it to the desired output. Often times, refined prompts were necessary in order to guide \prototype{} to an acceptable output. While this may have been acceptable during an academic review of the system, this behavioral shortcoming shows a lack of maturity for a real world system.
-
-This can be put in contrast to Rovo's behavior, which did not throw any errors during the final review and demonstrated technical stability throughout the process. 
-
-The above results demonstrate a level of technical immaturity within the prototype. However, within the scope of this research, a certain degree of technical immaturity was expected and taken into account. These technical shortcomings would normally be addressed during a subsequent development phase and may be improved upon during future work on \prototype{}.
-
-\subsection{Advantages and Shortcomings}
-\label{sub:advatagesAndShortcomings}
-When comparing both systems, it becomes clear that \prototype{} is still in a prototypical state compared. Rovo displays technical maturity in the way it can be interacted with and how it generates its answers. However, Rovo was not unsusceptible to cases of hallucination. It can be argued that the danger of hallucinating without it being caught by the user may be much larger compared to hallucinations by \prototype{}. This is due to the lack of transparency offered by Rovo which does not allow for introspection into the generated answers.
-
-A key advantage that \prototype{} has over commercial LLM tools such as Rovo is this aspect of transparency in its generated answers. A powerful feature of \prototype{} is that it allows the user to copy the exact Cypher used to generate a response. This enables the user to manually execute the Cypher within the same Neo4j instance and manually observe what underlying data was used for the answer. This introduced aspect of transparency is lacking in systems such as Rovo, where the user is not able to retrace how the LLM generated its answer. With this feature, the problem of hallucination can be addressed, as the user is able to fact check the generated answer with what is contained in the knowledge graph. This highlights the key difference between a blackbox system such as Rovo and a greybox system such as \prototype{}.
-
-
-\subsection{Overall Assessment}
-\label{sub:overallAssessment}
-Overall assessment against the research goal
-
-
 % Conclusion
-... The final review served as the concluding evaluation step of the applied Action Research methodology and formally ended the development phase of the prototype within this study. The final review also proved that the four development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development.
-
-The next chapter will describe the final prototype's technical details.
+The final review served as the concluding evaluation step of the applied Action Research methodology and formally ended the Action Research within this study. The final review also proved that the four development cycles were justified in order to achieve a working prototype as well as understand what the current limitations are and how to improve the system in future development. The next chapter will describe the final prototype's technical details.
 
 
 

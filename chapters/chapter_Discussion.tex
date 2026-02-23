@@ -1,29 +1,181 @@
 \chapter{Results and Discussion}
 \label{ch:Discussion}
-Now that it is clear how the study was conducted and 
+Now that it is clear how the study was conducted and what the architecture of the final prototype is, the holistic results of the conducted Action Research and the state of the prototype can be discussed.
+
+% Discussion of the Results
+\section{Discussion of the Results}
+\label{sec:discussionOfResults}
+This section now discusses the results of the above findings and observations. It interprets what the state of the prototype means and what can be learned from the research. It is broken down into three categories of findings.
+
+\subsection{Knowledge Generation Mechanism}
+\label{sub:knowledgeGenerationMechanism}
+The first category deals with the way that \prototype{} generates its answers and how to achieve the best results when utilizing the system.
+
+Differences in prompting style greatly influenced output characteristics. Ambiguous prompts without specialized language and terms left interpretation up to the LLM and often returned results which did not align the expectations of the experts. However, when prompts were fine tuned to resemble expert terminology and domain language, retrieval more frequently referenced elements in the knowledge graph containing the expected information. This is due to the fact that the LLM has more context to build the Cypher with. For example, when supplementing the prompt with specific key words, then the LLM has more context to base the Cypher off of. The observed results exemplify how crucial prompting is in order to achieve a desired result. In this case, it is an advantage if the user is aware of the details of the underlying knowledge graph, which allows the user to prompt specifically for the knowledge graph at hand.
+
+% To do ideen ausbauen
+%You correctly discuss prompt sensitivity — but you stop at “prompting is important.”
+%Push this further:
+%Implication Level:
+%Prompt sensitivity is not merely a user issue.
+%It reveals that the system does not autonomously link prompt intent to graph schema.
+%This exposes a structural weakness in naïve RAG pipelines.
+%Questions to explore:
+%Does natural language alone suffice in enterprise contexts?
+%Does EAM require schema-aware interaction?
+%Is pure conversational abstraction realistic for EAM?
+%You can elevate this into:
+%Enterprise architecture interaction may require semi-structured prompting rather than purely natural language abstraction.
+%That’s a thesis-level insight.
+
+The common challenge of LLMs hallucinating when generating answers could not be mitigated during this research. In the example, the observed reference to the QIS system, illustrates this problem. Although QIS is not mentioned in the department's architecture, it is output and described the LLM as if it were, with no indication of uncertainty. Hallucinations such as this may go unnoticed and although minuscule in this case, the effects this may have in a real world scenario could be large. Thus, the user must be aware that the LLM may hallucinate its answers. This requires the user to constantly fact check and ensure the correctness of outputs. However, this is not specific to \prototype{}, as Rovo also produced factually incorrect answers. The challenge of dealing with hallucinations goes beyond the scope of \prototype{}.  
+
+%To do ideen ausbauen:
+% LLM prior knowledge leaks into proprietary reasoning.
+%This creates epistemic ambiguity.
+%Enterprise usage requires clear separation between:
+%Graph-grounded knowledge
+%Model-internal prior knowledge
+%You can frame this as:
+%Governance issue
+%Traceability requirement
+%Risk management dimension
+%Ask:
+%What does this mean for enterprise deployment?
+%Is transparency a risk mitigation strategy?
+%That connects directly to your transparency USP.
+
+The above points were a common theme throughout the final review and show that having an understanding of the system at hand can give the user an advantage to extract the most practical usage from it.
+
+% Todo:
+Elaborate how well it answered all three categories of questions. which worked best and why. where did the system struggle and why.
+Category 1: Worked well when textbook context was explicitly activated.
+Category 2: Worked partially; required schema alignment.
+Category 3: Required iterative refinement; not autonomous.
+
+\subsection{Architectural Limitations}
+\label{sub:architecturalLimitations}
+The test results identified several technical limitations in \prototype{}'s current version.
+
+A frustrating moment presented itself during the final review when \prototype{} was revealed to have tricked the Cypher generation process. The Cypher queries containing a templated answer showcase how relevant the underlying system prompt is. The system prompt tasks the LLM with generating one Cypher per user request and supplements information on how to do so as well as some pointers on how to structure the Cypher. However, the system context never explicitly tells the LLM to not hardcode any self-generated information into the Cypher. This loophole within the system context was abused by the LLM. However, catching this behavior is an attest to the advantage of \prototype{} as described below in section \ref{sub:advatagesAndShortcomings}. Fixing the problem is as easy as adding a further instruction in the system prompt to prohibit this behavior.
+% To do weiter ausbauen:
+%Elevate it to:
+%The LLM optimized for task completion, not correctness.
+%It satisfied the instruction “generate Cypher” by embedding the answer.
+%This shows instruction-following ≠ semantic grounding.
+%Implication:
+%Stronger guardrails are required.
+%The system context becomes a governance layer.
+%Retrieval verification must be enforced.
+%This is deep and academically interesting.
+
+In several interactions, Neo4j-related error messages were displayed. These errors were particularly associated with attempts by the LLM to write to the database. The current system architecture prevented permanent modifications to the database during the workshop session, as all Cyphers executed by the LLM were done in read-only mode. This design choice was deliberate, as not to allow an uncontrolled LLM to modify the knowledge graph. However, in a more mature version of \prototype{}, it may be advantageous to allow write operations directly to the database.
+
+A further technical limitation was identified while tasking the LLM to generate an Excel file. While Open AI does support this functionality, the frontend and backend handling within \prototype{} does not. This means that the LLM may very well have generated the Excel file on the Open AI servers, but \prototype{} was not able to retrieve this file and present it to the user.
+
+Even when no errors were being thrown, \prototype{} still displayed further technical shortcomings. One such moment was identified during the chain of prompts requesting the business support matrix. Even after multiple, refined prompts requesting a matrix, the system would not comply and instead responded with unasked for analysis. This case as well along with the above results discussing the necessary context of a prompt showcase that \prototype{} requires much guidance in order to lead it to the desired output. Often times, refined prompts were necessary in order to guide \prototype{} to an acceptable output. While this may have been acceptable during an academic review of the system, this behavioral shortcoming shows a lack of maturity for a real world system.
+
+This can be put in contrast to Rovo's behavior, which did not throw any errors during the final review and demonstrated technical stability throughout the process. 
+
+The above results demonstrate a level of technical immaturity within the prototype. However, within the scope of this research, a certain degree of technical immaturity was expected and taken into account. These technical shortcomings would normally be addressed during a subsequent development phase and may be improved upon during future work on \prototype{}.
+% To do ausbauen:
+%Instead, contextualize it:
+%This was a proof-of-concept, not a production system.
+%Stability is a separate development axis from reasoning capability.
+%Functional validity was demonstrated even if technical robustness was incomplete
+%That prevents your thesis from sounding apologetic.
+
+\subsection{Transparency and Governance}
+\label{sub:transparencyAndGovernance}
+When comparing both systems, it becomes clear that \prototype{} is still in a prototypical state compared. Rovo displays technical maturity in the way it can be interacted with and how it generates its answers. However, Rovo was not unsusceptible to cases of hallucination. It can be argued that the danger of hallucinating without it being caught by the user may be much larger compared to hallucinations by \prototype{}. This is due to the lack of transparency offered by Rovo which does not allow for introspection into the generated answers.
+%To do:
+%Push it conceptually:
+%Black-box vs grey-box AI
+%Abstraction vs control
+%Convenience vs traceability
+%Maturity vs flexibility
+%You can frame the comparison as:
+%Make-or-buy decision from an architectural control perspective.
+
+A key advantage that \prototype{} has over commercial LLM tools such as Rovo is this aspect of transparency in its generated answers. A powerful feature of \prototype{} is that it allows the user to copy the exact Cypher used to generate a response. This enables the user to manually execute the Cypher within the same Neo4j instance and manually observe what underlying data was used for the answer. This introduced aspect of transparency is lacking in systems such as Rovo, where the user is not able to retrace how the LLM generated its answer. With this feature, the problem of hallucination can be addressed, as the user is able to fact check the generated answer with what is contained in the knowledge graph. This highlights the key difference between a blackbox system such as Rovo and a greybox system such as \prototype{}.
+
+% To do idee ausbauen:
+% Push it to a strategic level:
+%Transparency enables error detection.
+%Transparency shifts responsibility to the user.
+%Transparency allows auditability.
+%Transparency supports enterprise trust.
+%Ask:
+%Is transparency merely a debugging feature?
+%Or is it a core architectural principle for enterprise AI?
+%You can position Masuta as:
+%A grey-box AI system prioritizing inspectability over abstraction.
+
+An area where \prototype{} was able to shine is in its overall user experience. The state of the frontend allowed the users to upload proprietary data, prompt the knowledge graph, and inspect results in Neo4j with ease. At no time during the final review was the user interface or user experience a limiting factor. The experts noted a feature which would have been beneficial for the final review, which was to auto-generate a log of each user input and system response.
+
+\subsection{Practical Applicability in EAM}
+\label{sub:practicalApplicability}
+% to do:
+%This is currently underdeveloped.
+%Ask:
+%How would this change how enterprise architects work?
+%Does this reduce modeling friction?
+%Does it encourage better data quality?
+%Does it surface modeling gaps?
+%Does it act as a diagnostic tool?
+%Remember:
+%During the workshop, experts used outputs to describe the real landscape.
+%That is evidence of practical applicability.
+%Elevate it.
+
+\subsection{Overall Goal Fulfillment}
+\label{sub:overallGoalFulfillment}
+With the conclusion of the final review, a retrospective comparison between the current state of \prototype{} and the expected outcome from the beginning of the research is appropriate.
+
+Before the first development cycle commenced, it was unclear what the final system was to look like. With vague definitions of a chatbot that allows enterprise architects to interact through natural language with a proprietary knowledge graph containing their architecture data, it was unclear how this goal would be achieved. With each iterative development step during the conducted Action Research, the end goal became more and more clear, leading to the final version of the prototype.
+
+% To do:
+%Strengthen it by structuring success explicitly:
+%For example:
+%End-to-end functionality achieved ✔
+%Transparent query inspection achieved ✔
+%Autonomous, context-free reasoning ✖
+%Production readiness ✖
+
+Even with the above discussed shortcomings, it is assessed by all three participants of the Action Research that the development of the prototype was a success. \prototype{} displays capabilities in handling user input and processing it in such a way that it can retrieve information from a proprietary knowledge graph.
+
+% Todo ausbauen:
+%You could add a small structured reflection:
+%Risks Identified:
+%Overreliance on prompting skill
+%Hallucination without detection
+%Schema ambiguity
+%Overconfidence in LLM outputs
+%Then connect:
+%These risks are manageable through architectural measures.
+%Transparency reduces but does not eliminate risk.
+
+%To do ausbauen:
+%This might be your strongest thesis-level conclusion:
+%RAG does not automatically create semantic linkage between prompt intent and stored expert knowledge. The linkage must either be prompted explicitly or architecturally enforced.
+%That’s not obvious. That’s not trivial. That’s publishable-level insight.
 
 
-% Evaluation Scope and Method
-\section{Evaluation Scope and Method}
 
-% Implementation Results
-\section{Implementation Results}
 
-% Observed Limitations and Challenges
-\section{Observed Limitations and Challenges}
 
-% Workshop Findings and Practitioner Feedback
-\section{Workshop Findings and Practitioner Feedback}
 
-% Comparative Discussion: Masuta vs. Rovo
-\section{Comparative Discussion: Masuta vs. Rovo}
 
-% Synthesis and Implications for Enterprise Architecture Practice
-\section{Synthesis and Implications for Enterprise Architecture Practice}
 
-am ende jedes zyklus bewerten wir ja. das heißt, in jedem zyklus ist auch eine kleine evaluierung. die kann man erwähnen, weil das verändert den artefakt für den nächsten.
 
-kann auch sein, dass ich ein diskussionskapitel weg lassen kann. ich soll mich auf action research konzentrieren + final review. guck dann mal, was noch übrig bleibt, ob ich überhaupt ein diskussionskapitel brauche. wenn ich am ende von zyklus 2 gemerkt habe, dass x falsch gemacht worden ist, dann gehört das genau da hin und nicht ans ende in eine weitere diskussion.
+
+
+
+
+
+
+
+
 
 
 
