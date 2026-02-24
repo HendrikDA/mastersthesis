@@ -42,82 +42,57 @@ The above results demonstrate a level of technical immaturity within the prototy
 
 \section{Make or Buy - Comparing \prototype{} to Rovo}
 \label{sub:makeOrBuy}
-Although the prototype is not meant as a mature system ready to be applied in real world scenarios, it serves well as a discussion point for a typical make or buy decision when questioning whether licensing an LLM tool or building a custom tool is more advantageous for an enterprise. The argument can be framed as buying a black-box system versus developing one's own greybox system.
+Although the prototype is not meant as a mature system ready to be applied in real world scenarios, it serves well as a discussion point for a typical make or buy decision when questioning whether licensing an LLM tool or building a custom tool is more advantageous for an enterprise. The argument can be framed as buying a black-box system versus developing one's own grey-box system.
 
-A further large advantage of a custom tool such as \prototype{} is that it can adopt expert knowledge via RAG. The knowledge graph containing the entirety of an EAM textbook allowed for generated answers to be grounded with expert EAM knowledge. A system such as Rovo cannot do so, as it is only able to utilize the knowledge on which it is trained along with the architectural information documented within the Confluence pages.
+A large advantage of a custom tool such as \prototype{} is that it can adopt expert knowledge via RAG. The knowledge graph containing the entirety of an EAM textbook allowed for generated answers to be grounded with expert EAM knowledge. This mechanism is very powerful once the hurdle is overcome of how to add the knowledge to the knowledge graph and how to dynamically extract the required knowledge. A system such as Rovo cannot do so, as it is only able to utilize the knowledge on which the underlying LLM is trained along with the architectural information documented within the Confluence pages. It will not be able to reach an expert level of knowledge within a domain such as EAM without a proprietary knowledge graph augmenting the generated answers.
 
-% Maturity vs. flexibility
-However, Rovo proved to be a more mature overall system compared to \prototype{}. 
+Another plus point for a self-made system is the option of extending it to fulfill any desired use case. Because the code for \prototype{} is self-written, it can be extended to fit any requirement of an enterprise (given enough time and resources to implement such changes). This level of extensibility is not given by an out-of-the-box solution from a third party. The risk of extending \prototype{} is also rather low, as the codebase remains manageable in size, modular in structure, and fully under internal control, allowing new features or architectural adjustments to be implemented without dependency on an external provider. With the option of connecting more third party applications to \prototype{} through the MCP server, it can also be extended to directly interact with applications outside of itself. If \prototype{} is missing desirable features, then these can simply be implemented by extending the codebase. In comparison, Rovo cannot be extended to contain any more features than what Atlassian offers.
 
-Rovo war insgesamt besser als meins - man muss also überlegen, was die trade offs sind und darauf basierend entscheiden, ob man make or buy machen will.
-Vorteil von rovo: das schema, nachdem er die antwort generiert. herrn schlör gefiel es, dass rovo die wichtigsten infos und die gestellte frage in eigenen worten wiedergegeben hat. das zeigt, wie er die frage verstanden hat.
-
-
-
-When comparing both systems, it becomes clear that \prototype{} is still in a prototypical state compared. Rovo displays technical maturity in the way it can be interacted with and how it generates its answers. However, Rovo was not unsusceptible to cases of hallucination. It can be argued that the danger of hallucinating without it being caught by the user may be much larger compared to hallucinations by \prototype{}. This is due to the lack of transparency offered by Rovo which does not allow for introspection into the generated answers.
-
-% Transparency vs. convenience - hallucination
-
-% Development risk and adaptability
-Wie groß ist das risiko bei der weiterentwicklung? wenn masuta etwas nicht kann, wie leicht ist es, das system anzupassen? die codebase ist nicht sehr komplex und kann problemlos ausgebaut werden. dafür gab es auch das refactoring von python to node.js im backend. 
+This also mitigates the risk of vendor lock-in, where an enterprise is tied to a service provider because they are unable to migrate away from them. While vendor lock-in may be a danger when fully relying on an enterprise solution such as Rovo, it is less so the case with a custom platform, as the enterprise has access full control over every aspect of the system, presumably except for the LLM.
 
 An area where \prototype{} was able to shine is in its overall user experience. The state of the frontend allowed the users to upload proprietary data, prompt the knowledge graph, and inspect results in Neo4j with ease. At no time during the final review was the user interface or user experience a limiting factor. The experts noted a feature which would have been beneficial for the final review, which was to auto-generate a log of each user input and system response.
 
+However, Rovo gave a more mature overall impression during the final review. The system generated its answers in a consistent and structured format, often rephrasing the original question and summarizing the most relevant aspects before providing a response. This behavior was positively noted by the experts, as it demonstrated that Rovo had correctly interpreted the intent behind the question. The structured answer schema contributed to a sense of reliability and communicative clarity. In contrast, \prototype{} required more deliberate interaction and refinement to achieve comparable output quality. This illustrates the core trade-off of the make-or-buy decision. Whereas Rovo represents a stable, polished, and immediately deployable solution, \prototype{} represents a flexible and controllable architecture that would require further development effort to reach a comparable level of maturity.
+
+When comparing both systems, it becomes clear that \prototype{} is still in a prototypical state compared. Rovo displays technical maturity in the way it can be interacted with and how it generates its answers. However, Rovo was not unsusceptible to cases of hallucination. It can be argued that the danger of hallucinating without it being caught by the user may be much larger compared to hallucinations by \prototype{}. This is due to the lack of transparency offered by Rovo which does not allow for introspection into the generated answers.
+
+The overall debate is whether an enterprise requires a more mature system or a more flexible one. Rovo proved to be the better and more mature system. However, the trade off with a system such as Rovo is not being able to add a proprietary knowledge graph and being reliant on a third party for new features and maintenance of the system. With a custom-build solution such as \prototype{}, the system can fulfill any custom requirement.
+
+
 \section{Practical Applicability in EAM}
 \label{sub:practicalApplicability}
-% to do:
-%This is currently underdeveloped.
-%Ask:
-%How would this change how enterprise architects work?
-%Does this reduce modeling friction?
-%Does it encourage better data quality?
-%Does it surface modeling gaps?
-%Does it act as a diagnostic tool?
-%Remember:
-%During the workshop, experts used outputs to describe the real landscape.
-%That is evidence of practical applicability.
-%Elevate it.
+\prototype{} enables a junior level enterprise architect to interact and deal with data that may otherwise be out of scope for their skill level. With the system's support, a junior architect may be able to gain an understanding of the data and develop a course of action for the architecture that would otherwise not be possible as a junior.
 
-\prototype{} enables a junior level enterprise architect to interact and deal with data that may otherwise be out of scope for their skill level. With the system's support, a junior architect may be able to gain an understanding of the data develop a course of action for the architecture that would otherwise not be possible as a junior.
+Looking beyond the supporting functionality for junior level architects, \prototype{} also has implications for how enterprise architects in general interact with architectural data. Rather than manually using modeling tools, the enterprise architect is able to formulate a task in natural language and receive a structured response grounded within the architectural data. This reduces the friction when information is present in the architecture repository, but difficult to find or extract. During the workshop, experts used the generated outputs as a basis to describe and reflect on the actual state of the landscape. This indicates that the system does not merely retrieve data, but can actively support architectural sense-making.
 
+The discussion during the development also raised the question of whether a graph database is strictly necessary for such a system. It was argued that in smaller scopes, an LLM may be able to construct contextual relationships in a more implicit, black-box manner without a formalized graph structure. However, once a certain level of scale and complexity is reached, explicit structuring of relationships becomes essential. In such cases, the graph database does not only serve as storage, but as a transparent and inspectable foundation for reasoning. The combination of a knowledge graph and an LLM therefore becomes particularly relevant in larger enterprise contexts, where traceability, scalability, and avoidance of vendor lock-in are decisive factors.
+
+\section{Learnings From the Implementation}
+\label{sub:implementation}
+Many learnings can be extracted from the implementation of \prototype{} as well. This process revealed that the implementation of a RAG-based system should not be overly reliant on LLMs. In early cycles, several core functions for transforming the data were delegated to the LLM. While this accelerated prototyping, it introduced instability and unpredictability in core system components. Replacing LLM-based parsing with deterministic APOC procedures significantly improved reproducibility and trust in the resulting knowledge graph. This shows that LLMs are powerful for reasoning and language generation, but it should be considered to implement critical infrastructure components with deterministic mechanisms.
+
+A further learning from the development phase concerns schema awareness. Pre-querying the database for its schema so that Cyphers can be generated dynamically proved to be a major architectural improvement. Hardcoding the schema into the system prompt was sufficient as long as the dataset remained stable. However, once heterogeneous datasets were introduced, such as when users were able to import their own XML files, this approach no longer scaled well. The shift toward retrieving the current schema via \path{apoc.meta.schema()} and injecting it into the system context allowed the prototype to elevate to a level where it cold successfully answer all three categories of questions. It allowed the LLM to operate on an up-to-date representation of the graph structure at runtime. This demonstrates that text-to-Cypher generation is only robust when the LLM has access to a representation of the knowledge graph. Schema retrieval is therefore a necessary feature within \prototype{}.
+
+A final key learning concerns the importance of the system prompt as a control mechanism for the LLM. Throughout the development cycles and especially during the final review, it became evident that the system prompt effectively defines the behavioral guard rails of the LLM. The observed Cypher trick was not a failure of the LLM, but a consequence of insufficiently constrained instructions. This demonstrats that the system prompt is not merely contextual guidance, but also a control layer that allows a model to better interpret the task at hand. Therefore, designing, refining, and testing the system prompt must be considered a critical activity.
+
+In summary, the implementation demonstrated that building a transparent, schema-aware, and extensible LLM system requires a deliberate architecture to enable this. The capabilities of the underlying LLM alone are not insufficient. Only through deterministic ingestion, dynamic schema awareness, and controlled query generation can a system such as \prototype{} operate in a way that allows users to interact with the knowledge graph via natural language while remaining both inspectable and adaptable to enterprise environments.
 
 \section{Overall Goal Fulfillment}
 \label{sub:overallGoalFulfillment}
-With the conclusion of the final review, a retrospective comparison between the current state of \prototype{} and the expected outcome from the beginning of the research is appropriate.
+With the conclusion of the final review and the preceding discussion of the results, a retrospective comparison between the expected outcome from the beginning of the research and the current state of \prototype{}  is appropriate.
 
-Before the first development cycle commenced, it was unclear what the final system was to look like. With vague definitions of a chatbot that allows enterprise architects to interact through natural language with a proprietary knowledge graph containing their architecture data, it was unclear how this goal would be achieved. With each iterative development step during the conducted Action Research, the end goal became more and more clear, leading to the final version of the prototype.
+Before the first development cycle commenced, it was unclear what the final system was to look like. With vague definitions of a chatbot that allows enterprise architects to interact with their data via natural language, it was unclear how this goal would be achieved. With each iterative development step during the conducted Action Research, the end goal became more and more clear. The result is the final version of the prototype.
 
-% To do:
-%Strengthen it by structuring success explicitly:
-%For example:
-%End-to-end functionality achieved ✔
-%Transparent query inspection achieved ✔
-%Autonomous, context-free reasoning ✖
-%Production readiness ✖
+With this distinction in mind, the architectural objectives of the research can be considered fulfilled. An end-to-end pipeline was successfully implemented, enabling the ingestion of architectural data, its representation within a knowledge graph, the generation of Cypher queries from natural language prompts, and the transparent retrieval of results. The ability to inspect generated Cyphers and validate the underlying data directly in Neo4j demonstrates that the intended grey-box design was achieved.
 
-Even with the above discussed shortcomings, it is assessed by all three participants of the Action Research that the development of the prototype was a success. \prototype{} displays capabilities in handling user input and processing it in such a way that it can retrieve information from a proprietary knowledge graph.
+At the same time, the final review revealed clear limitations in terms of maturity. The system requires structured prompting, is susceptible to hallucinations, and does not yet provide the robustness expected from a production-ready enterprise solution. These shortcomings, however, do not contradict the research contribution. Rather, they highlight that architectural feasibility and operational stability are separate dimensions. The prototype validates the concept, even if further engineering effort would be required for a more mature deployment.
 
+Overall, \prototype{} fulfills its primary objective as a proof-of-concept artifact within an Action Research setting. It demonstrates that natural language interaction with a proprietary enterprise knowledge graph is technically feasible, transparent, and extensible. The remaining gaps lie not in conceptual viability, but in the path from prototype to mature enterprise system.
 
-% Todo ausbauen:
-%You could add a small structured reflection:
-%Risks Identified:
-%Overreliance on prompting skill
-%Hallucination without detection
-%Schema ambiguity
-%Overconfidence in LLM outputs
-%Then connect:
-%These risks are manageable through architectural measures.
-%Transparency reduces but does not eliminate risk.
-
-%To do ausbauen:
-%This might be your strongest thesis-level conclusion:
-%RAG does not automatically create semantic linkage between prompt intent and stored expert knowledge. The linkage must either be prompted explicitly or architecturally enforced.
-%That’s not obvious. That’s not trivial. That’s publishable-level insight.
+Therefore, the core goal of this research, whether a transparent, RAG-based interaction mechanism for EAM data can be realized, is therefore answered positively.
 
 
 
-Den Kreis schließen zur ursprünglichen Diskussion, ob man wirklich eine graph datenbank braucht. Rainer am 09.01 hat erwähnt, dass es denkbar ist, dass man im kleineren Scope gar keine DB braucht, sondern dass die KI sich den Kontext selber irgendwie blackbox artig aufbaut. Die graph db bräuchte man dann nur im falle einer gewissen größe. Ein Skalierungsproblem. dafür ist mein system vollständig transparent. ohne vendor lock in.
-
-
-
+% Conclusion Paragraph
+In summary, this chapter has shown that the prototype succeeds architecturally while remaining operationally immature. It highlights both the potential and the structural constraints of integrating LLMs with enterprise knowledge graphs. The findings demonstrate that transparency, schema awareness, and deterministic infrastructure are decisive design principles when developing a RAG-based chatbot system in the realm of EAM. These results form the foundation for the concluding reflections and future research directions discussed in the next chapter.
 
