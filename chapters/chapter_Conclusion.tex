@@ -1,43 +1,45 @@
 \chapter{Conclusion and Future Work}
 \label{ch:conclusion}
-Todo
-Restate the research problem
-State what you have shown in one coherent narrative
-Answer the research question explicitly
-Emphasize: contribution, relevanz, takeaways
-No new arguments or evidence. only closure and clarity.
+% Restate problem context
+Enterprise Architecture Management requires the analysis and maintenance of large amounts of interconnected architectural information, which is often distributed across heterogeneous documentation formats and tools. Retrieving and editing the relevant knowledge is a challenge of its own for enterprise architects, as this has to be done manually. Completing this task requires a certain level of experience. AI chatbots can support this process by allowing the enterprise architect to interact with the data through natural language. However, such chatbots are black-box systems and introduce problems of their own, which may hinder its adoption in real world settings.
 
-% Conclusion
-\section{Conclusion}
-\label{sub:conclusion:conclusion}
+% Research objective and approach
+The objective of this research was to investigate whether a transparent RAG–based chatbot can support enterprise architects in accessing proprietary architectural knowledge through natural language interaction. The result is the finished prototype \prototype{}. Using an LLM to generate queries based off of the user's natural language input, it is able to retrieve relevant data from a proprietary knowledge graph in order to supplement its responses. \prototype{} was created by applying Action Research, in which the researcher along with two practitioners iteratively developed the system in four cycles. Throughout each cycle, the current problem was diagnosed, action planned, and action taken before evaluating and specifying the learnings from the cycle. This allowed a collaborative and explorative approach.
 
-An interesting aspect of the Action Research was that only a vague end goal was envisioned. However, what the advantages of achieving the goal might be, was not aware to any of the stakeholders. For example, a RAG-based system with which enterprise architects could interact with a knowledge graph through natural language was the goal. However, a main advantage of such a system is the transparency aspect. This transparency would not have been given, had cycle 3 (?) not added the feature to allow copying the utilized Cypher. Adding this feature was not discussed between the stakeholders and was implemented on a whim in order to help debug the application during development. Only later did it reveal itself to be one of the key findings of this research. This insight greatly justifies the Action Research approach, as it allowed for the circumstances that led to this finding.
+% Main Findings
+The results of the conducted Action Research cycles and the final evaluation demonstrate that natural language interaction with a proprietary EAM knowledge graph is technically feasible. \prototype{} demonstrates this through its end-to-end pipeline allowing a user to upload proprietary enterprise architecture data into the knowledge graph and subsequently querying it. The retrieval process is done by transforming the user's input into a Cypher query using an LLM. This query is then executed within the Neo4j database. The LLM's natural language response to the user is then augmented with the information retrieved from the database. Along with the response, the user is also returned the exact Cypher used, allowing them to manually execute it within Neo4j. This enables the user to inspect the results and ensure factual correctness of the LLM's response.
+
+% Takeaway
+One of the central insights of this research is the importance of transparency mechanisms when integrating large language models with enterprise knowledge systems. A central problem when working with LLMs are their hallucinated responses. By showing which Cypher is used to generate the response, \prototype{} is able to mitigate its hallucinations, as a user is able to validate the factual correctness of the generated response. This insight emerged during the development phase, justifying the applied Action Research method.
 
 
-% Future Work
+%%%%%%%
+%%%%%%% Future Work
+%%%%%%%
 \section{Future Work}
 \label{sub:conclusion:futureWork}
-What should be done next and how.
-Some ideas for future work: how to improve the challenges mentioned. what other areas this could find utility in. how could access management be handled? e.g. if the database contains customer-information that not every user should be able to see, how can that be differentiated? real-world scenarios that could use my prototype and try out a pilot phase?
+Despite the promising results, the developed prototype remains a proof-of-concept artifact rather than a production-ready enterprise solution. The following discusses possible improvements and future work on \prototype{}.
 
-Vergleich mal den Pipelining prozess, den Jürgen am 27.01 vorgeschlagen hat mit n8n: \href{https://n8n.io/}. die frage analysieren, runterbrechen in einzelne schritte, und sich so das endergebnis zusammen rechnen.
+% Improving prototype robustness
+Several technical improvements could further increase \prototype{}'s robustness and usability. For example, the system is very sensitive to its prompt context. Ambiguous or loosely formulated prompts can lead to the generation of Cypher queries that do not target the correct node types within the knowledge graph. Improving the schema-awareness of the prompting strategy or introducing intermediate validation steps could help reduce this dependency on prompt formulation.
 
-Alles vom Termin am 27.01.26 nochmal durchgehen.
+Another limitation concerns the use of the database schema within the prompt context. Currently, the schema is supplied before each prompt in order to guide the LLM in generating valid Cypher queries. While this approach improves correctness, it may become problematic as the size of the knowledge graph increases. Prior research has shown that supplying large schema descriptions can overload the LLM context window and negatively impact performance \cite{wan2025prompting, mihindukulasooriya2023text2kgbench}. Future work could therefore investigate more efficient methods for supplying schema information.
 
-Downloadable dateien, die aus den openai antworten generiert werden, wären wichtig
+Furthermore, the data ingestion process used for transforming Archi XML exports into the knowledge graph may add unnecessary information into the knowledge graph. For example, the imported XML files from Archi contain not only the architectural elements themselves but also additional metadata related to visualization and layout. Currently, this information is not filtered out during parsing. Investigating whether this data introduces noise into the knowledge graph and refining the parsing accordingly could further improve retrieval quality.
 
-Auch interessant wäre es, Masuta an mehr MCP angebundene Applikationen zu verbinden. Beispielsweise, dass Masuta direkt mit Archi oder Confluence verbunden ist, um die Architekturen dort zu aktualisieren anhand der Ergebnisse. zB "Please create a documentation page on how to remove application x and everything that needs to be considered from covered capabilities, alternatives as a replacement, to licensing costs".
+% Improving deployment for the real world
+Beyond improving the technical robustness of the prototype, future work should also address what would be required to deploy \prototype{} in real-world enterprise environments.
 
-Auch, dass man Masuta mal quantitativ messen sollte, wäre relevant. Beispielsweise, wie schnell wird eine Antwort generiert? Wie akkurat sind die antworten? Wie oft kommen fehler auf? etc.
+A major requirement in such environments would be the handling of access rights to sensitive information stored in the knowledge graph. In practice, not every user should be allowed to view all architectural elements or related documentation. Future work should therefore investigate how role-based access control can be integrated into the interaction pipeline, ensuring that generated Cypher queries and returned answers are constrained by the permissions of the respective user.
 
-possible improvements:
-\begin{itemize}
-	\item The schema call before every prompt is costly for large schemas (i assume as of 02.01.26). This source from wan \cite{wan2025prompting} confirms this - giving the complete schema information can overload the context. This limitation with character limits and overly large contexts is also mentioned in this paper in the conclusion's limiations: \cite{mihindukulasooriya2023text2kgbench}
-	\item Does the APOC XML parser create noise in the database? you know how the XML files have view-data in it on how to display it in archi? we're not leaving that out. does that get saved into the database?
-	\item The LLM often doesn't know which node type to look in. E.g. if in archi a landscape was created with information in a "BusinessFunction" node and this is queried in Masuta, then the LLM often doesn't know that the information it should look for is in the business function node type. it searches elsewhere, doesn't find anything, and returns 0 results. This not knowing what node type to look in without supplying the context in the prompt is a necessary improvement.
-	\item Document parsing with other tools may have helped speed up the process in the beginning, allowing for more well-developed features later in the project. For example doc ling https://www.docling.ai/
-	\item Verbesserung: Traversal strategie. Im SOTA \ref{sec:intro:relatedWork} habe ich beschrieben, dass es bessere traversal strategien gibt als LLM-as-retriever. Allerdings habe ich das genauso implementiert. das kann hinten raus probleme machen in der skalierung. es hat sich auch im final review gezeigt, dass die retrieval methode verbessert werden kann. vielleicht genau hierdurch. \cite{chen2025gril}
-	\item Updating the knowledge graph is not really possible in masuta. you would have to delete all entries in the graph database and then reupload the updated xml file. meaning you have to update the source architecture and reupload it instead of doing so in masuta itself.
-	\item Mein Import ist möglicherweise etwas fehlerhaft, weil er alles / vieles als ArchiElement einliest. -
+Another relevant improvement concerns the handling of artifacts generated from system responses. During the final review, it became apparent that downloadable files generated from OpenAI responses, such as Excel files, would increase the practical usefulness of the system. Extending the current frontend and backend so that generated files can be received, stored, and made available for download would therefore be a meaningful step toward a more complete application workflow.
 
-\end{itemize}
+In addition, the current interaction flow could be extended by replacing the largely direct prompt-to-query process with a more explicit pipeline of intermediate steps. Rather than relying on a single generation step to interpret and fulfil the prompt, future work could investigate orchestration-based approaches in which the question is first analysed, broken down into smaller subtasks, and processed step by step. Such a pipelined interaction strategy may improve robustness and make the system’s internal processing more controllable.
+
+Because \prototype{} already uses MCP as a standardized interface to external systems, future work could also explore connecting it to additional MCP-enabled applications. For example, instead of limiting the system to retrieving and explaining architectural information, \prototype{} could be extended to interact directly with tools such as Archi or Confluence. This would allow the system not only to analyse architecture data, but also to support follow-up tasks such as updating documentation. Such extensions would move the system further from a question-answering prototype toward a broader architecture support system.
+
+
+% Conclusion
+Overall, this research demonstrates that transparent interaction with enterprise architecture knowledge through a RAG-based system is technically feasible. By combining large language models with a structured knowledge graph and exposing the generated queries used for retrieval, \prototype{} provides a grey-box interaction mechanism that reduces the opacity typically associated with AI-based systems. While the prototype represents only an initial step toward practical deployment, the results indicate that a transparent, schema-aware chatbot system can play a meaningful role in supporting enterprise architects when navigating complex architectural landscapes.
+
+

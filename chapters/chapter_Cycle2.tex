@@ -46,7 +46,7 @@ During the discussions, it was regularly mentioned that enterprise architects wo
 
 It was also during these discussions where a deadline for the prototype development was agreed upon. Alongside the deadline, a final review was discussed where all three stakeholders will be testing and evaluating the system together. This also means that the prototype must be prepared for such a final review. The use case of a final review requires that a local deployment be setup in order to allow the other practitioners to have the prototype running on their local computers. It was agreed up to use an approach with Docker\footnote{Docker: \url{https://www.docker.com/}}, as this allows each system component to be added to an encapsulated container, enabling an operating system agnostic execution method of the prototype.
 
-Furthermore, the practitioners and researcher identified three key categories of user questions. The first category identified conceptual questions related to enterprise architecture principles, concepts, and best practices found in textbooks. The second category contains descriptive questions targeting concrete architectural elements and relationships. The third and final category contains integrative questions combining conceptual knowledge with specific architectural contexts. The cross section of this can be found in figure \ref{fig:vennCategories} Examples of these categories can be found in the Appendix's chapter \ref{appendix:ch:example_questions}. This overlaps with the categories identified in section \ref{sec:intro:relatedWork} by Zhao et al. (2024) \cite{zhao2024retrieval}, where explicit facts map to the identified category 1, implicit facts map to category 2, and the interpretable rationales and hidden rationales map to category 3. This categorization provides a structured evaluation framework for the final review, as this allows the system's maturity to be assessed along progressively complex reasoning dimensions.
+Furthermore, the practitioners and researcher identified three key categories of user questions. The first category identified conceptual questions related to enterprise architecture principles, concepts, and best practices found in textbooks. The second category contains descriptive questions targeting concrete architectural elements and relationships. The third and final category contains integrative questions combining conceptual knowledge with specific architectural contexts. The venn diagram of this can be found in figure \ref{fig:vennCategories} and example questsions of these categories can be found in the Appendix's chapter \ref{appendix:ch:example_questions}. This also overlaps with the categories identified in section \ref{sec:intro:relatedWork} by Zhao et al. (2024) \cite{zhao2024retrieval}, where explicit facts map to the identified category 1, implicit facts map to category 2, and the interpretable rationales and hidden rationales map to category 3. This categorization provides a structured evaluation framework for the final review, as this allows the system's maturity to be assessed along progressively complex reasoning dimensions.
 
 
 \begin{figure}[h]
@@ -65,7 +65,9 @@ Furthermore, the practitioners and researcher identified three key categories of
     % Intersection label
     \node at (0,0) {\textbf{C3}};
 \end{tikzpicture}
-\caption{A venn diagram of the three question categories identified, which the prototype must be able to answer.}
+\caption{Venn diagram of the three identified question categories 
+(C1 = Category 1, C2 = Category 2, C3 = Category 3), 
+which the prototype must be able to answer.}
 \label{fig:vennCategories}
 \end{figure}
 
