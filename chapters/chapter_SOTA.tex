@@ -1,6 +1,6 @@
 \chapter{Current State of the Art}
 \label{ch:SOTA}
-In order to understand how this research fits into the current state of the art, it is beneficial to go over current research and implementations. This helps to scientifically position the research at hand and justifies its implementation methods. This chapter describes how research on the current state of the art was conducted and summarizes the most relevant papers and projects found.
+In order to understand how this research fits into the current state of the art, it is beneficial to summarize and go over current research and implementations. This helps to scientifically position the research at hand and justifies its implementation methods. This chapter describes how research on the current state of the art was conducted and summarizes the most relevant papers and projects found.
 
 %
 % PRISMA Framework
@@ -13,7 +13,7 @@ To support in this, the Preferred Reporting Items for Systematic Reviews and Met
 
 Literature was primarily identified using the Google Scholar search engine. The search process was conducted by defining relevant keywords and searching for these in the search engine. Forward and backward citation tracking was also applied to the extracted sources. Search terms were iteratively improved and clustered around the main themes of this thesis. Search terms included EAM, LLMs, RAG, and Conversational Agents. In addition to manual search methods, a small number of relevant sources were found through prompted searching via ChatGPT \cite{openai_chatgpt_2023}. A flowchart of the applied PRISMA framework can be seen in figure \ref{fig:prisma}.
 
-Setting up criteria to filter out excessive literature is necessary in order to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Because this work is very practically oriented, more design and implementation oriented approaches were analyzed, as opposed to meta analyses. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable to this research. Meta data of a published paper such as the amount of times it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers is likely to be a key paper within its domain. A paper cited by little to no further papers is to be critically considered. Internet sources were kept to a bare minimum.
+Setting up criteria to filter out excessive literature is necessary in order to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Because this work is very practically oriented, more design and implementation oriented approaches were analyzed, as opposed to meta analyses. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable to this research. Meta data of a published paper such as the amount of times it has been cited by further papers may also be an indication of how well grounded the source is within its domain. For example, a paper cited by thousands of further papers is likely to be a key paper within its domain. A paper cited by little to no further papers is to be critically considered. Internet sources were kept to a bare minimum.
 
 % Figure for PRISMA Framework
 \begin{figure}[H]
@@ -28,10 +28,10 @@ Setting up criteria to filter out excessive literature is necessary in order to 
 Applying the above filters, papers found were initially skimmed in order to assess if it may be relevant to this research. This meant going over the papers' abstracts and key points, but not reading every detail yet. This allows papers that do not support the goal of this thesis to be filtered out quickly. Afterwards, the remaining papers were read more thoroughly.
 
 
-By applying the PRISMA framework as mentioned above, it was possible to reduce the amount of sources from an initial count of \textit{todo} sources down to y sources after the first step and down to the final z sources after the final step.	
+By applying the PRISMA framework as mentioned above, it was possible to reduce the amount of sources from an initial count of \textit{to do} sources down to \textit{to do} sources after the first step and down to the final \textit{to do} sources after the final step.	
 
 
-Todo 10.02.26: was vielleicht ganz gut wäre, wäre eine konzeptmatrix darzustellen zu allen papern, die ich in meiner prisma suche gefunden habe. prisma kann man auch ergänzen um eine unstrukturierte literaturstudie. welche paper beschäftigen sich mit LLMs, welche mit fragentypen, etc. Manchmal hilft auch strukturierung. wenn ich zB eine tabelle einführe mit projekt + kurz charakterisierung, dann brauche ich wenig text und muss nur noch die tabelle beschreiben. deswegen auch eine konzeptmatrix - kreuzprodukt zwischen thema und quelle. das kann ich genauso machen. zeilen quellen, spalten begriffe die relevant sind.
+To do 10.02.26: was vielleicht ganz gut wäre, wäre eine konzeptmatrix darzustellen zu allen papern, die ich in meiner prisma suche gefunden habe. prisma kann man auch ergänzen um eine unstrukturierte literaturstudie. welche paper beschäftigen sich mit LLMs, welche mit fragentypen, etc. Manchmal hilft auch strukturierung. wenn ich zB eine tabelle einführe mit projekt + kurz charakterisierung, dann brauche ich wenig text und muss nur noch die tabelle beschreiben. deswegen auch eine konzeptmatrix - kreuzprodukt zwischen thema und quelle. das kann ich genauso machen. zeilen quellen, spalten begriffe die relevant sind.
 
 
 
@@ -54,9 +54,7 @@ This section synthesizes and discusses the relevant literature and projects foun
 % Jung, Fraunholz 2021: Masterclass Enterprise Architecture Management
 % Key points: Supplementing an LLM with RAG
 % EAM Overview
-Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay foundational work for many concepts within the realm of EAM and identify recurring challenges associated with understanding, documenting, and managing enterprise architectures and application landscapes in practice.
-
-One common challenge addressed throughout the textbook is that large, complex application landscapes are difficult to keep an overview over. In extreme cases, this can even lead to an enterprise lacking a complete overview of the applications in use, which severely limits transparency and hinders decision making based off of the data at hand. Another common hurdle arises through uncontrolled growth of the landscape, for example through a merger or acquisition. In such scenarios, previously independent landscapes are fused into one, often leading to redundant systems, overlapping functionality, and unnecessary costs. Even in cases where the application landscape may not be overly complex, it may still suffer from poor documentation. This lack of reliable documentation hinders the ability of enterprise architects to understand application purposes, dependencies, and capabilities covered.
+Authors Jung and Fraunholz 2021 \cite{jung2021masterclass} lay foundational work for many concepts within the realm of EAM and identify recurring challenges associated with understanding, documenting, and managing enterprise architectures and application landscapes in practice. One common challenge addressed throughout the textbook is that large, complex application landscapes are difficult to keep an overview over. In extreme cases, this can even lead to an enterprise lacking a complete overview of the applications in use, which severely limits transparency and hinders decision making based off of the data at hand. Another common hurdle arises through uncontrolled growth of the landscape, for example through a merger or acquisition. In such scenarios, previously independent landscapes are fused into one, often leading to redundant systems, overlapping functionality, and unnecessary costs. Even in cases where the application landscape may not be overly complex, it may still suffer from poor documentation. This lack of reliable documentation hinders the ability of enterprise architects to understand application purposes, dependencies, and capabilities covered.
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
@@ -66,12 +64,6 @@ One common challenge addressed throughout the textbook is that large, complex ap
 % Jung, Fraunholz 2021: Masterclass Enterprise Architecture Management
 % Key points: Common stakeholder challenges in EAM
 Author Jung (2019) \cite{jung2019purpose} also conducted eight interviews in which enterprise architects, consultants, and decision makers in the German logistics industry to identify concerns that  enterprise architecture management is expected to address in practice. The results highlight that stakeholders deal with recurring topics such as providing information about applications, optimizing application landscapes, and reducing the number of applications to save costs. These concerns form a practical starting point for examining how enterprise architecture data can be structured, queried, and analyzed in order to support questions about existing landscapes.
-
-
-
-theories, digital twin efforts, EA tool landscapeStandards or frameworks (e.g., TOGAF, ArchiMate, IATA ONE Record, LeanIX).
-Theoretical foundations (auch auf prozessmanagment eingehen, wie der aktuelle Prozess aussieht, wenn die Landschaft geändert werden soll)
-Current tools and methods
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
@@ -101,7 +93,7 @@ To tackle this challenge, the authors identify four levels of complexity when it
 
 While queries in level 1 and level 2 are rather straightforward and only require the system to retrieve the relevant facts, queries within level 3 and level 4 require that the system has the capacity to learn and apply the rationales that go above and beyond the data itself. The challenge of query tasks which require rationale can be overcome through in-context learning. The authors describe this as the ability of an LLM to infer hidden rationales by being given relevant examples within the context of the prompt.
 
-These categories will be relevant again later in chapter \ref{ch:method} as these are also applicable within the domain of enterprise architecture management. Each question posed to the system within this research can be broken down into one of these four categories.
+These categories will be relevant again later, as these are also applicable within the domain of enterprise architecture management. Each question posed to the system within this research can be broken down into one of these four categories.
 
 However, this does not answer the question of how information from a knowledge graph can be retrieved. This is especially challenging as each question by a user contains a certain level of complexity which needs to be covered by the generated query. How can this challenge be overcome?
 
@@ -158,7 +150,7 @@ Their research takes an LLM-based approach to each of the six steps. For example
 
 
 
-The results of this study are beneficial for the research at hand as it details how to set up a knowledge graph with the assistance of LLMs. This will be relevant again later in section \ref{sec:action_research_cycles}. However, while the work by Laurenzi et al. (2024) demonstrates how LLMs can assist in the creation of a knowledge graph, this process requires a human in the loop that is aware of the ontology. Moreover, this approach may be flexible, but it is not scalable. In many cases when dealing with enterprise architectures, the data is already structured in architecture diagrams and can be exported from the respective modeling tool into structured formats such as XML. This raises the question of how an automated approach can be taken in cases where the artifacts exist and only require systematic parsing in order to be added to the knowledge graph, without the assistance of an LLM.
+The results of this study are beneficial for the research at hand as it details how to set up a knowledge graph with the assistance of LLMs. This will be relevant again later. However, while the work by Laurenzi et al. (2024) demonstrates how LLMs can assist in the creation of a knowledge graph, this process requires a human in the loop that is aware of the ontology. Moreover, this approach may be flexible, but it is not scalable. In many cases when dealing with enterprise architectures, the data is already structured in architecture diagrams and can be exported from the respective modeling tool into structured formats such as XML. This raises the question of how an automated approach can be taken in cases where the artifacts exist and only require systematic parsing in order to be added to the knowledge graph, without the assistance of an LLM.
 
 
 
@@ -169,16 +161,9 @@ Smajevic and Bork (2021) \cite{smajevic2021conceptual} introduce a generic, end-
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
 
-The above two researches by Laurenzi et al. (2024) and Smajevic et al. (2021) both exemplify two different approaches to creating knowledge graphs. While Laurenzi et al. (2024) proposes an LLM-based, hands-on approach which offers flexibility in creating a knowledge graph from the ground up, Smajevic et al. (2021) offer a generic solution to transform an existing model into a knowledge graph in an automated fashion. Both approaches come with advantages and disadvantages and will later be relevant in sections \ref{sec:action_research_cycles} and \ref{ch:Discussion}. %Todo: ch:Discussion ersetzen durch das Unterkapitel der Diskussion.
-
-Taking a step back from the technical details of a RAG-based implementation, it is fair to ask why it is even necessary to digitalize the work that can be done by expert enterprise architects.
-
-This paper covers how ai tools are more scalable than manual expertise analysis of things. The source is highly relevant. Look at the summary in notebookLM. 05.10.25 \cite{gu2024survey}
-
-This paper \cite{evaluationFrameworkLLMs} gives a standardized method and framework for evaluating conversational AI agents.
+The above two researches by Laurenzi et al. (2024) and Smajevic et al. (2021) both exemplify two different approaches to creating knowledge graphs. While Laurenzi et al. (2024) proposes an LLM-based, hands-on approach which offers flexibility in creating a knowledge graph from the ground up, Smajevic et al. (2021) offer a generic solution to transform an existing model into a knowledge graph in an automated fashion. Both approaches come with advantages and disadvantages and will later be relevant in chapter \ref{ch:Discussion}.
 
 The next section takes a step away from academic papers and delves into similar projects and prototypes.
-
 
 %
 % Related Projects
@@ -187,6 +172,8 @@ The next section takes a step away from academic papers and delves into similar 
 
 \section{Related Projects}
 \label{sec:intro:projects}
+\textit{To do:} 
+
 Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to have a look at similar projects on the market. This section also takes a look at common challenges faced by such chatbots.
 
 
@@ -202,8 +189,7 @@ Tools like ChatEA, LeanIX AI features, or Microsoft Copilot integrations in arch
 
 A prototypical graph-based RAG approach for text-summarization has been created by Microsoft: y\cite{MsGraphRAGPrototype}. The accompanying paper is here: \cite{MsGraphRAGPaper}
 
-Dragon1 needs to be detailed here!
-
+Dragon1 needs to be detailed here
 
 
 
