@@ -11,7 +11,7 @@ The co-advisor outlined typical enterprise architecture workflows and the tools 
 
 As an alternative, the academic supervisor proposed an explicit knowledge graph approach in which a knowledge graph is built and used to supplement LLM-generated answers via RAG. This differs from the black-box approach in that an explicit database is present and the interaction between the LLM and the database is clearly defined.
 
-The key distinction between the black-box and white-box approaches lies in their degree of transparency. While the black-box approach autonomously creates an internal representation of the information, the white-box approach requires the deliberate design and implementation of an explicit technical architecture. This transparency aligns well with the mentioned advantages of a RAG-based LLM system in section \ref{ch:SOTA} by Zhao et al. (2024) \cite{zhao2024retrieval}.
+The key distinction between the black-box and white-box approaches lies in their degree of transparency. While the black-box approach autonomously creates an internal representation of the information, the white-box approach requires the deliberate design and implementation of an explicit technical architecture. This transparency aligns well with the mentioned advantages of a RAG-based LLM system in section \ref{ch:SOTA} by Zhao et al. (2024). \cite{zhao2024retrieval}
 
 These discussions were necessary in order to scope the solution space. Early visions of an end goals included a chatbot capable of supporting enterprise architects in exploring and improving application landscapes, for example by identifying inconsistencies or incomplete architectural documentation. At this stage, the research methodology had not yet been explicitly defined as Action Research, and it was initially assumed that the resulting prototype would be evaluated through an expert interview.
 
@@ -58,7 +58,7 @@ Another challenge faced during the first cycle came from the applied approach of
 
 Lastly, the currently deployed Qwen model was deemed too slow, with answers often taking minutes to process. This led to the idea of testing alternative options as the LLM of choice.
 
-The first cycle aligns closely with the six-step knowledge graph creation process proposed by Laurenzi et al. (2024) \cite{laurenzi2024llm}. Also, the initial scoping discussions between the participants implicitly defined the different types of questions the system should be able to answer. The manual construction of the graph structure and data ingestion reflect steps 2 through 5, including schema design via LlamaIndex, knowledge extraction from the textbook, validation via the Neo4j interface, and population of the graph.
+The first cycle aligns closely with the six-step knowledge graph creation process proposed by Laurenzi et al. (2024). \cite{laurenzi2024llm} Also, the initial scoping discussions between the participants implicitly defined the different types of questions the system should be able to answer. The manual construction of the graph structure and data ingestion reflect steps 2 through 5, including schema design via LlamaIndex, knowledge extraction from the textbook, validation via the Neo4j interface, and population of the graph.
 
 % Learning
 \section{Learning}
