@@ -41,7 +41,7 @@ To do
 
 A Large Language Model (LLM)
 
-LLMs are capable of supporting in language-related tasks where text needs to be generated, translated, summarized, analysed, or questions answered \cite{hadi2023large}.
+LLMs are capable of supporting in language-related tasks where text needs to be generated, translated, summarized, analyzed, or questions answered \cite{hadi2023large}.
 
 \cite{singhal2023large} describes what llms are and why they are not good with domain specific information and how that causes them to hallucinate.
 
@@ -81,7 +81,7 @@ A knowledge graph is thus a graph database composed of various relationships to 
 % MCP
 \subsection{Model Context Protocol (MCP)}
 \label{sub:background:mcp}
-Modern AI applications are typically designed to be connected with further external tools and services, such as a Neo4j database, in order to allow the AI to directly perform actions via the application's API. However, this brings the challenge with it that the developers of the proprietary application must manually define interfaces in order to connect their AI application to these external services. If the AI application is to be connected with \textit{n} external services, then it would normally need \textit{n} custom-built connections; one for each service. This comes with a lot of overhead, makes interoperability difficult to achieve, and can hinder long-term maintainability of a system. \cite{hou2025model, anthropic_mcp_2025}
+Modern AI applications are typically designed to be connected with further external tools and services, such as a Neo4j database, in order to allow the AI to directly perform actions via the application's Application Programming Interface (API). However, this brings the challenge with it that the developers of the proprietary application must manually define interfaces in order to connect their AI application to these external services. If the AI application is to be connected with \textit{n} external services, then it would normally need \textit{n} custom-built connections; one for each service. This comes with a lot of overhead, makes interoperability difficult to achieve, and can hinder long-term maintainability of a system. \cite{hou2025model, anthropic_mcp_2025}
 
 This is where the Model Context Protocol (MCP), developed by Anthropic and released in 2024, comes into play. It standardizes the interface between an AI application and its connected external services by defining a structured protocol for tool discovery, invocation, and result handling. This allows a secure, two-way connection between the AI application and external tools. \cite{anthropic_mcp_2025} With an MCP server sitting between the MCP client (the AI application) and the external service, the MCP client only needs to communicate with the standardized MCP interface \cite{hou2025model}. 
 

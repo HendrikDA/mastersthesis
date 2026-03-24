@@ -1,6 +1,6 @@
 \chapter{Implementation}
 \label{ch:implementation}
-The previous chapter answer the question of how things were iteratively built, why they were built so, and how the final system was reviewed. This chapter contains all information on what the finished \prototype{} prototype is, including its architecture, individual components, features, data processing mechanisms, and a sequence diagram of how data flows through the application.
+The previous chapters answer the question of how things were iteratively built, why they were built as such, and how the final system was reviewed. This chapter contains all information on what the finished \prototype{} prototype is, including its architecture, individual components, features, data processing mechanisms, and a sequence diagram of how data flows through the application.
 
 %%%%
 % Finished Architecture and Prototype
@@ -9,7 +9,7 @@ The previous chapter answer the question of how things were iteratively built, w
 \label{sec:architecture}
 Figure \ref{fig:architecture_diagram} provides a holistic overview of the system architecture underlying the developed prototype. The user (1) starts the interaction by inputting their prompt through a web-based frontend implemented in React (2). The frontend serves as the primary interface for the user to interact with the application and its underlying data. Interaction is done by prompting via natural language. This makes up the presentation layer of the architecture.
 
-Incoming requests are forwarded to the Node.js backend (3) which orechestrates the interaction between the frontend the LLM (4) and the MCP Server (5). The LLM is used to turn the prompt into cyphers and vice versa to turn the cypher's result back into natural language. This is the only external service of the entire architecture. To enable standardized access to the Neo4j databases (6 and 7), the MCP server sits as a link between the application logic and the databases. These components constitute the orchestration layer of the architecture.
+Incoming requests are forwarded to the Node.js backend (3) which orchestrates the interaction between the frontend the LLM (4) and the MCP Server (5). The LLM is used to turn the prompt into cyphers and vice versa to turn the cypher's result back into natural language. This is the only external service of the entire architecture and is thus not containerized. To enable standardized access to the Neo4j databases (6 and 7), the MCP server sits as a link between the application logic and the databases. These components constitute the orchestration layer of the architecture.
 
 The MCP server is connected to both Neo4j databases. The first being the playground database (6) which contains textbook data and the user's custom data that they upload (8). The second database is the SpeedParcel database (7) which contains the textbook data and the SpeedParcel example data (9). The separation of the two databases allows the user to toggle between the playground database instance, containing their own data, and the SpeedParcel instance, containing example data that is ready to be prompted. The databases make up the data access layer of the architecture.
 
@@ -24,36 +24,36 @@ Each of these application components are explained in more detail in section \re
 \label{fig:architecture_diagram}
 \end{figure}
 
-Todo: Should we describe what Masuta does somewhere here as well? We've described the architecture and how the individual parts interact, but we haven't described its functionality in any way yet.
+Todo: Should we describe what Masuta does somewhere here as well? We've described the architecture and how the individual parts interact, but we haven't described its functionality in any way yet. Papa sagt JA!
 
 %%%%
 % Component Details
 %%%%
 \section{Component Details}
 \label{sec:component_details}
-This section describes each component in more detail with the goal of clarifying how and why the individual components are implemented the way that they are.
+This section describes each component in more detail with the goal of clarifying how and why the individual components are implemented the way they are.
 
 %%% Frontend
 \subsection{Frontend}
 \label{sub:frontend}
-The frontend of the prototype is implemented as a single-page application using React with TypeScript. React was chosen due to its component-based architecture, which promotes modularity, reusability, and maintainability. TypeScript adds static typing to the JavaScript codebase, reducing runtime errors and improving development reliability in a growing application \cite{bierman2014understanding}. For the user interface, the Chakra UI component library is implemented. Chakra UI provides a set of accessible, pre-styled components that significantly reduce the need for custom CSS while ensuring visual consistency across the application \cite{chakra_ui}. This choice enabled rapid prototyping and allowed the development effort to focus on functionality rather than low-level UI styling concerns.
+The frontend of the prototype is implemented as a single-page application using React with TypeScript. React was chosen due to its component-based architecture, which promotes modularity, reusability, and maintainability. TypeScript adds static typing to the JavaScript codebase, reducing runtime errors and improving development reliability in a growing application \cite{bierman2014understanding}. For the user interface, the Chakra UI component library is implemented. Chakra UI provides a set of accessible, pre-styled components that significantly reduce the need for custom Cascading Style Sheets (CSS) while ensuring visual consistency across the application \cite{chakra_ui}. This choice enabled rapid prototyping and allowed the development effort to focus on functionality rather than low-level UI styling concerns.
 
-The frontend is containerized and exposed under \texttt{http://localhost:3000/}. It communicates with the Node.js backend through a set of RESTful HTTP endpoints. Each request contains the user’s prompt as well as a session ID, which is generated when the page is loaded or when the active database is toggled by the user. The session identifier is used by the backend to maintain chat state and conversation history. By regenerating the session identifier on page reloads and database switches, the system ensures a clear separation of chat contexts. This prevents unintended carry-over of conversation history between different databases or interaction sessions, thereby preserving data consistency and analytical validity.
+The frontend is containerized and exposed under \texttt{http://localhost:3000/}. It communicates with the Node.js backend through a set of RESTful HTTP endpoints. Each request contains the user’s prompt as well as a session ID, which is generated when the page is loaded or when the active database is toggled by the user. The session identifier is used by the backend to maintain chat state and conversation history. By regenerating the session identifier on page reloads and database switches, the system ensures a clear separation of chat contexts. This prevents unintended carry-over of conversation history between different databases or interaction sessions, thereby preserving data consistency, analytical validity, and supports in maintaining better compliance.
 
 Further details on the available frontend features and user example interactions are provided in Appendix \ref{appendix:instructions:features}.
 
 %%% Backend
 \subsection{Backend}
 \label{sub:backend}
-The backend contains the entire application logic and is the most critical part of the prototype. Here, requests are received from the frontend and processed before querying the data from the knowledge graph and subsequently returning it to the frontend. It also handles further logic, such as parsing the user's uploaded XML files and inserting them into the knowledge graph while also handling further features such resetting the playground database. Many parts of the backend were developed with the assistance of AI \cite{openai_chatgpt_2023}.
+The backend contains the entire application logic and is the most critical part of the prototype. Here, requests are received from the frontend and processed before querying the data from the knowledge graph and subsequently returning it to the frontend. It also handles further logic, such as parsing the user's uploaded XML files and inserting them into the knowledge graph while also handling further features such as resetting the playground database. Many parts of the backend were developed with the assistance of AI \cite{openai_chatgpt_2023}.
 
 % Schema Information
 \subsubsection{Schema Information}
 \label{sub:schema}
 
-The ability for an LLM to perform a new task without explicitly retraining it is called in-context learning \cite{xie2021explanation}. This is done via a meta-prompt that is supplied to the LLM where only a set of rules, inputs, or outputs are defined. The LLM then does the necessary reasoning based on this context in order to complete the new task. This is injected into the LLM at runtime. \cite{xie2021explanation} In this case, when the LLM is tasked with generating a cypher for an unknown knowledge graph, the model uses the supplied context to infer the correct approach. In-context learning allows the LLM to learn how to generate the necessary cyphers on the fly. \cite{xie2021explanation, wan2025prompting}
+The ability of an LLM to perform a new task without explicitly retraining is called in-context learning \cite{xie2021explanation}. This is done via a meta-prompt that is supplied to the LLM where only a set of rules, inputs, or outputs are defined. The LLM then does the necessary reasoning based on this context in order to complete the new task. This is injected into the LLM at runtime. \cite{xie2021explanation} In this case, when the LLM is tasked with generating a cypher for an unknown knowledge graph, the model uses the supplied context to infer the correct approach. In-context learning allows the LLM to learn how to generate the necessary cyphers on the fly. \cite{xie2021explanation, wan2025prompting}
 
-Before the LLM is able to generate any meaningful cypher, it is necessary to get the knowledge graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()} \cite{neo4j_apoc_meta_schema}. Directly after getting the schema, the backend also queries the indexes present in the knowledge graph. This enables the database to lookup nodes and relationships based on specific labels and properties \cite{neo4j_cypher_indexes}.
+Before the LLM is able to generate any meaningful cypher, it is necessary to retrieve the knowledge graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()} \cite{neo4j_apoc_meta_schema}. Directly after getting the schema, the backend also queries the indexes present in the knowledge graph. This enables the database to lookup nodes and relationships based on specific labels and properties \cite{neo4j_cypher_indexes}.
 
 With this information, the LLM will later understand how the knowledge graph is structured and how cyphers can be generated to query it.
 
@@ -62,15 +62,15 @@ With this information, the LLM will later understand how the knowledge graph is 
 \label{sub:prompt}
 The system prompt is one of the most crucial parts of the backend. This is where the LLM is given its information for in-context learning in order to understand how to transform the natural language inputs into a single cypher and how to turn the raw cypher response back into natural language for the response to the user. The implemented system prompts can be found in chapter \ref{appendix:code:prompts} of the Appendix.
 
-The incoming user prompt requires a finely tuned, well thought out system prompt. The goal of the first system prompt is to provide the LLM with all of the context that it needs in order to generate the specific cypher required to fulfil the user's prompt. It contains four sections, categorized to help generate the cypher. The first category in the system prompt is a set of rules on how it may generate the cypher, e.g. to infer meaning from the user's prompt to identify which labels in the knowledge graph to query. The second category is generic schema information and what type of cyphers it may use to fulfil different types of user requests. The third category in the system prompt is the task that the LLM is given, i.e. to generate exactly one cypher, only cypher, and no further text or explanations. The fourth and last category is a set of cypher syntax rules. These were added iteratively during development as the generated cyphers regularly had errors and required assistance to avoid.
+The incoming user prompt requires a finely tuned, well thought out system prompt. The goal of the first system prompt is to provide the LLM with all the context that it needs in order to generate the specific cypher required to fulfil the user's prompt. It contains four sections, categorized to help generate the cypher. The first category in the system prompt is a set of rules on how it may generate the cypher, e.g. to infer meaning from the user's prompt to identify which labels in the knowledge graph to query. The second category is generic schema information and what type of cyphers it may use to fulfil different types of user requests. The third category in the system prompt is the task that the LLM is given, i.e. to generate exactly one cypher, only cypher, and no further text or explanations. The fourth and last category is a set of cypher syntax rules. These were added iteratively during development as the generated cyphers regularly had errors and required assistance to avoid these.
 
 This system prompt, along with the schema information, the user's current prompt, including the potential previous prompt, and corresponding system answer are then passed to Open AI's gpt-5 LLM. The returned result is a single cypher which can be directly used to query the knowledge graph in order to fulfil the user's prompt.
 
-The second system prompt supports in turning the cypher's response back into natural language. It is more straightforward and only contains two blocks. The first block tells the LLM to act as a senior enterprise architect supporting a junior enterprise architect. The second block gives the LLM more information on how to structure the response, e.g. to generally keep the answer within 1-6 sentences, depending on the complexity of the question.
+The second system prompt supports turning the cypher's response back into natural language. It is more straightforward and only contains two blocks. The first block tells the LLM to act as a senior enterprise architect supporting a junior enterprise architect. The second block gives the LLM more information on how to structure the response, e.g. to generally keep the answer within 1-6 sentences, depending on the complexity of the question.
 
 This second system prompt, along with the original user prompt and the cypher's response are again passed to Open AI's gpt-5 LLM. The returned result is then a natural-language response containing the answer to the user's prompt. This is the final result that is returned to the frontend.
 
-Tuning these system prompts greatly alters the quality of results of the entire system. While the second system prompt is rather straightforward, the first system prompt for incoming user prompts is the result of fine tuning during development in all four action research cycles, as described in section \ref{sec:action_research_cycles}. Any less information in this system prompt and the generated cypher's ability to retrieve the requested information worsens.
+Tuning these system prompts greatly alters the quality of results of the entire system. While the second system prompt is rather straightforward, the first system prompt for incoming user prompts is the result of fine-tuning during development in all four action research cycles, as described in section \ref{sec:action_research_cycles}. With less information in this system prompt, the generated cypher's ability to retrieve the requested information worsens.
 
 All of the above information is necessary for the LLM's ability to perform in-context learning specific to the knowledge graph's schema. Without this information, the LLM would not be able to generate cyphers based on the user's prompt, nor would it be able to return an answer in an appropriate wording designed for an enterprise architect.
 
@@ -79,21 +79,21 @@ All of the above information is necessary for the LLM's ability to perform in-co
 \label{sub:prompt}
 The prototype has an ephemeral conversation memory, meaning that once the session concludes, the content of the conversation is discarded \cite{zeppieri2025mmag}. This is where the session ID, which is generated and sent from the frontend, comes into play. The backend logic holds an array of past user prompts and system answers. These are tied to the session ID. An incoming request's session ID from the frontend is compared to the current session ID stored in the backend. If the session IDs match, then the previous user prompt and system answer are used as further context for the new user prompt. This enables the user to build upon their previous prompt or the system's previous answer, which may be necessary during complex, multi-step interactions \cite{zeppieri2025mmag}.
 
-As the prototype stands, it saves only the most previous user prompt and corresponding system response. However, this can be scaled to contain more of the previous prompts and responses. It was kept to a minimum for this prototype as this can bloat the prompt passed to the LLM and quickly exceed Open AI's character limit, increase the amount of time required for it to generate a response, and cause confusion and irrelevant outputs \cite{wan2025prompting}.
+As the prototype stands, it saves only the most previous user prompt and corresponding system response. However, this can be scaled to contain more of the previous prompts and responses. It was kept to a minimum for this prototype as this can bloat the prompt passed to the LLM, and quickly exceed Open AI's character limit, increase the amount of time required for it to generate a response, and cause confusion and irrelevant outputs \cite{wan2025prompting}.
 
 % Resetting the Database
 \subsubsection{Resetting the Database}
 \label{sub:db_reset}
 The backend contains an endpoint which allows the user to reset the playground database via interaction in the frontend. This reset can only be applied on the playground database, as the SpeedParcel database is read-only and is not to be modified. The playground database is reset in such a way, that only the user's uploaded data is removed and the textbook information is left remaining. This is done by deleting all nodes and relationships that are not explicitly part of the textbook data.
 
-This covers all functionality in the backend. It is the central part of the prototype through which all data flows and all application logic is handled. The parsing and conversion of data is described later on in section \ref{sec:filling_the_databases}.
+This covers all functionality in the backend. It is the central part of the prototype through which all data flows and all application logic is handled. The parsing and conversion of data is described in section \ref{sec:filling_the_databases}.
 
 %%% Open AI
 \subsection{Open AI}
 \label{sub:openai}
 The LLM used is made available by Open AI and can be accessed via its API \cite{openai_api}. The LLM has two tasks within the prototype. The first being to transform the user's prompt into cypher and secondly to turn the cypher's result back into natural language.
 
-The LLM is an external component and is not hosted, trained, or fine tuned within the scope of this thesis. All interactions with the LLM were made via stateless API calls where the user's prompt, predefined system prompt, schema, and conversation history were explicitly provided with each request. This allows the LLM to be decoupled from any application logic and can be replaced by other models.
+The LLM is an external component and is not hosted, trained, or fine-tuned within the scope of this thesis. All interactions with the LLM were made via stateless API calls where the user's prompt, predefined system prompt, schema, and conversation history were explicitly provided with each request. This allows the LLM to be decoupled from any application logic and can be replaced by other models.
 
 %%% MCP
 \subsection{MCP Server}
@@ -105,7 +105,7 @@ The MCP server employed in this prototype is the official Neo4j MCP server. It c
 %%% Databases
 \subsection{Neo4j Databases}
 \label{sub:datbases}
-The need for two databases arose during development, as described in the Action Research in section \ref{sec:action_research_cycles}. Before real world data was made available, the system required data during development and testing. Because the SpeedParcel data was readily available from a university course during a previous semester and already resembled a real world enterprise architecture, it was used as a starting point for the prototype.
+The need for two databases arose during development. Before real-world data was made available, the system required data during development and testing. Because the SpeedParcel data was readily available from a university course during a previous semester and already resembled a real-world enterprise architecture, it was used as a starting point for the prototype.
 
 Both databases contain textbook information from the 2021 book "Masterclass Enterprise Architecture Management" by Jung and Bardo \cite{jung2021masterclass}. The knowledge graph consisting of the textbook contains 13.724 nodes and 13.525 edges. The advantage of having a knowledge graph of the textbook information adjacent to the enterprise data is that user prompts of category 3 can directly query the textbook information as well as the specific enterprise data in order to supplement the generated response with information specific to the role of an enterprise architect.
 
@@ -113,7 +113,7 @@ The SpeedParcel database contains further example data and serves as a starting 
 
 Out of the box, the playground database only contains the knowledge graph of the textbook information. It is up to the user to fill the database with their own enterprise data. This database can also be reset by the user from the UI, allowing them to start over.
 
-Both databases can be interactively viewed either via the application "Neo4j Desktop" or via their web application. After connecting to the respective database, the knowledge graph can be queried via custom cyphers and the results viewed in a visual and interactive way. Utilizing this tool along with the "copy cypher" feature described in the Appendix's section \ref{appendix:instructions:input_and_chat} enables the user to inspect the raw information that the database returned before being transformed it into a natural language response by the LLM. This allows the user to fact check and retrace the answers generated.
+Both databases can be interactively viewed either via the application "Neo4j Desktop" or via their web application. After connecting to the respective database, the knowledge graph can be queried via custom cyphers and the results viewed in a visual and interactive way. Utilizing this tool along with the "copy cypher" feature described in the Appendix's section \ref{appendix:instructions:input_and_chat} enables the user to inspect the raw information that the database returned before being transformed into a natural language response by the LLM. This allows the user to fact-check and retrace the answers generated.
 
 
 %%% Docker
@@ -123,9 +123,7 @@ During the later stages of development, the need for a fully local execution env
 
 Both the frontend and backend components are built from individual Dockerfiles that define their respective runtime environments and startup commands. The backend defines a mounted volume within it, allowing the user's uploaded XML files to be persisted across container restarts.
 
-The Neo4j databases use deployed using the official, predefined Neo4j image. The databases are initialized via two services defined in the Docker Compose which must be executed ahead of starting the application for the first time. This initialization procedure is described in detail in the setup instruction in Appendix~\ref{appendix:ch:instructions}.
-
-Todo: Describe why docker compose was chosen rather than a dockerfile.
+The Neo4j databases were deployed using the official, predefined Neo4j image. The databases are initialized via two services defined in the Docker Compose which must be executed ahead of starting the application for the first time. This initialization procedure is described in detail in the setup instruction in Appendix~\ref{appendix:ch:instructions}.
 
 As a result of the containerization, the complete prototype can be started via a single \texttt{docker compose up} command.  This containerization approach ensures a consistent environment across different host systems, thereby improving reproducibility and reducing environment-specific errors during evaluation. Furthermore, each component is encapsulated within a clearly defined architectural boundary, enabling independent scaling. For example, allocating more memory for a database can be adjusted independently without impacting the other application components.
 
@@ -135,24 +133,24 @@ As a result of the containerization, the complete prototype can be started via a
 %%%%
 \section{Filling the Databases}
 \label{sec:filling_the_databases}
-Filling the databases with knowledge graphs is a central part of this research. Establishing this method is the result of all four cycles of the applied Action Research. How the approaches were iteratively refined is described in section \ref{sec:action_research_cycles}. This section describes both approaches to filling each database.
+Filling the databases with knowledge graphs is a central part of this research. Establishing this method is the result of all four cycles of the applied Action Research. This section describes both approaches to filling each database.
 
 The domain of Enterprise Architecture works well in combination with graph databases. Entities found in architecture diagrams can generally be stored as nodes, while the connection between entities establish the context of how two entities relate. With this structure, all of the in chapter \ref{ch:background} mentioned architecture diagrams can be depicted without losing information. \cite[pg. 67]{robinson2015graph}
 
 %%% SpeedParcel Data
 \subsection{Creating the Textbook and SpeedParcel  Knowledge Graphs}
 \label{sub:data_used}
-At the beginning of the development phase, it was not clear what the end data will look like. One thing that was certain was that the textbook and SpeedParcel data would only have to be parsed once during development, therefore allowing full preparation of the data before the user interacts with the application. This is in contrast to the data being parsed while the user is interacting the application. The difference means that the textbook and SpeedParcel data may be parsed with custom implementations these are one time endeavours and the real world data later having to be parsed with an ad-hoc, generic parser.
+At the beginning of the development phase, it was not clear what the end data will look like. One thing that was certain was that the textbook and SpeedParcel data would only have to be parsed once during development, therefore allowing full preparation of the data before the user interacts with the application. This is in contrast to the data being parsed while the user is interacting with the application. The difference means that the textbook and SpeedParcel data may be parsed with custom implementations, which are one time endeavours, while the real-world data later has to be parsed with an ad-hoc, generic parser.
 
 The custom parsers for the textbook and SpeedParcel datasets were implemented in Python using Jupyter Notebooks. The development for these were supported by the AI-based coding assistant ChatGPT from OpenAI. It was used as a supportive tool for tasks such as code drafting, refactoring suggestions, and troubleshooting, while the overall design, implementation decisions, and validation of the parsers remained the responsibility of the author.
 
-The first version of the parser specifically started with the textbook data in a PDF format. This in itself was a challenge that would only be faced once, as neither the SpeedParcel data nor the real world data is found in PDF format. In contrast to XML, which inherently provides structure, PDF simply contains text and information on how to represent that text \cite{llamaindex_llamaparse_2025}. Breaking this structure down into nodes and edges while attempting to retain the textbook's structure is thus a challenge.
+The first version of the parser specifically started with the textbook data in a PDF format. This was a challenge that would only be faced once, as neither the SpeedParcel data nor the real-world data is found in PDF format. In contrast to XML, which inherently provides structure, PDF simply contains text and information on how to represent that text \cite{llamaindex_llamaparse_2025}. Breaking this structure down into nodes and edges while attempting to retain the textbook's structure is thus a challenge.
 
-To support with parsing the PDF files, an open source repository by Yu (2025) which combines OpenAI's API and LlamaParse was forked and modified \cite{yu_graph_rag_2025}. The changes made to the original codebase include specifying how to structure the textbook to keep the inherent structure intact via section and concept nodes and relationships between these.
+To support with parsing the PDF files, an open-source repository by Yu (2025) which combines OpenAI's API and LlamaParse was forked and modified \cite{yu_graph_rag_2025}. The changes made to the original codebase include specifying how to structure the textbook to keep the inherent structure intact via section and concept nodes and relationships between these.
 
 Reading in the EAM textbook required reading in the PDF file and parsing it into its structural components, such as sections, paragraphs, or other elements such as tables. These components are enriched with metadata, such as labels, and textual content. The textual content is also converted into vector embeddings via an LLM. These vector embeddings allow for a similarity search within the knowledge graph. Finally, all nodes and edges are persisted into the database. Nodes represent document fragments, chunks, sections, concepts, and embeddings.
 
-With this method, the entire textbook is able to be queried via cypher. The result is a knowledge graph where nodes that belong to the same section of the textbook are connected within their own sub-graph.  A visualization of this can be seen in figure \ref{fig:textbook_kg}.
+With this method, the entire textbook can be queried via cypher. The result is a knowledge graph where nodes that belong to the same section of the textbook are connected within their own sub-graph.  A visualization of this can be seen in figure \ref{fig:textbook_kg}.
 
 
 \begin{figure}[h]
@@ -160,18 +158,18 @@ With this method, the entire textbook is able to be queried via cypher. The resu
 \makebox[\textwidth][c]{%
   \includegraphics[width=1\textwidth]{images/textbook_as_a_kg}
 }
-\caption{A screenshot of a subsection of the textbook's knowledge graph. It shows how different node types (e.g. documents and sections) are connected within their own sub-graphs. On the right-hand side is the meta-data for a selected node. Notice the "text" label within the meta-data where it is clear to see the actual contents of the textbook that derived this node.}
+\caption{A screenshot of a subsection of the textbook's knowledge graph. It shows how different node types (e.g. documents and sections) are connected within their own sub-graphs. On the right hand side is the meta-data for a selected node. Notice the "text" label within the meta-data where it is clear to see the actual contents of the textbook that derived this node.}
 \label{fig:textbook_kg}
 \end{figure}
 
-The Jupyter Notebook that parsed the textbook was then iteratively refactored for each SpeedParcel file in accordance to its specific structure. The business capability support matrix was read in via an Excel file while the business object model and the cross-application data-flow diagrams were already in XML format which were exported directly from Archi. The approach of each of these custom parsers was the same, loading the respective local file, parsing their content into structures that align with its content (e.g. applications and capabilities), and adding them to the database.
+The Jupyter Notebook that parsed the textbook was then iteratively refactored for each SpeedParcel file in accordance to its specific structure. The business capability support matrix was read in via an Excel file while the business object model and the cross-application data-flow diagrams were already in XML format which were exported directly from Archi. The approach for each of these custom parsers was the same, loading the respective local file, parsing their content into structures that align with its content (e.g. applications and capabilities), and adding them to the database.
 
-This implementation method quickly reached its limits as each custom parser was forked from the previous parser, requiring manual adaptation of the parser to fit the new file. This would make parsing new files during an on-site review impossible without developing a proprietary parser for the user's new files. In parallel the requirements for the final, real world data were also becoming more clear. This required that a generic, universal parser be built that would align better with the new requirements. In the final prototype, only the XML parser remains, as the textbook and SpeedParcel parsers were only necessary for one-time-parsing to fill the database with example data.
+This implementation method quickly reached its limits as each custom parser was forked from the previous parser, requiring manual adaptation of the parser to fit the new file. This would make parsing new files during an on-site review impossible without developing a proprietary parser for the user's new files. In parallel the requirements for the final, real-world data were also becoming clearer. This required that a generic, universal parser be built that would align better with the new requirements. In the final prototype, only the XML parser remains, as the textbook and SpeedParcel parsers were only necessary for one-time-parsing to fill the database with example data.
 
 %%% XML Transpiler
-\subsection{Creating a Custom Knowledge Graph via the Xml Parser}
+\subsection{Creating a Custom Knowledge Graph via the XML Parser}
 \label{sub:xml_parser}
-The XML parser is what the end user of the prototype uses in order to allow them to add their proprietary XML data to the knowledge graph.
+The XML parser is what the end user of the prototype uses in order to add their proprietary XML data to the knowledge graph.
 
 XPath is a query language that operates on the tree structure of an XML document. This allows queries to be written for the XML content's elements, attributes, and text. It preserves the hierarchical structure of the content while doing so. \cite{clark1999xml} XPath is used within APOC's predefined procedure \texttt{apoc.load.xml()} to allow XML to be parsed and exposed for cypher processing \cite{neo4j_apoc_load_xml}.
 
@@ -190,6 +188,7 @@ The result of this is that the Node.js backend calls the Neo4j server with a cyp
 \label{sec:finishedPrototype}
 The sequence of interactions and how data flows between each component is visualized in the sequence diagram in figure \ref{fig:sequence_diagram}. After the user enters their prompt into the frontend, the prompt is forwarded to the backend. The backend then begins preprocessing the request by retrieving the current schema information. This information is vital for the LLM in order for it to know how the knowledge graph is structured and how to create the cyphers for it. Once the backend receives the schema information, the LLM converts the user's prompt into cyphers using all information that it has received via the context, schema, and prompt. The cyphers are then used to query the selected knowledge graph stored in the Neo4j server. The Neo4j server returns raw data to the MCP server, which passes this to the backend. The backend then converts this raw response back into natural language using the LLM. Once converted, the backend saves the user's prompt and the system's response into the chat history before returning the response to the frontend where it is displayed.
 
+% TODO: Rechtschreibfehler rechts im graph (covert statt convert 2 mal)
 \begin{figure}[h]
 \centering
 \makebox[\textwidth][c]{%
@@ -199,6 +198,6 @@ The sequence of interactions and how data flows between each component is visual
 \label{fig:sequence_diagram}
 \end{figure}
 
-This concludes the implementation for \prototype{}. All of the above described components allow the system to take a user's natural language prompt and retrieve the relevant information from the databases. Together, these components make \prototype{} a cohesive, end-to-end prototype that demonstrates the technical feasibility of the proposed approach. Following this, chapter \ref{ch:case_study} elaborates case studies to justify the prototype.
+This concludes the implementation for \prototype{}. All of the above described components allow the system to take a user's natural language prompt and retrieve the relevant information from the databases. Together, these components make \prototype{} a cohesive, end-to-end prototype that demonstrates the technical feasibility of the proposed approach. Following this, chapter \ref{ch:Discussion} discusses the results of this thesis.
 
 
