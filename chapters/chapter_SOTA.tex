@@ -172,31 +172,25 @@ The next section takes a step away from academic papers and delves into similar 
 
 \section{Related Projects}
 \label{sec:intro:projects}
-\textit{Todo:} 
-
-Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to have a look at similar projects on the market. This section also takes a look at common challenges faced by such chatbots.
+Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to have a look at similar projects on the market. This section analyzes existing solutions and common challenges faced in other projects.
 
 
-This paper gives an overview on how to control the dialog sequence and also notes 4 types of dialog options for chatbots in the related works section: \cite{li2025chatsopsopguidedmctsplanning}.
+% MS GraphRAG
+Edge et al. (2025) \cite{MsGraphRAGPaper} introduce GraphRAG, a graph-based extension of RAGeneration that aims to overcome a key limitation in RAG systems where they are uabile to answer global, sensemaking questions over large document collections. While conventional vector-based RAG performs well for localized queries, it struggles when questions require an understanding of the entire corpus. To address this, the authors propose constructing a knowledge graph from the source documents by extracting entities and relationships using an LLM, and subsequently organizing this graph into hierarchical communities, which allows the system to aggregate information. These communities are then summarized in a bottom-up fashion, resulting in a set of structured, multi-level summaries that capture both local and global aspects of the data. \cite{MsGraphRAGPaper}
 
+At query time, GraphRAG leverages these precomputed community summaries to generate answers through a map-reduce approach, where partial responses are first generated per community and then aggregated into a final answer. This allows the system to incorporate information from across the entire dataset rather than relying on a small subset of retrieved documents. The evaluation shows that this approach significantly improves answer comprehensiveness and diversity compared to standard vector RAG, particularly for large-scale, open-ended questions. \cite{MsGraphRAGPaper}
 
-%
-% Comparable Projects and Prototypes
-%
-Proof-of-concepts, research prototypes, industry whitepapers, GitHub projects.
+GraphRAG is open-source and available on GitHub \footnote{GraphRAG on GitHub: \url{https://github.com/microsoft/graphrag}}. However, this approach focuses on summarization rather than on precise information extraction based on user input. The summarizes are precomputed while generating the knowledge graph, rather than dynamically extracting the required information. This reliance on summarization limits direct information extraction, which is a key requirement for the prototype being built in this thesis. Also, GraphRAG does not directly focus on aiding in enterprise architecture.
+ 
 
-Tools like ChatEA, LeanIX AI features, or Microsoft Copilot integrations in architecture/governance.
+% Dragon 1
+A platform directly focusing on EAM support is Dragon1 \footnote{Dragon1: \url{https://www.dragon1.com/}}. As a software as a solution (SaaS) platform, it enables organizations to model, analyze and communicate architectural artifacts through interactive diagrams and visualizations. It lays heavy focus on stakeholder communication throughout individual steps of architectural management. However, Dragon1 relies on manual modelling and exploration of architectural artifacts. It lacks mechanisms and information retrieval processes supported by AI. \cite{Dragon1BusinessCase}
 
-A prototypical graph-based RAG approach for text-summarization has been created by Microsoft: y\cite{MsGraphRAGPrototype}. The accompanying paper is here: \cite{MsGraphRAGPaper}
-
-Dragon1 needs to be detailed here
-
-
-
-
+Both GraphRAG and Dragon1 highlight complementary aspects relevant to this thesis. GraphRAG demonstrates the value of combining knowledge graphs with LLMS for reasoning over large datasets, but focuses on precomputed summarizations rather than information extraction based on user inputs. In contrast, Dragon1 provides strong support for structured EAM and offers transparency through visualizations, but relies on manual exploration without AI-driven querying mechanisms. Together, this reveals a gap between structured EAM data and specific information access. This thesis addresses this gap by enabling a precise, transparent, and query-driven retrieval process over an EAM-based knowledge graph.
 
 % Closing paragraph that describes the current gap in the research landscape and a high-level view of how i close the gap.
-The reviewed literature demonstrates that recent advances in LLM-based text-to-cypher approaches xyz... However, existing approaches xyz (what do they lack?). This thesis builds upon these findings by proposing a graph-based, schema-aware approach tailored to enterprise architects and enterprise architecture data, aiming to combine the flexibility of LLMs with the required domain knowledge of enterprise architecture.
+The reviewed literature demonstrates that recent advances in LLM-based text-to-Cypher approaches enable natural language access to graph-structured data and significantly lower the barrier for interacting with knowledge graphs. However, existing approaches often lack domain-specific adaptation, robustness in handling evolving schemas, and transparency in how queries are generated and executed, which limits their applicability in complex enterprise settings. Furthermore, they typically do not account for the specific requirements within EAM, such as traceability and alignment with domain concepts. This thesis builds upon these findings by proposing a graph-based, schema-aware approach tailored to enterprise architects and enterprise architecture data, aiming to combine the flexibility of LLMs with the required domain knowledge and transparency needed in EAM contexts.
 
+The next chapters take a look at the applied Action Research and how the prototype was developed.
 
 
