@@ -165,32 +165,31 @@ The above two researches by Laurenzi et al. (2024) and Smajevic et al. (2021) bo
 
 The next section takes a step away from academic papers and delves into similar projects and prototypes.
 
-%
-% Related Projects
-%
-% related projects bereich: Das kann in dem SOTA bereich bleiben, weil das bezieht sich genau auf meine implementierung. 2-3 sätze nur. was ist das projektziel bei denen und was machen die anders / besser / schlechter als ich? warum kann man deren ergebnisse nicht einfach auf meins übertragen? Ich zeige, dass es viele gibt, die haben etwas ähnliches schon gemacht, aber das ist anders als bei mir weil.... Manchmal hilft auch strukturierung. wenn ich zB eine tabelle einführe mit projekt + kurz charakterisierung, dann brauche ich wenig text und muss nur noch die tabelle beschreiben. deswegen auch eine konzeptmatrix - kreuzprodukt zwischen thema und quelle. das kann ich genauso machen. zeilen quellen, spalten begriffe die relevant sind. ähnlich auch so mit den relaten projekts. 2 spaltite matrix mit projekt, zielsetzung und abgrenzung. 
-
 \section{Related Projects}
 \label{sec:intro:projects}
-Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to have a look at similar projects on the market. This section analyzes existing solutions and common challenges faced in other projects.
+Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to briefly consider related projects. The goal of this section is not to provide a detailed description, but to position existing approaches in relation to the prototype developed in this thesis.
 
+Edge et al. (2025) \cite{MsGraphRAGPaper} introduce GraphRAG\footnote{GraphRAG on GitHub: \url{https://github.com/microsoft/graphrag}}, a graph-based extension of RAG that addresses the limitation of traditional RAG systems in answering global, sensemaking questions over large document collections. The approach constructs a knowledge graph from the source data and generates hierarchical summaries that enable reasoning over the entire dataset rather than relying on a small set of retrieved documents. While this improves answer comprehensiveness and diversity, the method is based on precomputed summarization instead of precise, user-driven information extraction. As a result, it lacks direct query control and does not address domain-specific requirements such as enterprise architecture, limiting its applicability to the context of this thesis.
 
-% MS GraphRAG
-Edge et al. (2025) \cite{MsGraphRAGPaper} introduce GraphRAG, a graph-based extension of RAGeneration that aims to overcome a key limitation in RAG systems where they are uabile to answer global, sensemaking questions over large document collections. While conventional vector-based RAG performs well for localized queries, it struggles when questions require an understanding of the entire corpus. To address this, the authors propose constructing a knowledge graph from the source documents by extracting entities and relationships using an LLM, and subsequently organizing this graph into hierarchical communities, which allows the system to aggregate information. These communities are then summarized in a bottom-up fashion, resulting in a set of structured, multi-level summaries that capture both local and global aspects of the data. \cite{MsGraphRAGPaper}
+Dragon1\footnote{Dragon1: \url{https://www.dragon1.com/}} \cite{Dragon1BusinessCase} is a SaaS platform for enterprise architecture management that focuses on modeling, analyzing, and communicating architectural artifacts through interactive visualizations. It emphasizes stakeholder alignment and transparency by providing a centralized repository and visual access to architectural data. However, it relies on manual modeling and exploration and does not provide AI-supported querying or automated access to architectural knowledge.
 
-At query time, GraphRAG leverages these precomputed community summaries to generate answers through a map-reduce approach, where partial responses are first generated per community and then aggregated into a final answer. This allows the system to incorporate information from across the entire dataset rather than relying on a small subset of retrieved documents. The evaluation shows that this approach significantly improves answer comprehensiveness and diversity compared to standard vector RAG, particularly for large-scale, open-ended questions. \cite{MsGraphRAGPaper}
+Opoku et al. (2025)\cite{opoku2025rag} propose DO-RAG, a domain-specific RAG framework that combines knowledge graph-based and semantic retrieval to improve answer accuracy within specific domains. While the approach enhances domain alignment and reduces hallucinations through its four-step pipeline, it uses a largely opaque retrieval process and does not provide transparent or schema-aware query generation. As a result, it does not fully address the need for controllable and inspectable information retrieval in enterprise architecture contexts.
 
-GraphRAG is open-source and available on GitHub \footnote{GraphRAG on GitHub: \url{https://github.com/microsoft/graphrag}}. However, this approach focuses on summarization rather than on precise information extraction based on user input. The summarizes are precomputed while generating the knowledge graph, rather than dynamically extracting the required information. This reliance on summarization limits direct information extraction, which is a key requirement for the prototype being built in this thesis. Also, GraphRAG does not directly focus on aiding in enterprise architecture.
- 
+\begin{table}[h]
+\centering
+\caption{Overview of related projects and their positioning}
+\begin{tabularx}{\textwidth}{p{2.5cm} X X}
+\toprule
+\textbf{Project} & \textbf{Objective} & \textbf{Differentiation to this thesis} \\
+\midrule
+GraphRAG & Global sensemaking over large text datasets using knowledge graphs and hierarchical summarization & Focuses on precomputed summarization instead of precise, query-driven information extraction; lacks transparency and EAM-specific adaptation \\
+Dragon1 & Visual enterprise architecture modeling and stakeholder communication platform & Relies on manual modeling and exploration; no AI-driven querying or automated knowledge retrieval \\
+DO-RAG & Domain-specific knowledge graph build-up and question answering using combined graph-based and semantic retrieval & Lacks transparency and schema-aware query generation; retrieval process remains largely opaque and not tailored to EAM-specific requirements \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-% Dragon 1
-A platform directly focusing on EAM support is Dragon1 \footnote{Dragon1: \url{https://www.dragon1.com/}}. As a software as a solution (SaaS) platform, it enables organizations to model, analyze and communicate architectural artifacts through interactive diagrams and visualizations. It lays heavy focus on stakeholder communication throughout individual steps of architectural management. However, Dragon1 relies on manual modelling and exploration of architectural artifacts. It lacks mechanisms and information retrieval processes supported by AI. \cite{Dragon1BusinessCase}
+All three approaches highlight different aspects that are relevant within the context of this thesis. While GraphRAG demonstrates how knowledge graphs and LLMs can be combined to enable reasoning over large datasets, it relies on precomputed summarization and lacks precise, user-driven information extraction and domain-specific adaptation. In contrast, Dragon1 focuses on structuring and visualizing enterprise architecture data to improve transparency, but lacks intelligent retrieval and query mechanisms. DO-RAG, on the other hand, introduces domain-specific retrieval to improve answer quality, but relies on an opaque retrieval process and does not provide transparent or schema-aware query generation. Similarly, recent advances in LLM-based text-to-Cypher approaches enable natural language access to knowledge graphs, but often fall short in terms of domain adaptation, schema robustness, and transparency in query generation.
 
-Both GraphRAG and Dragon1 highlight complementary aspects relevant to this thesis. GraphRAG demonstrates the value of combining knowledge graphs with LLMS for reasoning over large datasets, but focuses on precomputed summarizations rather than information extraction based on user inputs. In contrast, Dragon1 provides strong support for structured EAM and offers transparency through visualizations, but relies on manual exploration without AI-driven querying mechanisms. Together, this reveals a gap between structured EAM data and specific information access. This thesis addresses this gap by enabling a precise, transparent, and query-driven retrieval process over an EAM-based knowledge graph.
-
-% Closing paragraph that describes the current gap in the research landscape and a high-level view of how i close the gap.
-The reviewed literature demonstrates that recent advances in LLM-based text-to-Cypher approaches enable natural language access to graph-structured data and significantly lower the barrier for interacting with knowledge graphs. However, existing approaches often lack domain-specific adaptation, robustness in handling evolving schemas, and transparency in how queries are generated and executed, which limits their applicability in complex enterprise settings. Furthermore, they typically do not account for the specific requirements within EAM, such as traceability and alignment with domain concepts. This thesis builds upon these findings by proposing a graph-based, schema-aware approach tailored to enterprise architects and enterprise architecture data, aiming to combine the flexibility of LLMs with the required domain knowledge and transparency needed in EAM contexts.
-
-The next chapters take a look at the applied Action Research and how the prototype was developed.
-
+This thesis builds upon these findings by proposing a schema-aware, transparent, and query-driven approach tailored to enterprise architecture data, aiming to combine the flexibility of LLMs with the required domain knowledge in EAM contexts. The next chapters take a look at the applied Action Research and how the prototype was developed.
 
