@@ -9,11 +9,11 @@ In order to understand how this research fits into the current state of the art,
 \label{sec:prisma}
 The importance of documenting the research process to demonstrate the exhaustiveness of the literature review conducted has been emphasized in prior work. A robust literature review comprises querying databases for relevant literature using keywords as well as performing backward and forward searches based on these findings. Because of the plethora of literature on the subject matter, systematically including and excluding existing research must be made as transparent as possible. Describing which existing research was included and excluded is vital for the credibility of a literature analysis. \cite{brocke2009reconstructing, webster2002analyzing}
 
-To support in this, the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) framework was applied. The goal of PRISMA is to show why the review was done, how studies were identified and considered, and what was found. It summarizes the research process. \cite{page2021prisma}
+To support in this, the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) framework was applied. The goal of PRISMA is to show why the review was done, how studies were identified and considered, and what was found. \cite{page2021prisma}
 
-Literature was primarily identified using the Google Scholar search engine. The search process involved defining and iteratively refining relevant keywords clustered around the main themes of this thesis. Forward and backward citation tracking was also applied to the extracted sources. Search terms included EAM, LLMs, RAG, and Conversational Agents. In addition to manual search methods, a small number of additional sources were identified through prompted searches using ChatGPT, which served as a supplementary discovery mechanism. \cite{openai_chatgpt_2023} A flowchart of the applied PRISMA framework can be seen in figure \ref{fig:prisma}.
+Literature was primarily identified using the Google Scholar search engine. The search process involved defining and iteratively refining relevant keywords clustered around the main themes of this thesis. Forward and backward citation tracking was also applied to the extracted sources. Search terms included EAM, LLMs, RAG, and Conversational Agents. In addition to manual search methods, a number of additional sources were identified through prompted searches using ChatGPT, which served as a supplementary discovery mechanism. \cite{openai_chatgpt_2023} A flowchart of the applied PRISMA framework can be seen in figure \ref{fig:prisma}.
 
-Setting up criteria to filter out excessive literature is necessary to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process and results. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Given the practical and implementation-oriented nature of this thesis, a particular focus was placed on design-oriented and system-oriented contributions rather than purely theoretical or meta-analytical studies. A further crucial filtering criteria applied was the publishing date. This is especially relevant for research on LLMs and conversational agents, as LLMs such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable to this thesis. Meta data of a published paper such as the amount of times it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers is likely to be a key paper within its domain. A paper cited by little to no further papers is to be critically considered. Non-academic sources were kept to a minimum.
+Setting up criteria to filter out excessive literature is necessary to only be left with the relevant pieces. Academic, peer-reviewed sources were the main filtering criteria. This was to ensure the academic integrity of the research process and results. The research's focus was then laid on the categories defined by the keyword search terms. The sources found were required to provide value to this thesis. Given the practical and implementation-oriented nature of this thesis, a particular focus was placed on design-oriented and system-oriented contributions rather than purely theoretical or analytical studies. A further crucial filtering criteria applied was the publishing date, which is especially relevant for research on LLMs and conversational agents, as models such as ChatGPT only adopted widespread use in late 2022 \cite{buchmann2024large}, meaning research before then is less likely to be applicable to this thesis. Meta data of a published paper such as the amount of times it has been cited by further papers may also be an indication of how well grounded the source within its domain. For example, a paper cited by thousands of further papers is likely to be a key paper within its domain. A paper cited by little to no further papers is to be critically considered. Non-academic sources were kept to a minimum.
 
 % Figure for PRISMA Framework
 \begin{figure}[H]
@@ -21,15 +21,15 @@ Setting up criteria to filter out excessive literature is necessary to only be l
 \makebox[\textwidth][c]{%
   \includegraphics[width=0.6\textwidth]{images/PRISMA}
 }
-\caption{A flowchart of the applied PRISMA framework depicting how many sources were initially found with each search method and how many were left for the final current state of the art analysis. The framework is applied as described by V. Mishra and M. P. Mishra (2023) \cite{mishra2023prisma}.}
+\caption{A flowchart of the applied PRISMA framework depicting how many sources were initially found with each search method and how many were left for the final analysis of the current state of the art. The framework is applied as described by V. Mishra and M. P. Mishra (2023) \cite{mishra2023prisma}.}
 \label{fig:prisma}
 \end{figure}
 
-Applying the above filters, papers found were initially skimmed to assess if it may be relevant to this research. This involved reviewing abstracts and key contributions without yet analyzing the full content in detail. This allows papers that do not support the goal of this thesis to be filtered out quickly. Afterwards, the remaining papers were read more thoroughly.
+Applying the above filters, papers found were initially skimmed to assess if they may be relevant to this research. This involved reviewing abstracts and key contributions without yet analyzing the full content in detail. This allows papers that do not support the goal of this thesis to be filtered out quickly. Afterwards, the remaining papers were read more thoroughly by analyzing the applied methods, results, and contributions.
 
-By applying the PRISMA framework as described above, the number of sources was reduced from an initial set of 122 identified records to 75 sources after initial screening and finally to a subset of relevant academic sources forming the core literature base of this thesis.
+By applying the PRISMA framework as described above, the number of sources was reduced from an initial set of \textasciitilde 120 identified records to 75 sources after initial screening and finally to a subset of relevant academic sources forming the core literature base of this thesis.
 
-In addition to the systematically identified literature, a small number of supplementary sources, such as technical documentation and online resources, were included during the development process. These were not part of the PRISMA-based search but were included to support specific aspects of the developed prototype.
+In addition to the systematically identified literature, supplementary sources such as technical documentation and online resources, were included during the development and writing process. These were not part of the PRISMA-based search but were included to support specific aspects of the developed prototype.
 
 In total, 45 sources were used throughout this thesis. Of these, 21 were identified via Google Scholar, 7 via AI-assisted search, 4 via forward and backward citation tracking, and 13 from other sources such as technical documentation and online resources.
 
@@ -46,7 +46,7 @@ While the PRISMA process ensured a comprehensive identification of relevant lite
 
 \section{Related Work and Research Landscape}
 \label{sec:intro:relatedWork}
-This section synthesizes and discusses the relevant literature and projects found through the previously described PRISMA-based research process. The selected works are semantically grouped and allow the reader to understand how the research at hand fits within the current research landscape. The purpose of this section is to identify what relevant research and approaches have been conducted to support the relevance and positioning of the RAG-based system of this thesis.
+This section synthesizes and discusses the relevant literature and projects found through the previously described PRISMA-based research process. The selected works are semantically grouped and allow the reader to understand how the research at hand fits within the current research landscape. The purpose of this section is to identify what relevant research and approaches have been conducted to support the relevance and positioning of the developed RAG-based system of this thesis.
 
 \begin{table}[H]
 \centering
@@ -60,19 +60,19 @@ This section synthesizes and discusses the relevant literature and projects foun
 \textbf{Source} & \textbf{EAM} & \textbf{LLM} & \textbf{RAG} & \textbf{KG} & \textbf{Query} & \textbf{Transp.} & \textbf{Key Contribution} \\
 \midrule
 
-Jung \& Fraunholz (2021) & \checkmark & x & x & x & x & / & Identifies key challenges in EAM, particularly lack of transparency in complex application landscapes \\
+Jung \& Fraunholz (2021) & \checkmark & x & x & x & x & / & Identifies key challenges in EAM, particularly lack of transparency in complex application landscapes. \\
 
-Jung (2019) & \checkmark & x & x & x & x & / & Highlights stakeholder requirements and recurring concerns in enterprise architecture practice \\
+Jung (2019) & \checkmark & x & x & x & x & / & Highlights stakeholder requirements and recurring concerns in enterprise architecture practice. \\
 
-Zhao et al. (2024) & x & \checkmark & \checkmark & x & x & \checkmark & Introduces RAG framework and categorizes query complexity for LLM-based systems \\
+Zhao et al. (2024) & x & \checkmark & \checkmark & x & x & \checkmark & Introduces RAG framework and categorizes query complexity for LLM-based systems. \\
 
-Wan et al. (2025) & x & \checkmark & / & \checkmark & \checkmark & \checkmark & Proposes schema-aware text-to-Cypher generation for domain-aligned querying \\
+Wan et al. (2025) & x & \checkmark & / & \checkmark & \checkmark & \checkmark & Proposes schema-aware text-to-Cypher generation for domain-aligned querying. \\
 
-Chen et al. (2025) & x & \checkmark & / & \checkmark & / & / & Introduces multi-hop graph retrieval for handling complex relational queries \\
+Chen et al. (2025) & x & \checkmark & / & \checkmark & / & / & Introduces multi-hop graph retrieval for handling complex relational queries. \\
 
-Laurenzi et al. (2024) & x & \checkmark & x & \checkmark & \checkmark & / & Defines an LLM-assisted process for constructing and maintaining knowledge graphs \\
+Laurenzi et al. (2024) & x & \checkmark & x & \checkmark & \checkmark & / & Defines an LLM-assisted process for constructing and maintaining knowledge graphs. \\
 
-Smajevic \& Bork (2021) & x & x & x & \checkmark & x & x & Presents automated transformation of conceptual models into knowledge graphs \\
+Smajevic \& Bork (2021) & x & x & x & \checkmark & x & x & Presents automated transformation of conceptual models into knowledge graphs. \\
 
 \bottomrule
 \end{tabularx}
@@ -200,7 +200,7 @@ The next section takes a step away from academic papers and delves into similar 
 
 \section{Related Projects}
 \label{sec:intro:projects}
-Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to briefly consider related projects. The goal of this section is not to provide a detailed description, but to position existing approaches in relation to the prototype developed in this thesis. An overview of the related projects is shown in table \ref{tab:related_projects}.
+Because the research at hand deals with the development of a prototypical RAG-based LLM chatbot, it is worthwhile to briefly consider related projects. The goal of this section is not to provide a detailed description, but to position existing projects in relation to the prototype developed in this thesis. An overview of the related projects is shown in table \ref{tab:related_projects}.
 
 Edge et al. (2025) \cite{MsGraphRAGPaper} introduce GraphRAG\footnote{GraphRAG on GitHub: \url{https://github.com/microsoft/graphrag}}, a graph-based extension of RAG that addresses the limitation of traditional RAG systems in answering global, sensemaking questions over large document collections. The approach constructs a knowledge graph from the source data and generates hierarchical summaries that enable reasoning over the entire dataset rather than relying on a small set of retrieved documents. While this improves answer comprehensiveness and diversity, the method is based on precomputed summarization instead of precise, user-driven information extraction. As a result, it lacks direct query control and does not address domain-specific requirements such as enterprise architecture, limiting its applicability to the context of this thesis.
 
@@ -216,14 +216,14 @@ Opoku et al. (2025)\cite{opoku2025rag} propose DO-RAG, a domain-specific RAG fra
 \toprule
 \textbf{Project} & \textbf{Objective} & \textbf{Differentiation to this thesis} \\
 \midrule
-GraphRAG & Global sensemaking over large text datasets using knowledge graphs and hierarchical summarization & Focuses on precomputed summarization instead of precise, query-driven information extraction; lacks transparency and EAM-specific adaptation \\
-Dragon1 & Visual enterprise architecture modeling and stakeholder communication platform & Relies on manual modeling and exploration; no AI-driven querying or automated knowledge retrieval \\
-DO-RAG & Domain-specific knowledge graph generation and question answering using combined graph-based and semantic retrieval & Lacks transparency and schema-aware query generation; retrieval process remains largely opaque and not tailored to EAM-specific requirements \\
+GraphRAG & Global sensemaking over large text datasets using knowledge graphs and hierarchical summarization. & Focuses on precomputed summarization instead of precise, query-driven information extraction; lacks transparency and EAM-specific adaptation. \\
+Dragon1 & Visual enterprise architecture modeling and stakeholder communication platform. & Relies on manual modeling and exploration; no AI-driven querying or automated knowledge retrieval. \\
+DO-RAG & Domain-specific knowledge graph generation and question answering using graph-based and semantic retrieval. & Lacks transparency in query generation; retrieval process remains largely opaque and not tailored to EAM-specific requirements. \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-All three approaches highlight different aspects that are relevant within the context of this thesis. While GraphRAG demonstrates how knowledge graphs and LLMs can be combined to enable reasoning over large datasets, it relies on precomputed summarization and lacks precise, user-driven information extraction and domain-specific adaptation. In contrast, Dragon1 focuses on structuring and visualizing enterprise architecture data to improve transparency, but lacks intelligent retrieval and query mechanisms. DO-RAG, on the other hand, introduces domain-specific retrieval to improve answer quality, but relies on an opaque retrieval process and does not provide transparent or schema-aware query generation. Similarly, recent advances in LLM-based text-to-Cypher approaches enable natural language access to knowledge graphs, but often fall short in terms of domain adaptation, schema robustness, and transparency in query generation.
+All three approaches highlight different aspects that are relevant within the context of this thesis. While GraphRAG demonstrates how knowledge graphs and LLMs can be combined to enable reasoning over large datasets, it relies on precomputed summarization and lacks precise, user-driven information extraction and domain-specific adaptation. In contrast, Dragon1 focuses on structuring and visualizing enterprise architecture data to improve transparency, but lacks intelligent retrieval and query mechanisms. DO-RAG, on the other hand, introduces domain-specific retrieval to improve answer quality, but relies on an opaque retrieval process and does not provide transparent or schema-aware query generation. Similarly, recent advances in LLM-based text-to-Cypher approaches enable natural language access to knowledge graphs, but often fall short in terms of transparency in query generation.
 
 This thesis builds upon these findings by proposing a schema-aware, transparent, and query-driven approach tailored to enterprise architecture data, aiming to combine the flexibility of LLMs with the required domain knowledge in EAM contexts. The next chapters take a look at the applied Action Research and how the prototype was developed.
 
