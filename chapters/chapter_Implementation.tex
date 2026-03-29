@@ -1,6 +1,6 @@
 \chapter{Implementation}
 \label{ch:implementation}
-The previous chapters answer the question of how things were iteratively built, why they were built as such, and how the final system was reviewed. This chapter contains all information on what the finished \prototype{} prototype is, including its architecture, individual components, features, data processing mechanisms, and a sequence diagram of how data flows through the application.
+The previous chapters answer the question of how things were iteratively built, why they were built as such, and how the final system was reviewed. This chapter contains all information on what the finished \prototype{} prototype is, including its architecture, individual components, features, data processing mechanisms, and a sequence diagram of how data flows through the application. Code snippets of critical parts of the final prototype can be seen in the appendix's chapter \ref{appendix:ch:code_snippets}.
 
 %%%%
 % Finished Architecture and Prototype
@@ -24,8 +24,7 @@ Each of these application components are explained in more detail in section \re
 \label{fig:architecture_diagram}
 \end{figure}
 
-Todo: Should we describe what Masuta does somewhere here as well? We've described the architecture and how the individual parts interact, but we haven't described its functionality in any way yet. Papa sagt JA!
-
+\prototype{} in its final form is a RAG-based chatbot designed to support enterprise architects in querying and understanding complex architectural data through natural language interaction. At a high level, the system takes a user’s prompt, translates it into a structured Cypher query using an LLM, retrieves the relevant information from one of two Neo4j-based knowledge graphs, and then transforms the result back into a concise, domain-specific natural language response. The prototype combines textbook knowledge with user-provided or example enterprise data, enabling both general EAM guidance and insights specific to an enterprise. A key characteristic of the system is its emphasis on transparency and verifiability, as the underlying queries and data sources can be inspected, allowing users to trace how each answer was generated.
 %%%%
 % Component Details
 %%%%
@@ -40,7 +39,7 @@ The frontend of the prototype is implemented as a single-page application using 
 
 The frontend is containerized and exposed under \texttt{http://localhost:3000/}. It communicates with the Node.js backend through a set of RESTful HTTP endpoints. Each request contains the user’s prompt as well as a session ID, which is generated when the page is loaded or when the active database is toggled by the user. The session identifier is used by the backend to maintain chat state and conversation history. By regenerating the session identifier on page reloads and database switches, the system ensures a clear separation of chat contexts. This prevents unintended carry-over of conversation history between different databases or interaction sessions, thereby preserving data consistency, analytical validity, and supports in maintaining better compliance.
 
-Further details on the available frontend features and user example interactions are provided in Appendix \ref{appendix:instructions:features}.
+Further details on the available frontend features and user example interactions are provided in ppendix \ref{appendix:instructions:features}.
 
 %%% Backend
 \subsection{Backend}
@@ -55,12 +54,12 @@ The ability of an LLM to perform a new task without explicitly retraining is cal
 
 Before the LLM is able to generate any meaningful cypher, it is necessary to retrieve the knowledge graph's schema. The schema is a machine-readable summary of the graph structure containing information such as the node types and its relationships to other nodes. This is done by calling \texttt{apoc.meta.schema()}. \cite{neo4j_apoc_meta_schema} Directly after getting the schema, the backend also queries the indexes present in the knowledge graph. This enables the database to lookup nodes and relationships based on specific labels and properties. \cite{neo4j_cypher_indexes}
 
-With this information, the LLM will later understand how the knowledge graph is structured and how cyphers can be generated to query it.
+Code snippets for this can be seen in the appendix's section \ref{appendix:code:schemaaware}. With this information, the LLM will later understand how the knowledge graph is structured and how cyphers can be generated to query it.
 
 % System Prompt
 \subsubsection{System Prompt}
 \label{sub:prompt}
-The system prompt is one of the most crucial parts of the backend. This is where the LLM is given its information for in-context learning in order to understand how to transform the natural language inputs into a single cypher and how to turn the raw cypher response back into natural language for the response to the user. The implemented system prompts can be found in chapter \ref{appendix:code:prompts} of the Appendix.
+The system prompt is one of the most crucial parts of the backend. This is where the LLM is given its information for in-context learning in order to understand how to transform the natural language inputs into a single cypher and how to turn the raw cypher response back into natural language for the response to the user. The implemented system prompts can be found in chapter \ref{appendix:code:systemprompt} and \ref{appendix:code:nlresponse} of the appendix.
 
 The incoming user prompt requires a finely tuned, well thought out system prompt. The goal of the first system prompt is to provide the LLM with all the context that it needs in order to generate the specific cypher required to fulfil the user's prompt. It contains four sections, categorized to help generate the cypher. The first category in the system prompt is a set of rules on how it may generate the cypher, e.g. to infer meaning from the user's prompt to identify which labels in the knowledge graph to query. The second category is generic schema information and what type of cyphers it may use to fulfil different types of user requests. The third category in the system prompt is the task that the LLM is given, i.e. to generate exactly one cypher, only cypher, and no further text or explanations. The fourth and last category is a set of cypher syntax rules. These were added iteratively during development as the generated cyphers regularly had errors and required assistance to avoid these.
 
@@ -72,7 +71,7 @@ This second system prompt, along with the original user prompt and the cypher's 
 
 Tuning these system prompts greatly alters the quality of results of the entire system. While the second system prompt is rather straightforward, the first system prompt for incoming user prompts is the result of fine-tuning during development in all four action research cycles, as described in section \ref{sec:action_research_cycles}. With less information in this system prompt, the generated cypher's ability to retrieve the requested information worsens.
 
-All of the above information is necessary for the LLM's ability to perform in-context learning specific to the knowledge graph's schema. Without this information, the LLM would not be able to generate cyphers based on the user's prompt, nor would it be able to return an answer in an appropriate wording designed for an enterprise architect.
+All of the above information is necessary for the LLM's ability to perform in-context learning specific to the knowledge graph's schema. Without this information, the LLM would not be able to generate cyphers based on the user's prompt, nor would it be able to return an answer in an appropriate wording designed for an enterprise architect. Code snippets for the system prompt can be found in the appendix's section \ref{appendix:code:systemprompt}
 
 % Ephemeral Conversation Memory
 \subsubsection{Ephemeral Conversation Memory}
@@ -113,7 +112,7 @@ The SpeedParcel database contains further example data and serves as a starting 
 
 Out of the box, the playground database only contains the knowledge graph of the textbook information. It is up to the user to fill the database with their own enterprise data. This database can also be reset by the user from the UI, allowing them to start over.
 
-Both databases can be interactively viewed either via the application "Neo4j Desktop" or via their web application. After connecting to the respective database, the knowledge graph can be queried via custom cyphers and the results viewed in a visual and interactive way. Utilizing this tool along with the "copy cypher" feature described in the Appendix's section \ref{appendix:instructions:input_and_chat} enables the user to inspect the raw information that the database returned before being transformed into a natural language response by the LLM. This allows the user to fact-check and retrace the answers generated.
+Both databases can be interactively viewed either via the application "Neo4j Desktop" or via their web application. After connecting to the respective database, the knowledge graph can be queried via custom cyphers and the results viewed in a visual and interactive way. Utilizing this tool along with the "copy cypher" feature described in the appendix's section \ref{appendix:instructions:input_and_chat} enables the user to inspect the raw information that the database returned before being transformed into a natural language response by the LLM. This allows the user to fact-check and retrace the answers generated.
 
 
 %%% Docker
@@ -123,7 +122,7 @@ During the later stages of development, the need for a fully local execution env
 
 Both the frontend and backend components are built from individual Dockerfiles that define their respective runtime environments and startup commands. The backend defines a mounted volume within it, allowing the user's uploaded XML files to be persisted across container restarts.
 
-The Neo4j databases were deployed using the official, predefined Neo4j image. The databases are initialized via two services defined in the Docker Compose which must be executed ahead of starting the application for the first time. This initialization procedure is described in detail in the setup instruction in Appendix~\ref{appendix:ch:instructions}.
+The Neo4j databases were deployed using the official, predefined Neo4j image. The databases are initialized via two services defined in the Docker Compose which must be executed ahead of starting the application for the first time. This initialization procedure is described in detail in the setup instruction in chapter \ref{appendix:ch:instructions} of the appendix.
 
 As a result of the containerization, the complete prototype can be started via a single \texttt{docker compose up} command.  This containerization approach ensures a consistent environment across different host systems, thereby improving reproducibility and reducing environment-specific errors during evaluation. Furthermore, each component is encapsulated within a clearly defined architectural boundary, enabling independent scaling. For example, allocating more memory for a database can be adjusted independently without impacting the other application components.
 
@@ -135,7 +134,7 @@ As a result of the containerization, the complete prototype can be started via a
 \label{sec:filling_the_databases}
 Filling the databases with knowledge graphs is a central part of this research. Establishing this method is the result of all four cycles of the applied Action Research. This section describes both approaches to filling each database.
 
-The domain of Enterprise Architecture works well in combination with graph databases. Entities found in architecture diagrams can generally be stored as nodes, while the connection between entities establish the context of how two entities relate. With this structure, all of the in chapter \ref{ch:background} mentioned architecture diagrams can be depicted without losing information. \cite[pg. 67]{robinson2015graph}
+The domain of Enterprise Architecture works well in combination with graph databases. Entities found in architecture diagrams can generally be stored as nodes, while the connection between entities establish the context of how two entities relate. With this structure, all of the in chapter \ref{ch:background} mentioned architecture diagrams can be depicted without losing information. \cite[pg. 67]{robinson2015graph} 
 
 %%% SpeedParcel Data
 \subsection{Creating the Textbook and SpeedParcel  Knowledge Graphs}
@@ -171,11 +170,11 @@ This implementation method quickly reached its limits as each custom parser was 
 \label{sub:xml_parser}
 The XML parser is what the end user of the prototype uses in order to add their proprietary XML data to the knowledge graph.
 
-XPath is a query language that operates on the tree structure of an XML document. This allows queries to be written for the XML content's elements, attributes, and text. It preserves the hierarchical structure of the content while doing so. \cite{clark1999xml} XPath is used within APOC's predefined procedure \texttt{apoc.load.xml()} to allow XML to be parsed and exposed for cypher processing. \cite{neo4j_apoc_load_xml}
+XPath is a query language that operates on the tree structure of an XML document. This allows queries to be written for the XML content's elements, attributes, and text. It preserves the hierarchical structure of the content while doing so. \cite{clark1999xml} XPath is used within APOC's predefined procedure \texttt{apoc.load.xml()} to allow XML to be parsed and exposed for cypher processing. \cite{neo4j_apoc_load_xml} Code snippets in the appendix's section \ref{appendix:code:xmltranspiler}.
 
 The Node.js server orchestrates the XML parsing by taking the user's uploaded XML file and calling the Neo4j database with a cypher containing the \texttt{apoc.load.xml()} procedure with XPath expressions inside of it. One cypher for the structural elements and one cypher for the relationships between these elements is called per uploaded XML file. Because a requirement of the prototype is to read in XML files that were exported from Archi, the possible elements and relationships are known and finite. As a result, the Neo4j database performs the XML parsing internally via the APOC procedure.
 
-If there is only a single child element of a given type, the corresponding map entry contains that element’s value directly rather than a list. If there is more than one child element of the same type, the corresponding map entry contains a list of values, preserving the hierarchical XML structure. \cite{neo4j_apoc_load_xml} This preserves the semantic structure of the original XML and enables subsequent cypher queries to create nodes and relationships on the Neo4j server corresponding to this structure.
+If there is only a single child element of a given type, the corresponding map entry contains that element’s value directly rather than a list. If there is more than one child element of the same type, the corresponding map entry contains a list of values, preserving the hierarchical XML structure. \cite{neo4j_apoc_load_xml} This preserves the semantic structure of the original XML and enables subsequent cypher queries to create nodes and relationships on the Neo4j server corresponding to this structure. 
 
 The APOC call is made using the simplified parsing mode, which means that each type of child element has its own entry in the parent map. This design choice simplifies cypher traversal and can be changed by modifying the boolean value passed to the procedure call. \cite{neo4j_apoc_load_xml}
 

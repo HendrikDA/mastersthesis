@@ -88,7 +88,7 @@ const cypher = completion.choices?.[0]?.message?.content?.trim();
 
 % Turning uploaded XML into Cypher
 \section{Transformation of ArchiMate XML Models into a Neo4j Knowledge Graph}
-\label{appendix:code:systemprompt}
+\label{appendix:code:xmltranspiler}
 This snippet contains the Cypher-based transformation logic for importing ArchiMate XML data into Neo4j using APOC procedures. Architectural elements are mapped to nodes with both generic and type-specific labels, while relationships are reconstructed based on source–target references and dynamically assigned types. This process converts externally modeled enterprise architecture data into a structured and queryable knowledge graph.
 
 \begin{lstlisting}[style=javascriptstyle, label={lst:system_prompt_1}]
