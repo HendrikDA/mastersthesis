@@ -6,58 +6,199 @@
 \chapter{\prototype{} Code Snippets}
 \label{appendix:ch:code_snippets}
 
-This chapter showcases code snippets which are of special interest as they show how key functionalities of \prototype{} work. The code snippets do not showcase the full application and may not complete.
+This chapter showcases code snippets which are of special interest as they show how key functionalities of \prototype{} work. The code snippets do not represent the full application and may be incomplete. Please reference the GitHub project for the full codebase under \url{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}.
 
-% System Prompt and Results Explainer
-\section{System Prompts}
-\label{appendix:code:prompts}
-The following code snippets showcase what system prompts are passed to the LLM in order to generate the cyphers via the natural language text input and how the cypher results are transformed back into natural language.
+% Schema call + passing to prompt
+\section{Dynamic Schema Extraction and Injection for Schema-Aware Query Generation}
+\label{appendix:code:schemaaware}
+This snippet shows how the system dynamically retrieves the current structure of the Neo4j knowledge graph using \path{apoc.meta.schema()} and available indexes, summarizes it into a textual representation, and injects it into the LLM prompt. By providing the schema at runtime, the LLM is guided to generate structurally valid and context-aware Cypher queries, reducing incorrect assumptions about labels, properties, and relationships.
+
+\begin{lstlisting}[style=javascriptstyle, label={lst:system_prompt_1}]
+// Append last turn to chat history for context
+const promptWithContext = lastTurn
+	? "Previous conversation turn:
+		User: ${lastTurn.user}
+         Agent: ${lastTurn.agent}
+	New user question: ${prompt}" 
+	: prompt;
+
+// Fetch schema dynamically from MCP server
+const apocSchemaRaw = await readCypher("CALL apoc.meta.schema();");
+const indexesRaw = await readCypher("SHOW INDEXES;");
+const schemaText = summarizeGraphSchema(apocSchemaRaw, indexesRaw);
+
+// Convert natural language into Cypher
+let cypher = await nlToCypher(promptWithContext, schemaText);
+\end{lstlisting}
 
 % System Prompt to Generate Cyphers
-\subsection{System Prompt to Generate Cyphers from Natural Language Prompt}
-\label{appendix:code:cyphers}
+\section{Schema-Aware Natural Language to Cypher Translation via Prompt Engineering}
+\label{appendix:code:systemprompt}
+This snippet defines the system prompt used to translate natural language questions into executable Cypher queries. It enforces strict constraints such as schema adherence, correct Neo4j syntax, and index utilization, while restricting the output to a single valid query. The prompt operationalizes schema-aware query generation by combining user input with dynamically retrieved schema information.
 
 \begin{lstlisting}[style=javascriptstyle, label={lst:system_prompt_1}]
 async function nlToCypher(nlPrompt: string, schema: string) {
-	const systemPrompt = "
-		You are working with a Neo4j graph whose structure is described in the schema summary.
+const systemPrompt = "
+	You are working with a Neo4j graph whose structure is described in the schema summary.
 
-		Important rules:
-		- Do not assume fixed labels like :Application or :Chunk unless they appear in the schema.
-		- Infer meaning from label names (e.g. ApplicationComponent ≈ application).
-		- If no text-centric nodes exist, answer using structural relationships.
+	Important rules:
+	- Do not assume fixed labels like :Application or :Chunk unless they appear in the schema.
+	- Infer meaning from label names (e.g. ApplicationComponent ≈ application).
+	- If no text-centric nodes exist, answer using structural relationships.
 
-		Index usage based on the schema information passed to you:
-		- If the schema summary lists a VECTOR index relevant to the task, start with:
-	  	CALL db.index.vector.queryNodes(<indexName>, $embedding, <k>) YIELD node, score
-		- If the schema summary lists a FULLTEXT index relevant to the task, start with:
-		  CALL db.index.fulltext.queryNodes(<indexName>, $query, {limit: <k>}) YIELD node, score
-		  (Do NOT pass a bare integer as the 3rd argument.)
-		- After any CALL ... YIELD, you MUST finish with a RETURN clause.
-		  Example: CALL ... YIELD node, score RETURN node, score
-		- Otherwise use MATCH with WHERE + indexed properties.
+	Index usage based on the schema information passed to you:
+	- If the schema summary lists a VECTOR index relevant to the task, start with:  CALL db.index.vector.queryNodes("<indexName>", $embedding, <k>) YIELD node, score
+	- If the schema summary lists a FULLTEXT index relevant to the task, start with: CALL db.index.fulltext.queryNodes("<indexName>", $query, {limit: <k>}) YIELD node, score (Do NOT pass a bare integer as the 3rd argument.)
+	- After any CALL ... YIELD, you MUST finish with a RETURN clause. Example: CALL ... YIELD node, score RETURN node, score
+	- Otherwise use MATCH with WHERE + indexed properties.
 
-		Your task:
-		- Write a SINGLE valid Cypher query.
-		- Output ONLY Cypher. No explanations.
+	Your task:
+	- Write a SINGLE valid Cypher query.
+	- Output ONLY Cypher. No explanations.
 
-		Cypher syntax rules (important):
-		- Do NOT use exists(node.property).
-		- Neo4j 5+ requires property existence checks to use:
-		    node.property IS NOT NULL
-		- Always use IS NOT NULL instead of exists(...)
-		- NEVER use EXPLAIN or PROFILE. Always output an executable query that ends with RETURN.
-		- You MAY start with CALL db.index.fulltext.queryNodes(...) or CALL db.index.vector.queryNodes(...).
-	"
- };
+	Cypher syntax rules (important):
+	- Do NOT use exists(node.property).
+	- Neo4j 5+ requires property existence checks to use: node.property IS NOT NULL
+	- Always use "IS NOT NULL" instead of "exists(...)"
+	- NEVER use EXPLAIN or PROFILE. Always output an executable query that ends with RETURN.
+	- You MAY start with CALL db.index.fulltext.queryNodes(...) or CALL db.index.vector.queryNodes(...).
+";
+
+const userPrompt = "
+	Natural language request:
+	${nlPrompt}
+	Schema:
+	${schema}
+";
+
+const completion = await openai.chat.completions.create({
+    model: "gpt-5", // or "gpt-5-nano"
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userPrompt },
+    ],
+  });
+
+const cypher = completion.choices?.[0]?.message?.content?.trim();
+	if (!cypher) throw new Error("LLM returned no Cypher");
+	return cypher;
+}
 \end{lstlisting}
 
-% System Prompt to Generate Natural Language Response
-\subsection{System Prompt to Natural Language Response from Cypher Results}
-\label{appendix:code:cyphers}
-todo
 
-% Neo4j Knowledge Graphs
-\subsection{Visualizing Knowledge Graphs in Neo4j}
-\label{appendix:code:neo4j_visualization}
-todo: show some nice blooms of the knowledge graphs.
+% Turning uploaded XML into Cypher
+\section{Transformation of ArchiMate XML Models into a Neo4j Knowledge Graph}
+\label{appendix:code:systemprompt}
+This snippet contains the Cypher-based transformation logic for importing ArchiMate XML data into Neo4j using APOC procedures. Architectural elements are mapped to nodes with both generic and type-specific labels, while relationships are reconstructed based on source–target references and dynamically assigned types. This process converts externally modeled enterprise architecture data into a structured and queryable knowledge graph.
+
+\begin{lstlisting}[style=javascriptstyle, label={lst:system_prompt_1}]
+export const ELEMENTS_CYPHER = "
+	CALL apoc.load.xml(
+	$file,
+	"//*[local-name()='elements']/*[local-name()='element']",
+	 {},
+	true
+	) YIELD value AS el
+	WITH
+	el.identifier AS id,
+	el['xsi:type'] AS archiType,
+	head([c IN coalesce(el._element, []) WHERE c._type = 'name' | c._text]) AS name,
+	head([c IN coalesce(el._element, []) WHERE c._type = 'documentation' | c._text]) AS documentation
+	WHERE id IS NOT NULL
+	MERGE (n:ArchiElement {id: id})
+	SET n.name = name,
+    n.documentation = documentation,
+    n.archiType = archiType
+	WITH n, archiType
+	WHERE archiType IS NOT NULL
+	CALL apoc.create.addLabels(n, [archiType]) YIELD node
+	RETURN count(*) AS elementsImported;
+";
+
+export const RELS_CYPHER = "
+	CALL apoc.load.xml(
+  	$file,
+  	"//*[local-name()='relationships']/*[local-name()='relationship']",
+  	{},
+  	true
+	) YIELD value AS r	
+	WITH
+	  r.identifier AS rid,
+	  r.source AS sid,
+	  r.target AS tid,
+	  r['xsi:type'] AS archiRelType,
+	  head([c IN coalesce(r._element, []) WHERE c._type = 'name' | c._text]) AS relName
+	WHERE rid IS NOT NULL AND sid IS NOT NULL AND tid IS NOT NULL
+	MATCH (s:ArchiElement {id: sid})
+	MATCH (t:ArchiElement {id: tid})
+	WITH s, t, rid, archiRelType, relName,
+    	 toUpper(apoc.text.regreplace(coalesce(archiRelType, "ARCHI_REL"), "[^A-Za-z0-9_]", "_")) AS relType
+	CALL apoc.merge.relationship(
+  	s,
+  	relType,
+  	{id: rid},
+  	{archiType: archiRelType, name: relName},
+  	t,
+ 	{}
+	) YIELD rel
+	RETURN count(*) AS relationshipsImported;
+";
+\end{lstlisting}
+
+
+% Generating the final NL response
+\section{LLM-Based Generation of Contextualized Natural Language Responses}
+\label{appendix:code:nlresponse}
+This snippet illustrates how the system generates the final user-facing response by combining the original user query, the executed Cypher statement, and the retrieved result set. The LLM is instructed to act as an experienced enterprise architect, providing concise and context-aware explanations grounded in the query results, thereby translating structured graph data into meaningful insights for the user.
+
+\begin{lstlisting}[style=javascriptstyle, label={lst:system_prompt_1}]
+async function explainResult(
+  userPrompt: string,
+  cypher: string,
+  rows: unknown,
+) {
+  const systemPrompt = "
+You are a senior enterprise architect mentoring a junior enterprise architect.
+You are given:
+- The junior's original question.
+- The Cypher query that was executed against the EA knowledge graph.
+- The resulting rows from the query.
+
+Your task:
+- Provide a concise, helpful explanation. Usually within 1–6 sentences. If a question is straightforward to answer, then a brief answer is appropriate, but it may be more if the request is complex.
+- Speak like an experienced EA explaining the findings to a junior colleague.
+- Do not mention the Cypher, queries, or other technical details unless relevant to the explanation.
+- Refer to concrete numbers or entities from the result when relevant.
+- If the result set is empty, explain that clearly and suggest what might be missing or how to refine the question.
+- Respond in GitHub-flavored Markdown.
+- Use formatting where it adds value, e.g.:
+  - Short headings (## Summary, ## Details)
+  - Bullet lists for key points
+  - Fenced code blocks for Cypher or JSON snippets when helpful.
+";
+
+const userContent = "
+	Original question:
+	${userPrompt}
+
+	Executed Cypher:
+	${cypher}
+
+	Result rows (JSON):
+	${JSON.stringify(rows, null, 2)}
+";
+
+const completion = await openai.chat.completions.create({
+	model: "gpt-4.1",
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userContent },
+    ],
+  });
+
+const answer = completion.choices?.[0]?.message?.content?.trim();
+  if (!answer) throw new Error("LLM returned no answer");
+
+  return answer;
+}
+\end{lstlisting}
