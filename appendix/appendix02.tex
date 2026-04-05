@@ -17,7 +17,7 @@ The first is to download the application code for \prototype{} from GitHub: \hre
 
 The second prerequisite is to download Docker and Docker Compose. Instructions on how to set this up on various operating systems can be found under this link: \href{https://docs.docker.com/compose/install/}{https://docs.docker.com/compose/install/}.
 
-An optional prerequisite is to download neo4j Desktop. This allows the user to inspect the graph database within an interactive desktop application. Neo4j Desktop can be found here: \href{https://neo4j.com/download/}{https://neo4j.com/download/}. However, this is not mandatory and the databases may also be inspected via neo4j's web-application.
+An optional prerequisite is to download Neo4j Desktop. This allows the user to inspect the graph database within an interactive desktop application. Neo4j Desktop can be found here: \href{https://neo4j.com/download/}{https://neo4j.com/download/}. However, this is not mandatory and the databases may also be inspected via neo4j's web-application.
 
 % First time setup
 \section{First Time Setup}
@@ -90,8 +90,8 @@ When running this command for the first time, it may take a while as it will hav
 
 With this command, four containers are started.
 \begin{itemize}
-	\item The SpeedParcel neo4j database filled with example data and the textbook
-	\item The playground neo4j database filled with only the textbook
+	\item The SpeedParcel Neo4j database filled with example data and the textbook
+	\item The playground Neo4j database filled with only the textbook
 	\item The MCP-Backend which is the backend node.js which by default runs under http://localhost:4000
 	\item The frontend which by default runs under http://localhost:3000/
 \end{itemize}
@@ -109,7 +109,7 @@ This section details the features within \prototype{}.
 \label{appendix:instructions:input_and_chat}
 At the bottom of the application is an input field where the user may prompt \prototype. Pressing enter sends the prompt. The user's input prompt then appears as a chat bubble bound to the right of the chat-area. The system then starts working on answering the prompt and displays a chat bubble bound to the left of the chat-area displaying "Thinking...". As soon as the application is done thinking, the response is displayed in the same chat bubble.
 
-\prototype's response has a button appended to it which allows the user to copy the cypher which was used to generate the answer. The user may take this copied cypher and paste it into neo4j desktop to inspect the raw response that was used to generate the answer.
+\prototype's response has a button appended to it which allows the user to copy the cypher which was used to generate the answer. The user may take this copied cypher and paste it into Neo4j desktop to inspect the raw response that was used to generate the answer.
 
 % Toggling the database
 \subsection{Toggling the Database}
@@ -131,9 +131,9 @@ After clicking the import button, the files are uploaded. If the upload was succ
 % Inspect Graph Database
 \subsection{Inspect Database}
 \label{appendix:instructions:inspect_database}
-Under the menu at the top left, the user is presented with the option to view the graph data in neo4j browser their own data. This option is available for both the SpeedParcel and playground database. Clicking this opens another tab under \href{https://console-preview.neo4j.io/tools/query}{https://console-preview.neo4j.io/tools/query}. Here, the user can connect to the selected database. The connection string is displayed in a dialog within \prototype. Here, the user can inspect the graph structure and paste the cyphers used for the generated responses.
+Under the menu at the top left, the user is presented with the option to view the graph data in Neo4j browser their own data. This option is available for both the SpeedParcel and playground database. Clicking this opens another tab under \href{https://console-preview.neo4j.io/tools/query}{https://console-preview.neo4j.io/tools/query}. Here, the user can connect to the selected database. The connection string is displayed in a dialog within \prototype. Here, the user can inspect the graph structure and paste the cyphers used for the generated responses.
 
-In order to access the neo4j console, it may be required that the user has a neo4j account.
+In order to access the Neo4j console, it may be required that the user has a Neo4j account.
 
 % Chat Context
 \subsection{Chat Context and Building on Previous Answers}
