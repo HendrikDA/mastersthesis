@@ -118,7 +118,7 @@ Both databases can be interactively viewed either via the application "Neo4j Des
 %%% Docker
 \subsection{Local Environment via Docker}
 \label{sub:docker}
-During the later stages of development, the need for a fully local execution environment emerged to ensure that the prototype could be run on any machine, particularly in preparation for the final on-site evaluation. This requirement was fulfilled via Docker in combination with Docker Compose. A central \texttt{docker-compose.yml} file located in the project's root folder orchestrates the four containers necessary to run the prototype.
+During the later stages of development, the need for a fully local execution environment emerged to ensure that the prototype could be run on any machine, particularly in preparation for the final review. This requirement was fulfilled via Docker in combination with Docker Compose. A central \texttt{docker-compose.yml} file located in the project's root folder orchestrates the four containers necessary to run the prototype.
 
 Both the frontend and backend components are built from individual Dockerfiles that define their respective runtime environments and startup commands. The backend defines a mounted volume within it, allowing the user's uploaded XML files to be persisted across container restarts.
 
@@ -163,7 +163,7 @@ With this method, the entire textbook can be queried via Cypher. The result is a
 
 The Jupyter Notebook that parsed the textbook was then iteratively refactored for each SpeedParcel file in accordance to its specific structure. The business capability support matrix was read in via an Excel file while the business object model and the cross-application data-flow diagrams were already in XML format which were exported directly from Archi. The approach for each of these custom parsers was the same, loading the respective local file, parsing their content into structures that align with its content (e.g. applications and capabilities), and adding them to the database.
 
-This implementation method quickly reached its limits as each custom parser was forked from the previous parser, requiring manual adaptation of the parser to fit the new file. This would make parsing new files during an on-site review impossible without developing a proprietary parser for the user's new files. In parallel the requirements for the final, real-world data were also becoming clearer. This required that a generic, universal parser be built that would align better with the new requirements. In the final prototype, only the XML parser remains, as the textbook and SpeedParcel parsers were only necessary for one-time-parsing to fill the database with example data.
+This implementation method quickly reached its limits as each custom parser was forked from the previous parser, requiring manual adaptation of the parser to fit the new file. This would make parsing new files during a final review impossible without developing a proprietary parser for the user's new files. In parallel the requirements for the final, real-world data were also becoming clearer. This required that a generic, universal parser be built that would align better with the new requirements. In the final prototype, only the XML parser remains, as the textbook and SpeedParcel parsers were only necessary for one-time-parsing to fill the database with example data.
 
 %%% XML Transpiler
 \subsection{Creating a Custom Knowledge Graph via the XML Parser}
