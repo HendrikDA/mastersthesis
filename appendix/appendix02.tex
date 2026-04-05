@@ -109,7 +109,7 @@ This section details the features within \prototype{}.
 \label{appendix:instructions:input_and_chat}
 At the bottom of the application is an input field where the user may prompt \prototype. Pressing enter sends the prompt. The user's input prompt then appears as a chat bubble bound to the right of the chat-area. The system then starts working on answering the prompt and displays a chat bubble bound to the left of the chat-area displaying "Thinking...". As soon as the application is done thinking, the response is displayed in the same chat bubble.
 
-\prototype's response has a button appended to it which allows the user to copy the cypher which was used to generate the answer. The user may take this copied cypher and paste it into Neo4j desktop to inspect the raw response that was used to generate the answer.
+\prototype's response has a button appended to it which allows the user to copy the Cypher which was used to generate the answer. The user may take this copied Cypher and paste it into Neo4j desktop to inspect the raw response that was used to generate the answer.
 
 % Toggling the database
 \subsection{Toggling the Database}
@@ -131,7 +131,7 @@ After clicking the import button, the files are uploaded. If the upload was succ
 % Inspect Graph Database
 \subsection{Inspect Database}
 \label{appendix:instructions:inspect_database}
-Under the menu at the top left, the user is presented with the option to view the graph data in Neo4j browser their own data. This option is available for both the SpeedParcel and playground database. Clicking this opens another tab under \href{https://console-preview.neo4j.io/tools/query}{https://console-preview.neo4j.io/tools/query}. Here, the user can connect to the selected database. The connection string is displayed in a dialog within \prototype. Here, the user can inspect the graph structure and paste the cyphers used for the generated responses.
+Under the menu at the top left, the user is presented with the option to view the graph data in Neo4j browser their own data. This option is available for both the SpeedParcel and playground database. Clicking this opens another tab under \href{https://console-preview.neo4j.io/tools/query}{https://console-preview.neo4j.io/tools/query}. Here, the user can connect to the selected database. The connection string is displayed in a dialog within \prototype. Here, the user can inspect the graph structure and paste the Cyphers used for the generated responses.
 
 In order to access the Neo4j console, it may be required that the user has a Neo4j account.
 
@@ -149,9 +149,9 @@ In order to support the explorative nature of the prototype, a built-in function
 \begin{lstlisting}[style=cypherstyle, label={lst:protocol},caption={Schema of the automatically exported protocol}]
 --- New Chat Turn <current date as YYYY-MM-DDTHH:mm:ss.SSSZ> ---
 Using DB Target: <SpeedParcel or Playground>
-User: <prompt>
-Agent: <response>
-Executed Cypher: <cypher>
+User: <Prompt>
+Agent: <Response>
+Executed Cypher: <Cypher>
 \end{lstlisting}
 
 Each turn between the user and the chatbot is appended to the end of the text file. The chat history is never reset and is thus persistent across multiple sessions. This protocol can be helpful in documenting results when interacting with \prototype{}.
