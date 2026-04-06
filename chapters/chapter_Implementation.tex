@@ -97,7 +97,7 @@ The LLM is an external component and is not hosted, trained, or fine-tuned withi
 %%% MCP
 \subsection{MCP Server}
 \label{sub:mcp}
-The Model Context Protocol (MCP) is an open source, standardized communication protocol to allow client applications to communicate with AI applications. The advantage of having an MCP server sitting between the backend and the Neo4j databases is the standardized interface that it allows when communicating with external systems. \cite{anthropic_mcp_2025, hou2025model}
+MCP is an open source, standardized communication protocol to allow client applications to communicate with AI applications. The advantage of having an MCP server sitting between the backend and the Neo4j databases is the standardized interface that it allows when communicating with external systems. \cite{anthropic_mcp_2025, hou2025model}
 
 The MCP server employed in this prototype is the official Neo4j MCP server. It communicates with the Node server via MCP's STDIO (standard input/output) and comes with standard functions to read and write data to the Neo4j databases. \cite{neo4j_mcp_2025} This allows the prototype's backend to query the databases without requiring proprietary code to do so.
 
