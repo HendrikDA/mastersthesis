@@ -41,7 +41,7 @@ The raw information retrieved in this way from the knowledge graph is then fed i
 
 The LLM used throughout this research cycle was the Qwen2.5-7B-Instruct model\footnote{Qwen: \url{https://huggingface.co/Qwen/Qwen2.5-7B-Instruct}}. The reason for choosing this model was that it allows a full local deployment without relying on an external model and it is free to use.
 
-The development of the system was supported by generative AI tools such as ChatGPT. This was deemed appropriate as to accelerate progress in the prototype. %TODO: Brauche ich hier ein Zitat / Fussnote für ChatGPT?
+The development of the system was supported by generative AI tools such as ChatGPT. This was deemed appropriate as to accelerate progress in the prototype. \cite{openai_chatgpt_2023}
 
 % Evaluation
 \section{Evaluation}
@@ -56,7 +56,15 @@ However, the current implementation has many pitfalls and leaves much room for i
 
 Another challenge faced during the first cycle stemmed from the applied programming approach using generative AI. Although generative AI significantly accelerated the development of the proof of concept, it became evident that excessive reliance on it led to reduced code maintainability without continued AI assistance. This dependence quickly impeded further rapid development after the initial phase. This was an early warning sign that the further development of the system should not rely too heavily on generative AI.
 
-Lastly, the currently deployed Qwen model was deemed too slow, with answers often taking minutes to process. This led to the idea of testing alternative options as the LLM of choice.
+The currently deployed Qwen model was deemed too slow, with answers often taking minutes to process. This led to the idea of testing alternative options as the LLM of choice.
+
+The last challenge arose from transforming the textbook information. At first glance, transforming a textbook into a knowledge graph appears to be a straightforward task. The inherent structure of a textbook—comprising chapters, subchapters, and paragraphs with logically separated ideas—suggests a clear mapping. A seemingly obvious approach would be to represent each chapter as a node, connect subchapters to their respective parent nodes, and attach individual ideas from paragraphs to the corresponding subchapter nodes. However, in practice, this transformation introduces several non-trivial challenges.
+
+One such challenge lies in handling non-textual elements, such as tables and images, which do not translate directly into graph structures and require additional interpretation. A more fundamental issue arises from the size and sequential nature of the textbook. Since the entire content cannot be processed in a single step, it must be segmented into smaller chunks for analysis. This necessitates that the LLM processes each chunk independently and integrates the extracted information into the existing graph structure. In doing so, contextual continuity can be lost; for instance, a chunk may no longer retain a clear reference to its parent chapter or subchapter. As a result, ambiguities emerge regarding where newly extracted information should be attached within the graph.
+
+An applied technique to mitigate this issue is to introduce a certain degree of overlap between consecutive chunks. This overlap helps preserve contextual continuity across chunk boundaries, enabling the LLM to better infer hierarchical relationships and maintain coherence when attaching information to the graph. However, this approach comes at the cost of introducing redundant information into the database.
+
+Not all of these challenges were fully resolved within the scope of this work. Consequently, the resulting knowledge graph does not perfectly capture every detail of the original textbook. This limitation is acknowledged and accepted as a trade-off of the chosen transformation approach.
 
 The first cycle aligns closely with the six-step knowledge graph creation process proposed by Laurenzi et al. (2024). \cite{laurenzi2024llm} Additionally, the initial scoping discussions among participants implicitly defined the different types of questions the system should be able to answer. The manual construction of the graph structure and data ingestion correspond to steps 2 through 5, including schema design via LlamaIndex, knowledge extraction from the textbook, validation via the Neo4j interface, and graph population.
 

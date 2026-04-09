@@ -165,11 +165,11 @@ It is recommended to import XML files into \prototype{} that have been exported 
 % Using a Different LLM
 \section{Using a Different LLM}
 \label{appendix:instructions:llm}
-Although \prototype{} was implemented with the intention of using an LLM from Open AI, it is technically possible to use a different LLM. To do so, the source code needs to be edited in x different locations as follows:
+Although \prototype{} was implemented with the intention of using an LLM from OpenAI, it is technically possible to use a different LLM. To do so, the source code needs to be edited in x different locations as follows:
 
 \begin{itemize}
 	\item ./mcp-backend/.env: Set the variable of the OPENAI\_API\_KEY to the API key of whatever new LLM you wish to use.
-	\item ./mcp-backend/src/server.ts: The root server file needs to have all calls toward Open AI replaced with calls to the new LLM. These can be found in the functions \texttt{nlToCypher()} and \texttt{explainResult()}. The structure of the calls made and the way they are subsequently handled may have to be refactored as well. It must also be ensured that the structure of the response to the frontend remains the same, otherwise a refactoring on the frontend will also be necessary.
+	\item ./mcp-backend/src/server.ts: The root server file needs to have all calls toward OpenAI replaced with calls to the new LLM. These can be found in the functions \texttt{nlToCypher()} and \texttt{explainResult()}. The structure of the calls made and the way they are subsequently handled may have to be refactored as well. It must also be ensured that the structure of the response to the frontend remains the same, otherwise a refactoring on the frontend will also be necessary.
 \end{itemize}
 
 % Example Questions
