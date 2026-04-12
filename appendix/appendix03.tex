@@ -9,7 +9,7 @@
 This chapter showcases code snippets which are of special interest as they show how key functionalities of \prototype{} work. The code snippets do not represent the full application and may be incomplete. Please reference the GitHub project for the full codebase under \url{https://github.com/HendrikDA/masuta-ea-chatbot-prototype}.
 
 % Schema call + passing to prompt
-\section{Dynamic Schema Extraction and Injection for Schema-Aware Query Generation}
+\section{Dynamic Schema Extraction and Injection for Query Generation}
 \label{appendix:code:schemaaware}
 This snippet shows how the system dynamically retrieves the current structure of the Neo4j knowledge graph using \path{apoc.meta.schema()} and available indexes, summarizes it into a textual representation, and injects it into the LLM prompt. By providing the schema at runtime, the LLM is guided to generate structurally valid and context-aware Cypher queries, reducing incorrect assumptions about labels, properties, and relationships.
 
@@ -32,7 +32,7 @@ let cypher = await nlToCypher(promptWithContext, schemaText);
 \end{lstlisting}
 
 % System Prompt to Generate Cyphers
-\section{Schema-Aware Natural Language to Cypher Translation via Prompt Engineering}
+\section{Schema-Aware Text-to-Cypher Translation via Prompt Engineering}
 \label{appendix:code:systemprompt}
 This snippet defines the system prompt used to translate natural language questions into executable Cypher queries. It enforces strict constraints such as schema adherence, correct Neo4j syntax, and index utilization, while restricting the output to a single valid query. The prompt operationalizes schema-aware query generation by combining user input with dynamically retrieved schema information.
 
@@ -87,7 +87,7 @@ const cypher = completion.choices?.[0]?.message?.content?.trim();
 
 
 % Turning uploaded XML into Cypher
-\section{Transformation of ArchiMate XML Models into a Neo4j Knowledge Graph}
+\section{Transformation of XML into a Neo4j Knowledge Graph}
 \label{appendix:code:xmltranspiler}
 This snippet contains the Cypher-based transformation logic for importing ArchiMate XML data into Neo4j using APOC procedures. Architectural elements are mapped to nodes with both generic and type-specific labels, while relationships are reconstructed based on source–target references and dynamically assigned types. This process converts externally modeled enterprise architecture data into a structured and queryable knowledge graph.
 

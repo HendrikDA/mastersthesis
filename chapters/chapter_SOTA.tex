@@ -20,11 +20,11 @@ Setting up criteria to filter out excessive literature is necessary to leave onl
 \makebox[\textwidth][c]{%
   \includegraphics[width=0.6\textwidth]{images/PRISMA}
 }
-\caption{A flowchart of the applied PRISMA framework depicting how many sources were initially found with each search method and how many were left for the final analysis of the current state of the art. The framework is applied as described by V. Mishra and M. P. Mishra (2023) \cite{mishra2023prisma}.}
+\caption{A flowchart of the applied PRISMA framework depicting how many sources were initially found with each search method and how many were left for the final analysis of the current state of the art. The diagram aligns with the version described by V. Mishra and M. P. Mishra (2023) \cite{mishra2023prisma}.}
 \label{fig:prisma}
 \end{figure}
 
-Applying the above filters, the papers found were initially skimmed to assess whether they might be relevant to this research. This involved reviewing abstracts and key contributions without yet analyzing the full content in detail. This allows papers that do not support the thesis's goal to be quickly filtered out. Afterward, the remaining papers were read more thoroughly by analyzing the applied methods, results, and contributions.
+After applying the above filters, the papers found were then initially skimmed to assess whether they might be relevant to this research. This involved reviewing abstracts and key contributions without yet analyzing the full content in detail. This allows papers that do not support the thesis's goal to be quickly filtered out. Afterward, the remaining papers were read more thoroughly by analyzing the applied methods, results, and contributions.
 
 By applying the PRISMA framework as described above, the number of sources was reduced from an initial set of \textasciitilde 120 identified records to 75 sources after initial screening and finally to a subset of relevant academic sources forming the core literature base of this thesis.
 
@@ -48,7 +48,7 @@ This section synthesizes and discusses the relevant literature and projects foun
 
 \begin{table}[H]
 \centering
-\caption{Concept matrix of related work in the research landscape}
+\caption{Concept matrix of related work in the research landscape.}
 \label{tab:concept_matrix}
 {\footnotesize
 \renewcommand{\arraystretch}{1.1}
@@ -76,7 +76,8 @@ Smajevic \& Bork (2021) & x & x & x & \checkmark & x & x & Presents automated tr
 \end{tabularx}
 }}
 \end{table}
-\noindent \textit{Legend:} \checkmark = explicitly addressed, x = not addressed, \textasciitilde{} = partially addressed
+\noindent \textit{Legend:} \checkmark = explicitly addressed, x = not addressed, \textasciitilde{} = partially addressed.
+ EAM = Enterprise Architecture Management, LLM = Large Language Model, RAG = Retrieval-Augmented Generation, KG = Knowledge Graph, Transp. = Transparency
 \vspace{0.75em}
 
 
@@ -100,7 +101,7 @@ Jung (2019) \cite{jung2019purpose} conducted eight interviews in which enterpris
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
 
-The above expressed challenges can be summarized as a lack of transparency within the application landscape, and support the thought that these challenges can be addressed with the assistance of AI. Recurring tasks, such as retrieving simple information about an application landscape, can be challenging when done manually due to the complex, heterogeneous nature of large landscapes. Such hurdles may be especially difficult to overcome for junior enterprise architects, as they are not yet able to navigate the landscape. The challenges addressed by the previous two sources suggest they are predestined to be supported by AI-assisted tooling. This underlines the case for LLM-assisted enterprise architecture management.
+The above expressed challenges can be summarized as a lack of transparency within the application landscape, and support the thought that these challenges can be addressed with the assistance of AI. Recurring tasks, such as retrieving simple information about an application landscape, can be challenging when done manually due to the complex, heterogeneous nature of large landscapes. Such hurdles may be especially difficult to overcome for junior enterprise architects, as they are not yet able to navigate the landscape. The challenges addressed by the previous two sources suggest they are predestined to be supported by AI-assisted tooling. This underlines the case for LLM-assisted EAM.
 
 However, LLMs are notorious for hallucinating, meaning that incorrect information is spewed out while looking as though it could be factually correct. This is a major downside when interacting with an LLM, especially if expert knowledge in a specific domain is required.
 
@@ -112,7 +113,7 @@ Zhao et al. (2024) \cite{zhao2024retrieval} investigate how to overcome this iss
 
 A key challenge the authors identified when developing a RAG-based LLM system is enabling the LLM to comprehend the varied forms of data required in the applied domain. In the case of the research at hand, this means that a central challenge when developing the RAG-based LLM system will be to structure and query the data so that the LLM has the right context to respond to the user with factual accuracy. It is also mentioned that making a system transparent helps increase trust and reliability in it.
 
-To tackle this challenge, the authors identify four levels of complexity in information retrieval. The levels are as follows: level 1, for less complex queries; level 2, for moderately complex queries; level 3, for complex queries; and level 4, for complex information retrieval operations.
+To tackle this challenge, the authors identify four levels of complexity in information retrieval. The levels are as follows: level 1, for less complex queries; level 2, for moderately complex queries; level 3, for complex queries; and level 4, for complex information retrieval operations. \cite{zhao2024retrieval}
 
 % Four levels of query-complexity
 \begin{enumerate}[label=Level \arabic*, leftmargin=*]
@@ -122,9 +123,9 @@ To tackle this challenge, the authors identify four levels of complexity in info
 	\item Hidden Rationales: Require that more information than that which is being asked is considered to generate the answer.
 \end{enumerate}
 
-While queries at levels 1 and 2 are rather straightforward and only require the system to retrieve the relevant facts, queries at levels 3 and 4 require the system to learn and apply rationales that go beyond the data itself. The challenge of query tasks that require rationale can be overcome through in-context learning. The authors describe this as an LLM's ability to infer hidden rationales from relevant examples within the context of the prompt.
+While queries at levels 1 and 2 are rather straightforward and only require the system to retrieve the relevant facts, queries at levels 3 and 4 require the system to learn and apply rationales that go beyond the data itself. The challenge of query tasks that require rationale can be overcome through in-context learning. The authors describe this as an LLM's ability to infer hidden rationales from relevant examples within the context of the prompt. \cite{zhao2024retrieval}
 
-These categories will be relevant again later in chapter \ref{ch:method} as these are also applicable within the domain of enterprise architecture management. Each question posed to the system within this research can be assigned to one of these four categories.
+These categories will be relevant again later in chapter \ref{ch:actionResearch} as these are also applicable within the domain of EAM. Each question posed to the system within this research can be assigned to one of these four categories.
 
 However, categorizing questions does not yet address how information from a knowledge graph can be retrieved. This is especially challenging, as each question by a user contains a certain level of complexity that needs to be covered by the generated query. How can this challenge be overcome?
 
@@ -135,16 +136,16 @@ However, categorizing questions does not yet address how information from a know
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Wan et al. 2025: Prompting large language models based on semantic schema for text-to-Cypher transformation towards domain Q\&A
 % Key points: Text-to-cypher
-Wan et al. (2025) \cite{wan2025prompting} investigate how LLMs can effectively be employed in order to generate Cypher queries and retrieve domain-specific information from a knowledge graph, in order to supplement LLM-generated answers by being more relevant to the domain at hand. The authors propose a text-to-Cypher approach that leverages a lightweight, semantic schema derived from the domain ontology. By injecting the relevant parts of this schema at query runtime, the LLM can be guided toward generating syntactically correct and semantically aligned Cypher queries without requiring model retraining and without overloading the LLM's context. The injected schema context enables the LLM to generate domain-aligned answers grounded in the structure of the knowledge graph.
+Wan et al. (2025) \cite{wan2025prompting} investigate how LLMs can effectively be employed to generate Cypher queries and retrieve domain-specific information from a knowledge graph, in order to supplement LLM-generated answers by being more relevant to the domain at hand. The authors propose a text-to-Cypher approach that leverages a lightweight, semantic schema derived from the domain ontology. By injecting the relevant parts of this schema at query runtime, the LLM can be guided toward generating syntactically correct and semantically aligned Cypher queries without requiring model retraining and without overloading the LLM's context. The injected schema context enables the LLM to generate domain-aligned answers grounded in the structure of the knowledge graph.
 
-This illustrates that a text-to-Cypher approach offers key advantages, such as aligning an LLM with domain-specific information and enabling domain-aligned reasoning without retraining. This will be used within this thesis. Additionally, this allows an LLM to remain up to date with a changing knowledge graph by dynamically incorporating the updated schema information at runtime. By exposing access to the knowledge graph through natural language inputs, the proposed approach lowers the barrier for non-technical users to interact with and extract information from it, allowing for the democratization of the information within it. The research by Wan et al. further reinforces the suitability of a graph-based solution for the research at hand, as enterprise architecture involves highly interconnected data and requires reasoning across various entities and their relationships. 
+This illustrates that a text-to-Cypher approach offers key advantages, such as aligning an LLM with domain-specific information and enabling domain-aligned reasoning without retraining the model. Additionally, this allows an LLM to remain up to date with a changing knowledge graph by dynamically incorporating the updated schema information at runtime. By exposing access to the knowledge graph through natural language inputs, the proposed approach lowers the barrier for non-technical users to interact with and extract information from it, allowing for the democratization of the information within it. The research by Wan et al. (2025) \cite{wan2025prompting} further reinforces the suitability of a graph-based solution for the research at hand, as enterprise architecture involves highly interconnected data and requires reasoning across various entities and their relationships. 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
 
 
-Combining the research by Zhao et al. (2024) and Wan et al. (2025), it becomes clear that a RAG-based system LLM should be able to assess the complexity of a user's request and generate queries accordingly. While Zhao et al. (2024) provide a high-level framework for understanding the complexity of the task given by the user, their work remains agnostic to concrete query-generation techniques required to interact with the knowledge graph. This gap is addressed by Wan et al. (2025) through their text-to-Cypher approach.
+Combining the research by Zhao et al. (2024) \cite{zhao2024retrieval} and Wan et al. (2025) \cite{wan2025prompting}, it becomes clear that a RAG-based LLM system should be able to assess the complexity of a user's request and generate queries accordingly. While Zhao et al. (2024) \cite{zhao2024retrieval} provide a high-level framework for understanding the complexity of the task given by the user, their work remains agnostic to concrete query-generation techniques required to interact with the knowledge graph. This gap is addressed by Wan et al. (2025) \cite{wan2025prompting} through their text-to-Cypher approach.
 
-Now, the question arises: how can a RAG-based LLM system be able to retrieve the relevant information from the knowledge graph to answer the user's prompt with factual correctness?
+Now, the question arises: how can a RAG-based LLM system be employed to retrieve the relevant information from the knowledge graph to answer the user's prompt with factual correctness?
 
 
 
@@ -153,7 +154,7 @@ Now, the question arises: how can a RAG-based LLM system be able to retrieve the
 % Key points: Schema
 Chen et al. (2025) \cite{chen2025gril} propose a graph-retrieval approach that is tightly integrated with an LLM by allowing it to iteratively retrieve and refine relevant subgraphs from a knowledge graph for downstream reasoning. This works by identifying seed entities within the graph based on the user's prompt. A graph retriever then iteratively expands from these seed entities along promising relations while pruning irrelevant nodes and edges. The extracted relevant subgraphs are then given to the LLM as context for reasoning. This multi-hop retrieval strategy allows the system to retrieve complex relational information necessary to answer more complex user queries.
 
-In contrast to this multi-hop approach, simpler approaches rely on the LLM-as-retriever paradigm. In such approaches, the LLM performs a one-time extraction based on what the LLM considers relevant within the graph. Chen et al. explicitly criticize this LLM-as-retriever strategy. They argue that this does not allow the subgraphs and their intricacies to be fully exploited. Moreover, it requires multiple LLM calls to explore different parts of the graph, leading to complex queries and scalability issues when applied to large knowledge graphs.
+In contrast to this multi-hop approach, simpler approaches rely on the LLM-as-retriever paradigm. In such approaches, the LLM performs a one-time extraction based on what the LLM considers relevant within the graph. Chen et al. (2025) \cite{chen2025gril} explicitly criticize this LLM-as-retriever strategy. They argue that this does not allow the subgraphs and their intricacies to be fully exploited. Moreover, it requires multiple LLM calls to explore different parts of the graph, leading to complex queries and scalability issues when applied to large knowledge graphs.
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
@@ -166,7 +167,7 @@ So far, it has only been discussed how to retrieve information from a knowledge 
 % Key points: Umwandlung von Daten in eine GraphDB
 Laurenzi et al. (2024) \cite{laurenzi2024llm} address this challenge by proposing a six-step process for creating a knowledge graph with the assistance of LLMs. The six-step cycle is as follows:
 \begin{enumerate}
-	\item Understand what types of questions the knowledge graph will have to be able to answer, as defined in the previous research by Zhao et al. (2024).
+	\item Understand what types of questions the knowledge graph will have to be able to answer, as defined in the previous research by Zhao et al. (2024) \cite{zhao2024retrieval}.
 	\item Construct the knowledge graph's schema.
 	\item Extract the knowledge from the data source and map it to the ontology of the knowledge graph.
 	\item Validate the mapping between the data source and the knowledge graph.
@@ -180,18 +181,18 @@ Their research takes an LLM-based approach to each of the six steps. For example
 
 
 
-The results of this study are beneficial for the research at hand, as it details how to set up a knowledge graph with the assistance of LLMs. This will be relevant again later. However, while the work by Laurenzi et al. (2024) demonstrates how LLMs can assist in the creation of a knowledge graph, this process requires a human in the loop who is aware of the ontology. Moreover, this approach may be flexible, but it is not scalable. In many cases, when dealing with enterprise architectures, the data is already structured in architecture diagrams and can be exported from the respective modeling tool into structured formats such as XML. This raises the question of how an automated approach can be taken in cases where the artifacts exist and only require systematic parsing in order to be added to the knowledge graph, without the assistance of an LLM.
+The results of this study are beneficial for the research at hand, as it details how to set up a knowledge graph with the assistance of LLMs. This will be relevant again later. However, while the work by Laurenzi et al. (2024) \cite{laurenzi2024llm} demonstrates how LLMs can assist in the creation of a knowledge graph, this process requires a human in the loop who is aware of the ontology. Moreover, this approach may be flexible, but it is not scalable. In many cases, when dealing with enterprise architectures, the data is already structured in architecture diagrams and can be exported from the respective modeling tool into structured formats such as XML. This raises the question of how an automated approach can be taken in cases where the artifacts exist and only require systematic parsing in order to be added to the knowledge graph, without the assistance of an LLM.
 
 
 
 %%%%%%%%%% -------------------------------------------------------------------------------------
 % Smajevic and Bork 2021: From conceptual models to knowledge graphs: a generic model transformation platform
 % Key points: Umwandlung von Daten in eine GraphDB
-Smajevic and Bork (2021) \cite{smajevic2021conceptual} introduce a generic, end-to-end platform that enables automated transformation of conceptual models into knowledge graphs. The authors define a cloud-based platform that allows predefined models exported from Archi in XML to be uploaded. The uploaded model is then transformed and added to their Neo4j graph database. However, the authors do not provide detailed information on how this transformation is conducted. For the research at hand, the results show that an automated approach for transforming common export formats is a feasible solution for generating a knowledge graph using a preexisting conceptual model.
+Smajevic and Bork (2021) \cite{smajevic2021conceptual} introduce a generic, end-to-end platform that enables automated transformation of conceptual models into knowledge graphs. The authors define a cloud-based platform that allows predefined models exported from Archi in XML to be uploaded. The uploaded model is then transformed and added to their Neo4j graph database. However, the authors do not provide detailed information on how this transformation is conducted. Relevant for the research at hand, the results show that an automated approach for transforming common export formats is a feasible solution for generating a knowledge graph using a preexisting conceptual model.
 %%%%%%%%%% -------------------------------------------------------------------------------------
 
 
-The above two studies by Laurenzi et al. (2024) and Smajevic et al. (2021) both exemplify two different approaches to creating knowledge graphs. While Laurenzi et al. (2024) propose an LLM-based, hands-on approach that offers flexibility in creating a knowledge graph from the ground up, Smajevic et al. (2021) offer a generic solution to transform an existing model into a knowledge graph in an automated fashion. Both approaches have advantages and disadvantages and will be relevant in chapter \ref{ch:Discussion}.
+The above two studies by Laurenzi et al. (2024) \cite{laurenzi2024llm} and Smajevic et al. (2021) \cite{smajevic2021conceptual} both exemplify two different approaches to creating knowledge graphs. While Laurenzi et al. (2024) propose an LLM-based, hands-on approach that offers flexibility in creating a knowledge graph from the ground up, Smajevic et al. (2021) offer a generic solution to transform an existing model into a knowledge graph in an automated fashion. Both approaches have advantages and disadvantages and will be relevant in chapter \ref{ch:Discussion}.
 
 The next section steps away from academic papers and delves into similar projects and prototypes.
 
@@ -203,7 +204,7 @@ Edge et al. (2025) \cite{MsGraphRAGPaper} introduce GraphRAG\footnote{GraphRAG o
 
 Dragon1\footnote{Dragon1: \url{https://www.dragon1.com/}} \cite{Dragon1BusinessCase} is a SaaS platform for enterprise architecture management that focuses on modeling, analyzing, and communicating architectural artifacts through interactive visualizations. It emphasizes stakeholder alignment and transparency by providing a centralized repository and visual access to architectural data. However, it relies on manual modeling and exploration and does not provide AI-supported querying or automated access to architectural knowledge.
 
-Opoku et al. (2025)\cite{opoku2025rag} propose DO-RAG, a domain-specific RAG framework that combines knowledge graph generation and semantic retrieval to improve answer accuracy within specific domains. While the approach enhances domain alignment and reduces hallucinations through its four-step pipeline, it relies on a largely opaque retrieval process and does not provide transparent, schema-aware query generation. As a result, it does not fully address the need for controllable and inspectable information retrieval in enterprise architecture contexts.
+Opoku et al. (2025) \cite{opoku2025rag} propose DO-RAG, a domain-specific RAG framework that combines knowledge graph generation and semantic retrieval to improve answer accuracy within specific domains. While the approach enhances domain alignment and reduces hallucinations through its four-step pipeline, it relies on a largely opaque retrieval process and does not provide transparent, schema-aware query generation. As a result, it does not fully address the need for controllable and inspectable information retrieval in enterprise architecture contexts.
 
 \begin{table}[h]
 \centering

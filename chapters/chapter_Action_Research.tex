@@ -1,6 +1,6 @@
 \chapter{Action Research}
 \label{ch:actionResearch}
-The next six chapters describe how the chatbot “\prototype{}” (pronounced “mah-soo-taa” - a phonetic adaptation of the English term "master" into Japanese katakana) was developed. It provides further insight into the applied research method and the iterations used to create the prototype. This gives the reader the necessary understanding of how the research and implementation were conducted before discussing the implementation details afterward in chapter \ref{ch:implementation}.
+The next six chapters describe how the chatbot “\prototype{}” (pronounced “mah-soo-taa” - a phonetic adaptation of the English term "master" into Japanese katakana) was developed. It provides further insight into the applied research method and the iterations gone through to create the prototype. This gives the reader the necessary understanding of how the research and implementation were conducted before discussing the implementation details afterward in chapter \ref{ch:implementation}.
 
 %%%%
 % Action Research in theory
@@ -25,7 +25,7 @@ The following list describes the goal of each of the five steps \cite{baskervill
 \end{enumerate}
 
 % Cycle duration
-Within this research, each cycle lasted between three and four weeks. The consulted sources do not mention how long a single cycle should last. However, a timeframe of two to three weeks per cycle was deemed reasonable for the development of \prototype{} because status updates were held at the end of each cycle, and with the given time for each cycle, there was enough progress to evaluate in these status update meetings. In total, four development cycles were conducted.
+Within this research, each cycle lasted between two and three weeks. The consulted sources do not mention how long a single cycle should last. However, a timeframe of two to three weeks per cycle was deemed reasonable for the development of \prototype{} because status updates were held at the end of each cycle, and with the given time for each cycle, there was enough progress to evaluate in these status update meetings. In total, four development cycles were conducted.
 
 % Participatory Action Research
 Action Research typically leaves the main theorizing up to the researcher. However, an extended form of Action Research, called Participatory Action Research, goes a step further by creating a more collaborative environment between the researcher and additional participants. Instead of leaving theorizing to the researcher, new information and ideas are generated together with the other participants, giving both parties an active role. This is beneficial because the other participants often have theoretical and practical knowledge of the subject matter being worked on. \cite{baskerville1999investigating} From here on out, the term Participatory Action Research will be used interchangeably with Action Research.
@@ -39,12 +39,12 @@ The following subsections explain the design of the applied Action Research.
 \label{sec:action_research_setup}
 
 % Domain
-This research was focused on the domain of EAM. In particular, this study addressed primarily application landscapes, business capability maps, business object models, and the relationships between these architectural artifacts. These artifacts are commonly used to document an enterprise's application landscapes and to align its IT with its strategic business objectives, as described in section \ref{sub:diagrams}. % Hier könnte eventuell etwas aus dem SOTA ausgelagert werden
+This research was focused on the domain of EAM. In particular, this study primarily addressed application landscapes, business capability maps, business object models, and the relationships between these architectural artifacts. These artifacts are commonly used to document an enterprise's application landscapes and to align its IT with its strategic business objectives, as described in section \ref{sub:diagrams}. % Hier könnte eventuell etwas aus dem SOTA ausgelagert werden
 
 Due to their structural complexity with heterogeneous data sources and multiple stakeholders involved, these artifacts are often large and difficult to interpret. Maintaining an overview can be especially challenging for junior-level enterprise architects. This challenge motivates the exploration of AI-supported solutions, which enable conversational interaction with the architecture rather than manual navigation of complex diagrams.
 
 % Stakeholders
-The research was conducted in close collaboration with the academic supervisor and the co-advisor. The academic supervisor gave academic guidance, supported the structuring of the research process to ensure academic relevance, and acted as an expert practitioner. The co-advisor acted as the client, the domain expert, and practitioner, contributing practical insights to ensure the research has real-world relevance. The author of this thesis assumed the role of the researcher, implementing the Action Research cycles, validating findings, and planning subsequent steps in coordination with the other stakeholders.
+The research was conducted in close collaboration with the academic supervisor and the co-advisor. The academic supervisor gave academic guidance, supported the structuring of the research process to ensure academic relevance, and acted as an expert practitioner. The co-advisor acted as the domain expert and practitioner, contributing practical insights to ensure the research has real-world relevance. The author of this thesis assumed the role of the researcher, implementing the Action Research cycles, validating findings, and planning subsequent steps in coordination with the other stakeholders.
 
 % Initial Problem Statement
 At the outset of the research, the general problem was clear, but the potential solution was only vaguely defined. The co-advisor initiated the research with a vague vision of a centralized system containing all enterprise architecture information, which could be interacted with via natural language. The motivation for this was to reduce the effort required to interpret enterprise architecture artifacts and to offer alternative solutions to those available on the market.
@@ -68,7 +68,7 @@ Table \ref{tab:action-research-cycles-condensed} displays a condensed version of
 \textbf{Learning / Outcome} \\
 \midrule
 Cycle 1 & Technical feasibility. & Develop a proof of concept. & Built initial knowledge graph with textbook data. Hard-coded cyphers.\\
-Cycle 2 & Need to extend data and improve queries. & Integrate SpeedParcel dataset and improve querying. & Added SpeedParcel data. Replace hard-coded cyphers with MCP-based text-to-cypher.  \\
+Cycle 2 & Need to extend data and improve queries. & Integrate SpeedParcel dataset and improve querying. & Added SpeedParcel data. Replace hard-coded cyphers with MCP-based text-to-Cypher.  \\
 Cycle 3 & Action Research identified as an appropriate methodology. Scalability and data format issues emerged. & Expand datasets via Archi models to prepare for XML imports & Recreated SpeedParcel models in Archi. Parsed XML. \\
 Cycle 4 & Over-reliance on LLMs for parsing and schema handling diagnosed as a critical limitation. & Replace LLM parsing with a generalized XML parser. Refactor schema handling. Prepare executable prototype. & Implemented APOC-based XML parsing and schema retrieval. Containerized local setup. UI enhancements added. \\
 Final Review &
@@ -80,6 +80,9 @@ A hands-on workshop with domain experts confirmed the feasibility and value of a
 \end{table}
 
 It is important to note that during each cycle, continuous system tests were run by the researcher in order to ensure that the system's requirements were being met. For example, when adding new data to the knowledge graph, the system was prompted to test if it was able to retrieve this new data. In most cases, it was not able to do so right after adding new data. These tests led to the system's prompt needing to be continuously fine-tuned to handle the data in the knowledge graph. This was a routine step conducted regularly throughout development.
+
+The development of the system was supported by generative AI tools such as ChatGPT. This was deemed appropriate as to accelerate progress in the prototype. \cite{openai_chatgpt_2023}
+
 
 With a clear understanding of what Action Research is and how it was set up for the research at hand, the next chapter will describe the first development cycle of \prototype{}.
 
