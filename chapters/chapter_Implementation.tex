@@ -68,7 +68,7 @@ The second system prompt supports turning the Cypher's response back into natura
 
 This second system prompt, along with the original user prompt and the Cypher's response, is again passed to OpenAI's GPT-5 LLM. The returned result is then a natural-language response containing the answer to the user's prompt. This is the final result that is returned to the frontend.
 
-Tuning these system prompts significantly alters the quality of the entire system's results. While the second system prompt is rather straightforward, the first system prompt for incoming user prompts is the result of fine-tuning during development in all four action research cycles, as described in section \ref{sec:action_research_cycles}. With less information in this system prompt, the generated Cypher's ability to retrieve the requested information worsens.
+Tuning these system prompts significantly alters the quality of the entire system's results. While the second system prompt is rather straightforward, the first system prompt for incoming user prompts is the result of fine-tuning during development in all four action research cycles. With less information in this system prompt, the generated Cypher's ability to retrieve the requested information worsens.
 
 All of the above information is necessary for the LLM's ability to perform in-context learning specific to the knowledge graph's schema. Without this information, the LLM would not be able to generate Cyphers based on the user's prompt, nor would it be able to return an answer in an appropriate wording designed for an enterprise architect. Code snippets for the system prompt can be found in the appendix's section \ref{appendix:code:systemprompt}
 
