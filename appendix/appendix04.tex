@@ -6,76 +6,104 @@
 \chapter{\prototype{} Example Questions and Answers}
 \label{appendix:ch:example_questions}
 
-This chapter contains screenshots of user prompts and the system's responses. It serves as a showcase of what the application looks like and how it responds to questions.
+This chapter contains logs of example prompts and the system's responses. It serves as a showcase of how \prototype{} works. The examples contain the raw responses, returned by \prototype{} in Markdown and Cypher. The examples span three datasources: the examination office's dataset, the textbook information, and the SpeedParcel example dataset.
 
-show some test cases here. break down an answer like "i want to remove the application StatManPlus. What do i have to look out for as an enterprise architect?". the returned answer goes into a lot of depth as this is a level 3 question. break down the result of the query and how the result pulls information about the application but also pulls information from the Lehrbuch database.
+%%%%%%%%%%%%%
+% WHAT DOES HIS DO
+\section{What does HIS do?}
+\label{appendix:code:whatDoesHisDo}
+A basic question about the examination office's dataset, which \prototype{} is able to answer based on the contents of the knowledge graph.
 
-% Question xyz
-\section{Question xyz}
-\label{appendix:code:xyz}
-todo
+\begin{lstlisting}[style=cypherstyle, label={lst:qWhatIsHis},caption={Asking \prototype{} what the application HIS is.}]
+User: What does HIS do?
 
+Agent:
+## Summary
 
-\begin{figure}[h]
-\centering
-\makebox[\textwidth][c]{%
-  \includegraphics[width=1\textwidth]{./images/masuta_screenshot_question_answer_1.png}
-}
-\label{fig:masuta_screenshot_statmanplus}
-\caption{Raw response returned from the Cypher in listing \ref{lst:cypher-statmanplus}. Notice that the response contains both information about the applications themselves as well as textbook information on enterprise architecture management (right-most column).}
-\end{figure}
+Based on the findings, "HIS-POS" is an application component (and also categorized as an ArchiElement) that supports several academic and administrative functions.
 
+## Details
 
+HIS-POS enables or realizes the following application functions:
 
-\begin{lstlisting}[style=cypherstyle, label={lst:first_time_setup},caption={Cypher query to retrieve application impact and decommission guidance}]
-MATCH (a:Application {name: 'StatManPlus'})
-OPTIONAL MATCH (a)-[:SUPPORTS]->(cap:Capability)
-WITH a, collect(DISTINCT cap) AS caps
-UNWIND (CASE WHEN size(caps) > 0 THEN caps ELSE [NULL] END) AS cap
-OPTIONAL MATCH (cap)-[:HAS_CHILD*0..]->(desc:Capability)
-WITH a, caps, collect(DISTINCT desc) AS cap_impacted
-OPTIONAL MATCH (a)-[:DATA_FLOW]->(outApp:Application)
-WITH a, caps, cap_impacted, collect(DISTINCT outApp.name) AS outgoing_apps
-OPTIONAL MATCH (inApp:Application)-[:DATA_FLOW]->(a)
-WITH a, caps, cap_impacted, outgoing_apps, collect(DISTINCT inApp.name) AS incoming_apps
-OPTIONAL MATCH (ch:Chunk)
-WHERE toLower(coalesce(ch.text,'')) CONTAINS toLower(a.name)
-   OR toLower(coalesce(ch.table_summary,'')) CONTAINS toLower(a.name)
-   OR toLower(coalesce(ch.title,'')) CONTAINS toLower(a.name)
-   OR toLower(coalesce(ch.definition,'')) CONTAINS toLower(a.name)
-WITH a, caps, cap_impacted, outgoing_apps, incoming_apps,
-     collect(DISTINCT {key: ch.key, title: ch.title, snippet: ch.table_summary, text: ch.text}) AS app_chunks
-OPTIONAL MATCH (guid:Chunk)
-WHERE toLower(coalesce(guid.text,'')) CONTAINS 'decommission'
-   OR toLower(coalesce(guid.text,'')) CONTAINS 'retire'
-   OR toLower(coalesce(guid.text,'')) CONTAINS 'sunset'
-   OR toLower(coalesce(guid.title,'')) CONTAINS 'decommission'
-   OR toLower(coalesce(guid.title,'')) CONTAINS 'retire'
-   OR toLower(coalesce(guid.title,'')) CONTAINS 'sunset'
-   OR toLower(coalesce(guid.definition,'')) CONTAINS 'decommission'
-   OR toLower(coalesce(guid.definition,'')) CONTAINS 'retire'
-   OR toLower(coalesce(guid.definition,'')) CONTAINS 'sunset'
-   OR toLower(coalesce(guid.table_summary,'')) CONTAINS 'decommission'
-   OR toLower(coalesce(guid.table_summary,'')) CONTAINS 'retire'
-   OR toLower(coalesce(guid.table_summary,'')) CONTAINS 'sunset'
-WITH a, caps, cap_impacted, outgoing_apps, incoming_apps, app_chunks,
-     collect(DISTINCT {key: guid.key, title: guid.title, snippet: guid.table_summary, text: guid.text}) AS guidance_chunks
-RETURN a.name AS application,
-       [c IN caps WHERE c IS NOT NULL | c.id] AS supported_capability_ids,
-       [g IN cap_impacted WHERE g IS NOT NULL | g.id] AS impacted_capability_ids,
-       outgoing_apps AS outgoing_data_flows_to_apps,
-       incoming_apps AS incoming_data_flows_from_apps,
-       app_chunks AS chunks_referencing_application,
-       guidance_chunks AS chunks_with_decommission_guidance
+- Creating and editing module exams
+- Viewing and searching student data
+- Managing exam booking and grades (including entering, changing, and viewing grades)
+- Booking EN ("Ergebnis notwendig") and NB ("Nicht bestanden") statuses
+
+No associated business functions are explicitly documented in this dataset, but the supported application functions indicate that HIS-POS is likely integral to exam and grade management within an academic institution.
+
+\end{lstlisting}
+
+\begin{lstlisting}[style=cypherstyle, label={lst:cWhatIsHis},caption={The Cypher used to retrieve information on the HIS application from the examination office's knowledge graph.}]
+MATCH (n)
+WHERE (n:ApplicationComponent OR n:ApplicationFunction OR n:ArchiElement OR n:BusinessFunction)
+  AND n.name IS NOT NULL
+  AND toUpper(n.name) CONTAINS 'HIS'
+OPTIONAL MATCH (n)-[:REALIZATION]->(af:ApplicationFunction)
+OPTIONAL MATCH (n)-[:SERVING]->(bf:BusinessFunction)
+WITH n, collect(DISTINCT af) AS afs, collect(DISTINCT bf) AS bfs
+RETURN n.name AS his, labels(n) AS labels, n.documentation AS documentation, [a IN afs | a.name] AS realizes_application_functions, [b IN bfs | {name: b.name, documentation: b.documentation}] AS serves_business_functions
+ORDER BY his
 \end{lstlisting}
 
 
 
-\begin{figure}[h]
-\centering
-\makebox[\textwidth][c]{%
-  \includegraphics[width=1.4\textwidth]{./images/cypher_results_category_3.png}
-}
-\label{fig:cypher_results}
-\caption{Raw response returned from the Cypher in listing \ref{lst:first_time_setup}. Notice that the response contains both information about the applications themselves as well as textbook information on enterprise architecture management (right-most column).}
-\end{figure}
+
+%%%%%%%%%%%%%
+% WHAT IS AN ORPHAN
+\section{What is an Orphan?}
+\label{appendix:code:whatIsAnOrphan}
+A textbook question that generated many insights on how to interact with \prototype{} to get the best results. Prepending the question with the hint to stay within the realm of EAM triggered the LLM to explicitly query the information from the textbook, rather than returning a generic answer from the LLM's pretrained data.
+
+\begin{lstlisting}[style=cypherstyle, label={lst:qWhatIsAnOrphan},caption={Asking \prototype{} what an orphan is in the realm of EAM.}]
+User: In Enterprise architecture management, what is an orphan?
+Agent:
+## Summary
+
+In enterprise architecture, an "orphan" refers to an application that does not support any business capability and therefore has no business value.
+
+## Details
+
+- Orphan applications are disconnected from business needs and are typically candidates for rationalization or retirement.
+- Identifying orphans is a key activity when analyzing the application landscape to ensure alignment between IT assets and business value.
+- In business support matrices, orphans are highlighted as not contributing to any required capabilities.
+
+\end{lstlisting}
+
+\begin{lstlisting}[style=cypherstyle, label={lst:cWhatIsAnOrphan},caption={The Cypher used to query textbook information containing the keyword "orphan".}]
+CALL db.index.fulltext.queryNodes("kg_fulltext_main", "orphan OR \"orphan node\" OR orphaned OR \"what is an orphan\"", {limit: 10}) YIELD node, score
+WITH node, score, coalesce(node.definition, node.title, node.text, node.table_summary) AS content
+OPTIONAL MATCH (sec:Section)-[:HAS_DOCUMENT]->(doc:Document)
+WHERE sec = node
+RETURN labels(node) AS labels, content, doc.url AS source, score
+ORDER BY score DESC
+\end{lstlisting}
+
+%%%%%%%%%%%%%
+% WHICH APPLICATION SUPPORTS THE MOST CAPABILITIES
+\section{Which applications supports the most capabilities?}
+\label{appendix:code:whatIsAnOrphan}
+A question regarding the SpeedParcel dataset, which shows how \prototype{} is able to fit the Cypher to the dataset and fulfill the requested task.
+
+\begin{lstlisting}[style=cypherstyle, label={lst:qWhichApplication},caption={Asking \prototype{} which application in SpeedParcel's dataset supports the most capabilities.}]
+User: Which application supports the most capabilities?
+Agent:
+## Summary
+
+The application supporting the most capabilities is **Power BI**, with support for **19 distinct capabilities**.
+
+## Details
+
+- **Power BI** is the application that currently has the broadest capability coverage in your portfolio.
+- This suggests it plays a significant role in enabling business functions and may be a key candidate for further investment or rationalization analysis.
+\end{lstlisting}
+
+\begin{lstlisting}[style=cypherstyle, label={lst:cWhichApplication},caption={The Cypher used to count the amount of capabilities an application supports".}]
+MATCH (a:Application)
+OPTIONAL MATCH (a)-[:SUPPORTS]->(c:Capability)
+WITH a, count(DISTINCT c) AS capabilityCount
+ORDER BY capabilityCount DESC, a.name ASC
+LIMIT 1
+RETURN a.name AS application, capabilityCount
+\end{lstlisting}
